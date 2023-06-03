@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="400.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionnairedoss.ConnexionController">
+   <children>
+      <Region id="regionConn" fx:id="regionConn" layoutX="131.0" layoutY="276.0" prefHeight="37.0" prefWidth="138.0" />
+      <Region id="regionConn" fx:id="regionQuit" layoutX="157.0" layoutY="343.0" prefHeight="37.0" prefWidth="86.0" />
+      <Label alignment="CENTER" layoutX="32.0" layoutY="25.0" text="Gestionnaire de dossier Athemes" textFill="WHITE">
+         <font>
+            <Font name="DejaVu Sans Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="username" layoutX="113.0" layoutY="127.0" />
+      <PasswordField fx:id="password" layoutX="114.0" layoutY="213.0" />
+      <Label id="labelConn" layoutX="113.0" layoutY="110.0" text="Nom d'utilisateur" textFill="WHITE">
+         <font>
+            <Font name="Fira Sans Italic" size="13.0" />
+         </font>
+      </Label>
+      <Label id="labelConn" layoutX="114.0" layoutY="197.0" text="Mot de passe" textFill="WHITE">
+         <font>
+            <Font name="Fira Sans Italic" size="13.0" />
+         </font></Label>
+      <Button id="buttonConn" fx:id="conn" layoutX="131.0" layoutY="276.0" mnemonicParsing="false" onMouseClicked="#connexion" text="Se connecter" />
+      <Button id="buttonConn" fx:id="quit" layoutX="157.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#quitter" text="Quitter" />
+      <Label fx:id="errorMessage" alignment="CENTER" layoutX="20.0" layoutY="59.0" prefHeight="44.0" prefWidth="360.0" textAlignment="CENTER" textFill="RED" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <font>
+            <Font name="Fira Sans Bold Italic" size="10.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

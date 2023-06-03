@@ -1,0 +1,61 @@
+.root {
+    -fx-background-color: linear-gradient(to bottom, #4169E1, #00CED1);
+}
+
+.scroll-pane .viewport{
+  -fx-background-color: transparent;
+}
+
+.scroll-pane {
+  -fx-background-color: linear-gradient(to bottom, #4169E1, #00CED1);
+}
+
+#buttonConn {
+    -fx-background-color: transparent;
+    -fx-border-radius: 25px;
+    -fx-border-width: 2px;
+    -fx-border-color: #000000;
+    -fx-cursor: pointer;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: Arial;
+    -fx-font-size: 17px;
+
+
+}
+
+#regionConn {
+    -fx-background-color:transparent;
+    -fx-background-radius: 40px;
+}
+
+.tab-pane > .tab-header-area {
+    -fx-padding: 0;
+  }
+  
+  .tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: #E1E1E1, white;
+    -fx-background-insets: 0, 0 0 1px 0;
+  }
+  
+  .tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: white;
+    -fx-background-insets: 0 0 1px 0;     
+    -fx-padding: 1.5em 1em;
+  }
+  
+  .tab-pane > .tab-header-area > .headers-region > .tab >.tab-container >.tab-label {
+    -fx-text-fill: #63B5F6;
+  }
+  
+  .tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-background-color: #2092ED, white;
+    -fx-background-insets: 0, 0 0 2px 0;
+  }
+  
+  .tab-pane > .tab-header-area > .headers-region > .tab:selected >.tab-container >.tab-label {
+    -fx-text-fill: #2095F3;
+  }
+  
+  .tab-pane > .tab-header-area > .headers-region > .tab:selected >.tab-container >.focus-indicator {
+    -fx-opacity: 0;
+  }
