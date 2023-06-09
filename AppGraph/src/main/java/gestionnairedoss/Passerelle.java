@@ -67,27 +67,159 @@ public class Passerelle {
         return log;
     }
 
-    public static ArrayList<Dossier> getTousLesDossiers() {
+    public static ArrayList<Dossier> getTousLesDossiers(String tri) {
         ArrayList<Dossier> lesDossiers = new ArrayList<Dossier>();
-        String chemin,client,personne,agence;
+        String chemin,client,personne,surnom,agence;
+        int id;
         LocalDate dateOuverture;
 
         try {
-            PreparedStatement state = conn.prepareStatement("select chemin,dateouverture,clients.client,info_clients.agence,info_clients.nom from chemin_dossier inner join info_clients on chemin_dossier.idinfo_clients=info_clients.id inner join clients on info_clients.idclient=clients.id inner join logs on chemin_dossier.idlog=logs.id where logs.username=?");
+            PreparedStatement state = conn.prepareStatement("select chemin,dateouverture,clients.client,info_clients.agence,info_clients.nom,chemin_dossier.id,surnom from chemin_dossier inner join info_clients on chemin_dossier.idinfo_clients=info_clients.id inner join clients on info_clients.idclient=clients.id inner join logs on chemin_dossier.idlog=logs.id where logs.username=? " + tri);
             state.setString(1,LogsManager.getLeLog().getUsername());
             ResultSet result = state.executeQuery();
             while (result.next()) {
+                surnom = result.getString(7);
+                id = result.getInt(6);
                 chemin = result.getString(1);
                 client = result.getString(3);
                 personne = result.getString(5);
                 agence = result.getString(4);
                 dateOuverture = result.getDate(2).toLocalDate();
-                lesDossiers.add(new Dossier(chemin,client,agence,personne,dateOuverture));
+                lesDossiers.add(new Dossier(id,surnom,chemin,client,agence,personne,dateOuverture));
             }
         } catch (Exception e) {
             System.out.println("Erreur SQL : " + e);
         }
 
         return lesDossiers;
+    }
+
+    public static ArrayList<String> getClients() {
+        ArrayList<String> lesClients = new ArrayList<>();
+
+        try {
+            PreparedStatement state = conn.prepareStatement("select distinct client from clients where client in (select client from clients inner join info_clients on info_clients.idclient=clients.id inner join chemin_dossier on info_clients.id=chemin_dossier.idinfo_clients inner join logs on chemin_dossier.idlog=logs.id where logs.username=?)");
+            state.setString(1, LogsManager.getLeLog().getUsername());
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                lesClients.add(result.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur SQL : " + e);
+        }
+        return lesClients;
+    }
+
+    public static ArrayList<String> getPersonnes() {
+        ArrayList<String> lesPersonnes = new ArrayList<>();
+
+        try {
+            PreparedStatement state = conn.prepareStatement("select distinct nom from info_clients where nom in (select info_clients.nom from info_clients inner join chemin_dossier on info_clients.id=chemin_dossier.idinfo_clients inner join logs on logs.id=chemin_dossier.idlog where logs.username=?)");
+            state.setString(1, LogsManager.getLeLog().getUsername());
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                lesPersonnes.add(result.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur SQL : " + e);
+        }
+        return lesPersonnes;
+    }
+
+    public static ArrayList<String> getAgences() {
+        ArrayList<String>  lesAgences = new ArrayList<>();
+
+        try {
+            PreparedStatement state = conn.prepareStatement("select distinct agence from info_clients where agence in (select info_clients.agence from info_clients inner join chemin_dossier on info_clients.id=chemin_dossier.idinfo_clients inner join logs on logs.id=chemin_dossier.idlog where logs.username=?)");
+            state.setString(1, LogsManager.getLeLog().getUsername());
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                lesAgences.add(result.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur SQL : " + e);
+        }
+        return lesAgences;
+    }
+
+    public static boolean updateDossier(Dossier unDos) {
+        int i = 0, a = 0;
+        
+        try {
+            PreparedStatement state = conn.prepareStatement("update chemin_dossier set surnom=? where id=?");
+            state.setString(1, unDos.getSurnom());
+            state.setInt(2, unDos.getId());
+            i = state.executeUpdate();
+            state = conn.prepareStatement("update info_clients set agence=?,nom=?,idclient=(select id from clients where client=?) where id=(select idinfo_clients from chemin_dossier where id=?)");
+            state.setString(1, unDos.getAgence());
+            state.setString(2, unDos.getPersonne());
+            state.setString(3, unDos.getClient());
+            state.setInt(4, unDos.getId());
+            a = state.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Erreur SQL : " + e);
+        }
+        return i > 0 && a > 0;
+    }
+
+    public static ArrayList<String> getAgenceFromClient(String unClient) {
+        ArrayList<String> agence = new ArrayList<>();
+
+        try {
+            PreparedStatement state = conn.prepareStatement("select distinct agence from info_clients inner join clients on info_clients.idclient=clients.id where client=?");
+            state.setString(1, unClient);
+            ResultSet result = state.executeQuery();
+            while(result.next()) {
+                agence.add(result.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e);
+        }
+        return agence;
+    }
+
+    public static ArrayList<String> getTousLesClients() {
+        ArrayList<String> client = new ArrayList<>();
+
+        try {
+            PreparedStatement state = conn.prepareStatement("select distinct client from clients");
+            ResultSet result = state.executeQuery();
+            while(result.next()) {
+                client.add(result.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e);
+        }
+        return client;
+    }
+
+    public static ArrayList<String> getToutesLesAgences() {
+        ArrayList<String> agence = new ArrayList<>();
+
+        try {
+            PreparedStatement state = conn.prepareStatement("select distinct agence from info_clients");
+            ResultSet result = state.executeQuery();
+            while(result.next()) {
+                agence.add(result.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e);
+        }
+        return agence;
+    }
+
+    public static ArrayList<String> getToutesLesPersonnes(String sql) {
+        ArrayList<String> personne = new ArrayList<>();
+
+        try {
+            PreparedStatement state = conn.prepareStatement("select distinct nom from info_clients" + sql);
+            ResultSet result = state.executeQuery();
+            while(result.next()) {
+                personne.add(result.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e);
+        }
+        return personne;
     }
 }

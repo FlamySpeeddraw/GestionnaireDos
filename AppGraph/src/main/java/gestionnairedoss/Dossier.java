@@ -3,15 +3,26 @@ package gestionnairedoss;
 import java.time.LocalDate;
 
 public class Dossier {
-    private String chemin,client,agence,personne;
+    private String chemin,client,agence,personne, surnom;
+    private int id;
     private LocalDate dateOuverture;
 
-    public Dossier(String chemin, String client, String agence, String personne, LocalDate dateOuverture) {
+    public Dossier(int id,String surnom, String chemin, String client, String agence, String personne, LocalDate dateOuverture) {
+        this.id = id;
         this.chemin = chemin;
         this.client = client;
         this.agence = agence;
         this.personne = personne;
         this.dateOuverture = dateOuverture;
+        this.surnom = surnom;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public String getSurnom() {
+        return this.surnom;
     }
 
     public String getChemin() {
@@ -32,6 +43,14 @@ public class Dossier {
 
     public LocalDate getdateOuverture() {
         return this.dateOuverture;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setSurnom(String surnom) {
+        this.surnom=surnom;
     }
 
     public void setchemin(String unChemin) {

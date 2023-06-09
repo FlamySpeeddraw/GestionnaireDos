@@ -64,10 +64,10 @@ public class ConnexionController implements Initializable {
             Parent root = loader.load();
             Stage stage = new Stage();
             Scene scene = new Scene(root);
+            stage.setMaximized(true);
             stage.setScene(scene);
             stage.setTitle("Gestionnaire de dossier");
             stage.getIcons().add(new Image(getClass().getResourceAsStream("assets/dossier.png")));
-            stage.setMaximized(true);
             stage.show();
         }
     }
