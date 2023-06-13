@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -11,13 +10,14 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="930.0" side="LEFT" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionnairedoss.AccueilController">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="930.0" side="RIGHT" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="55.0" tabMaxWidth="55.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionnairedoss.AccueilController">
   <tabs>
     <Tab closable="false">
          <content>
@@ -69,44 +69,83 @@
                               <Insets top="15.0" />
                            </VBox.margin>
                         </Label>
-                        <Accordion>
-                          <panes>
-                            <TitledPane animated="false" text="Client(s)">
+                        <VBox>
+                           <children>
+                            <TitledPane expanded="false" text="Client(s)">
                                  <content>
                                     <VBox fx:id="clientFiltre" />
                                  </content>
                               </TitledPane>
-                            <TitledPane animated="false" text="Agence(s)">
+                            <TitledPane expanded="false" text="Agence(s)">
                                  <content>
                                     <VBox fx:id="agenceFiltre" />
                                  </content>
                               </TitledPane>
-                              <TitledPane text="Personne(s) en charge">
+                              <TitledPane expanded="false" text="Personne(s) en charge">
                                  <content>
                                     <VBox fx:id="personneFiltre" />
                                  </content>
                               </TitledPane>
-                          </panes>
+                           </children>
                            <VBox.margin>
                               <Insets top="15.0" />
                            </VBox.margin>
-                        </Accordion>
-                        <Button fx:id="validTri" mnemonicParsing="false" onMouseClicked="#validTri" text="Valider">
+                        </VBox>
+                        <ImageView fitHeight="56.0" fitWidth="39.0" onMouseClicked="#validTri" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assets/check-circle.png" />
+                           </image>
                            <VBox.margin>
-                              <Insets top="30.0" />
+                              <Insets top="50.0" />
                            </VBox.margin>
-                        </Button>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
                      </children>
                   </VBox>
                </children>
             </GridPane>
          </content>
          <graphic>
-            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@assets/accueil.png" />
+                  <Image url="@assets/home.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
          </graphic></Tab>
+      <Tab closable="false">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+         <graphic>
+            <ImageView fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/envelope.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </graphic>
+      </Tab>
+      <Tab>
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+         <graphic>
+            <ImageView fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/add-document.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </graphic>
+      </Tab>
   </tabs>
 </TabPane>

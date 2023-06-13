@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
@@ -14,6 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.SearchableComboBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="930.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -54,7 +54,7 @@
                               <Font name="Fira Sans Bold" size="13.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="client" prefWidth="150.0" />
+                        <SearchableComboBox fx:id="client" prefWidth="150.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" spacing="62.0">
@@ -64,7 +64,7 @@
                               <Font name="Fira Sans Bold" size="13.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="agence" prefWidth="150.0" />
+                        <SearchableComboBox fx:id="agence" prefWidth="150.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" spacing="46.0">
@@ -74,7 +74,7 @@
                               <Font name="Fira Sans Bold" size="13.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="personne" prefWidth="150.0" />
+                        <SearchableComboBox fx:id="personne" prefWidth="150.0" />
                      </children>
                   </HBox>
                   <CheckBox fx:id="maj" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Mise à jour automique du commun                            ">
@@ -82,11 +82,15 @@
                         <Font name="Fira Sans Bold" size="13.0" />
                      </font>
                   </CheckBox>
-                  <Button fx:id="valider" mnemonicParsing="false" onMouseClicked="#valider" text="Valider">
+                  <HBox alignment="CENTER" spacing="60.0">
+                     <children>
+                        <Button fx:id="reini" mnemonicParsing="false" onMouseClicked="#reini" text="Réinitialiser" />
+                        <Button fx:id="valider" mnemonicParsing="false" onMouseClicked="#valider" text="Valider" />
+                     </children>
                      <VBox.margin>
-                        <Insets top="20.0" />
+                        <Insets top="40.0" />
                      </VBox.margin>
-                  </Button>
+                  </HBox>
                   <HBox alignment="CENTER_LEFT" VBox.vgrow="SOMETIMES">
                      <children>
                         <Button fx:id="retour" mnemonicParsing="false" onMouseClicked="#retour" text="Retour">

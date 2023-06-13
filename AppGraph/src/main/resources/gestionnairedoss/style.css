@@ -10,24 +10,6 @@
   -fx-background-color: linear-gradient(to bottom, #4169E1, #00CED1);
 }
 
-#buttonConn {
-    -fx-background-color: transparent;
-    -fx-border-radius: 25px;
-    -fx-border-width: 2px;
-    -fx-border-color: #000000;
-    -fx-cursor: pointer;
-    -fx-text-fill: #ffffff;
-    -fx-font-family: Arial;
-    -fx-font-size: 17px;
-
-
-}
-
-#regionConn {
-    -fx-background-color:transparent;
-    -fx-background-radius: 40px;
-}
-
 .tab-pane > .tab-header-area {
     -fx-padding: 0;
   }

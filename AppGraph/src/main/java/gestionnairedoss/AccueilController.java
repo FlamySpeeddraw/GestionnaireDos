@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -49,8 +48,6 @@ public class AccueilController implements Initializable {
     private VBox agenceFiltre;
     @FXML
     private VBox personneFiltre;
-    @FXML
-    private Button validTri;
 
     int i = 0, a = 0, verif = 0;
     String foncTri = "", foncFiltre = "AND ", leTri = "";

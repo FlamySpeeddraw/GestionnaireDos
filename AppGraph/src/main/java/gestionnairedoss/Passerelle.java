@@ -166,7 +166,7 @@ public class Passerelle {
         ArrayList<String> agence = new ArrayList<>();
 
         try {
-            PreparedStatement state = conn.prepareStatement("select distinct agence from info_clients inner join clients on info_clients.idclient=clients.id where client=?");
+            PreparedStatement state = conn.prepareStatement("select distinct agence from info_clients inner join clients on info_clients.idclient=clients.id where client=? order by agence");
             state.setString(1, unClient);
             ResultSet result = state.executeQuery();
             while(result.next()) {
@@ -178,11 +178,11 @@ public class Passerelle {
         return agence;
     }
 
-    public static ArrayList<String> getTousLesClients() {
+    public static ArrayList<String> getTousLesClients(String sql) {
         ArrayList<String> client = new ArrayList<>();
 
         try {
-            PreparedStatement state = conn.prepareStatement("select distinct client from clients");
+            PreparedStatement state = conn.prepareStatement("select distinct client from clients " + sql + " order by client");
             ResultSet result = state.executeQuery();
             while(result.next()) {
                 client.add(result.getString(1));
@@ -193,11 +193,11 @@ public class Passerelle {
         return client;
     }
 
-    public static ArrayList<String> getToutesLesAgences() {
+    public static ArrayList<String> getToutesLesAgences(String sql) {
         ArrayList<String> agence = new ArrayList<>();
 
         try {
-            PreparedStatement state = conn.prepareStatement("select distinct agence from info_clients");
+            PreparedStatement state = conn.prepareStatement("select distinct agence from info_clients " + sql + " order by agence");
             ResultSet result = state.executeQuery();
             while(result.next()) {
                 agence.add(result.getString(1));
@@ -212,7 +212,7 @@ public class Passerelle {
         ArrayList<String> personne = new ArrayList<>();
 
         try {
-            PreparedStatement state = conn.prepareStatement("select distinct nom from info_clients" + sql);
+            PreparedStatement state = conn.prepareStatement("select distinct nom from info_clients" + sql + " order by nom");
             ResultSet result = state.executeQuery();
             while(result.next()) {
                 personne.add(result.getString(1));
@@ -221,5 +221,50 @@ public class Passerelle {
             System.out.println("Erreur : " + e);
         }
         return personne;
+    }
+
+    public static String getClientFromPersonne(String value) {
+        String rslt="";
+        try {
+            PreparedStatement state = conn.prepareStatement("select client from clients inner join info_clients on info_clients.idclient=clients.id where nom=?");
+            state.setString(1, value);
+            ResultSet result = state.executeQuery();
+            if (result.next()) {
+                rslt =result.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e);
+        }
+        return rslt;
+    }
+
+    public static String getClientFromAgence(String value) {
+        String rslt="";
+        try {
+            PreparedStatement state = conn.prepareStatement("select client from clients inner join info_clients on info_clients.idclient=clients.id where agence=?");
+            state.setString(1, value);
+            ResultSet result = state.executeQuery();
+            if (result.next()) {
+                rslt =result.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e);
+        }
+        return rslt;
+    }
+
+    public static String getAgenceFromPersonne(String value) {
+        String rslt="";
+        try {
+            PreparedStatement state = conn.prepareStatement("select agence from info_clients where nom=?");
+            state.setString(1, value);
+            ResultSet result = state.executeQuery();
+            if (result.next()) {
+                rslt =result.getString("agence");
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e);
+        }
+        return rslt;
     }
 }

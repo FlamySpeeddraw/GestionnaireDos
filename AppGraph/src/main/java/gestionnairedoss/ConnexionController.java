@@ -10,13 +10,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 public class ConnexionController implements Initializable {
@@ -27,14 +25,6 @@ public class ConnexionController implements Initializable {
     private TextField username;
     @FXML
     private PasswordField password;
-    @FXML
-    private Button quit;
-    @FXML
-    private Button conn;
-    @FXML
-    private Region regionConn;
-    @FXML
-    private Region regionQuit;
     @FXML
     private AnchorPane anchorPane;
 
@@ -58,7 +48,7 @@ public class ConnexionController implements Initializable {
             errorMessage.setText("Nom d'utilisateur ou mot de passe incorrect");
         } else {
             LogsManager.setLog(Passerelle.getInfosLog(username.getText()));
-            currentStage = (Stage) conn.getScene().getWindow();
+            currentStage = (Stage) username.getScene().getWindow();
             currentStage.close();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
             Parent root = loader.load();

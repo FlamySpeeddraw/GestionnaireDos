@@ -1,10 +1,10 @@
+module-info.class
+gestionnairedoss/AccueilController.class
+gestionnairedoss/Passerelle.class
+gestionnairedoss/LogsManager.class
 gestionnairedoss/PropertiesController.class
 gestionnairedoss/Dossier.class
 gestionnairedoss/Logs.class
 gestionnairedoss/Main.class
 gestionnairedoss/Gestionnaire.class
-module-info.class
-gestionnairedoss/AccueilController.class
 gestionnairedoss/ConnexionController.class
-gestionnairedoss/Passerelle.class
-gestionnairedoss/LogsManager.class

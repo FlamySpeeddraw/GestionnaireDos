@@ -7,6 +7,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.SearchableComboBox;
+
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -33,11 +35,11 @@ public class PropertiesController implements Initializable {
     @FXML
     private TextField surnom;
     @FXML
-    private ComboBox<String> client;
+    private SearchableComboBox<String> client;
     @FXML
-    private ComboBox<String> agence;
+    private SearchableComboBox<String> agence;
     @FXML
-    private ComboBox<String> personne;
+    private SearchableComboBox<String> personne;
     @FXML
     private CheckBox maj;
     @FXML
@@ -48,6 +50,7 @@ public class PropertiesController implements Initializable {
     ArrayList<String> clients;
     ArrayList<String> agences;
     ArrayList<String> personnes;
+    Boolean agenceModified,clientModified,personneModified;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,10 +69,13 @@ public class PropertiesController implements Initializable {
             }
         });
         
-        clients = Passerelle.getTousLesClients();
+        agenceModified = true;
+        clientModified = true;
+        personneModified = true;
+        clients = Passerelle.getTousLesClients("");
         clients.add("");
         client.getItems().addAll(clients);
-        agences = Passerelle.getToutesLesAgences();
+        agences = Passerelle.getToutesLesAgences("");
         agences.add("");
         agence.getItems().addAll(agences);
         personnes = Passerelle.getToutesLesPersonnes("");
@@ -77,30 +83,72 @@ public class PropertiesController implements Initializable {
         personne.getItems().addAll(personnes);
         
         client.valueProperty().addListener((observable, oldValue, newValue) -> {
-            agence.getItems().clear();
-            agence.setValue("");
-            personne.getItems().clear();
-            personne.setValue("");
-            agence.getItems().addAll(Passerelle.getAgenceFromClient(newValue));
+            if (newValue != null) {
+                agenceModified = false;
+                personneModified = false;
+                if (!clientModified) {
+                    clientModified = true;
+                    return;
+                }
+                agence.setValue("");
+                personne.setValue("");
+                if (client.getValue() != "") {
+                    String sql = " inner join clients on clients.id=info_clients.idclient where client='" + newValue + "'";
+                    if (agence.getValue() == "") {
+                        agence.setItems(FXCollections.observableArrayList(Passerelle.getAgenceFromClient(newValue)));
+                    }
+                    if (personne.getValue() == "") {
+                        personne.setItems(FXCollections.observableArrayList(Passerelle.getToutesLesPersonnes(sql)));
+                    }
+                } else {
+                    agence.setItems(FXCollections.observableArrayList(Passerelle.getToutesLesAgences("")));
+                    personne.setItems(FXCollections.observableArrayList(Passerelle.getToutesLesPersonnes("")));
+                }
+            }
         });
+
         agence.valueProperty().addListener((observable, oldValue, newValue) -> {
-            personne.getItems().clear();
-            personne.setValue("");
-            String sql = " inner join clients on clients.id=info_clients.idclient where 1=1";
-            if (agence.getValue() != "") {
-                sql += " and agence='" + agence.getValue() + "'";
+            if (newValue != null) {
+                clientModified = false;
+                personneModified = false;
+                if (!agenceModified) {
+                    agenceModified = true;
+                    return;
+                }
+                if (agence.getValue() == "") {
+                    personne.setItems(FXCollections.observableArrayList(Passerelle.getToutesLesPersonnes("")));
+                    personne.setValue("");
+                } else {
+                    personne.setItems(FXCollections.observableArrayList(Passerelle.getToutesLesPersonnes(" where agence='" + newValue + "'")));
+                }
+                if (client.getValue() == "") {
+                    client.setValue(Passerelle.getClientFromAgence(agence.getValue()));
+                }
             }
-            if (client.getValue() != "") {
-                sql += " and client='" + client.getValue() + "'";
+        });
+
+        personne.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                clientModified = false;
+                agenceModified = false;
+                if (!personneModified) {
+                    personneModified = true;
+                    return;
+                }
+                if (agence.getValue() == "") {
+                    agence.setValue(Passerelle.getAgenceFromPersonne(personne.getValue()));
+                }
+                if (client.getValue() == "") {
+                    client.setValue(Passerelle.getClientFromPersonne(personne.getValue()));
+                }
             }
-            personne.getItems().addAll(Passerelle.getToutesLesPersonnes(sql));
         });
 
         surnom.setText(leDos.getSurnom());
         client.setValue(leDos.getClient());
         agence.setValue(leDos.getAgence());
         personne.setValue(leDos.getPersonne());
-
+    
     }
 
     private void buildFileTree(File dir, TreeItem<String> parentItem) {
@@ -128,6 +176,7 @@ public class PropertiesController implements Initializable {
 
         String fullPath = pathBuilder.toString();
         File file = new File(fullPath);
+        System.out.println(fullPath);
         Desktop.getDesktop().open(file);
     }
 
@@ -145,5 +194,15 @@ public class PropertiesController implements Initializable {
         Scene nouvelleScene = new Scene(root);
         Stage stage = (Stage) retour.getScene().getWindow();
         stage.setScene(nouvelleScene);
+    }
+
+    public void reini() {
+        surnom.setText("");
+        client.setItems(FXCollections.observableArrayList(Passerelle.getTousLesClients("")));
+        agence.setItems(FXCollections.observableArrayList(Passerelle.getToutesLesAgences("")));
+        personne.setItems(FXCollections.observableArrayList(Passerelle.getToutesLesPersonnes("")));
+        client.setValue("");
+        agence.setValue("");
+        personne.setValue("");
     }
 }
