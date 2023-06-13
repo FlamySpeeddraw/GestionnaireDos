@@ -16,7 +16,7 @@ public class Passerelle {
 
     public static void connexion() {
         try {
-            String url = "jdbc:postgresql://localhost:5432/gestionnaireDossier";
+            String url = "jdbc:postgresql://192.168.59.105:5432/gestionnaireDossier";
             String user = "postgres";
             String passwd = "postgres";
             conn = DriverManager.getConnection(url, user, passwd);
