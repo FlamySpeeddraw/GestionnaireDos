@@ -16,9 +16,9 @@ public class Passerelle {
 
     public static void connexion() {
         try {
-            String url = "jdbc:postgresql://192.168.59.105:5432/gestionnaireDossier";
-            String user = "postgres";
-            String passwd = "postgres";
+            String url = "jdbc:postgresql://192.168.59.8:5433/gestionnaireDossier";
+            String user = "admin";
+            String passwd = "admin";
             conn = DriverManager.getConnection(url, user, passwd);
 
             System.out.println("connexion réussie");
@@ -266,5 +266,19 @@ public class Passerelle {
             System.out.println("Erreur : " + e);
         }
         return rslt;
+    }
+
+    public static boolean supprimerCheminDossier(int id) {
+        int i = 0;
+
+        try {
+            PreparedStatement state = conn.prepareStatement("delete from chemin_dossier where id=?");
+            state.setInt(1,id);
+            i = state.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return i >0;
     }
 }

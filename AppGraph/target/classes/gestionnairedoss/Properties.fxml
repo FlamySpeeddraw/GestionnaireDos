@@ -84,6 +84,7 @@
                   </CheckBox>
                   <HBox alignment="CENTER" spacing="60.0">
                      <children>
+                        <Button fx:id="supp" mnemonicParsing="false" onMouseClicked="#supprimer" text="Supprimer" />
                         <Button fx:id="reini" mnemonicParsing="false" onMouseClicked="#reini" text="Réinitialiser" />
                         <Button fx:id="valider" mnemonicParsing="false" onMouseClicked="#valider" text="Valider" />
                      </children>

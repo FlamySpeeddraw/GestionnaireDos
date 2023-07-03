@@ -7,17 +7,19 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="930.0" side="RIGHT" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="55.0" tabMaxWidth="55.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionnairedoss.AccueilController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="930.0" side="RIGHT" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="55.0" tabMaxWidth="55.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionnairedoss.AccueilController">
   <tabs>
     <Tab closable="false">
          <content>
@@ -48,9 +50,9 @@
                   </ScrollPane>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowSpan="2">
                      <children>
-                        <Label text="Trier par :">
+                        <Label text="Trier par :" textFill="WHITE">
                            <font>
-                              <Font name="Fira Sans Bold Italic" size="18.0" />
+                              <Font name="System Bold Italic" size="18.0" />
                            </font>
                            <VBox.margin>
                               <Insets top="15.0" />
@@ -61,15 +63,15 @@
                               <Insets top="15.0" />
                            </VBox.margin>
                         </ComboBox>
-                        <Label text="Ajouter un filtre :">
+                        <Label text="Ajouter un filtre :" textFill="WHITE">
                            <font>
-                              <Font name="Fira Sans Bold Italic" size="18.0" />
+                              <Font name="System Bold Italic" size="18.0" />
                            </font>
                            <VBox.margin>
                               <Insets top="15.0" />
                            </VBox.margin>
                         </Label>
-                        <VBox>
+                        <VBox alignment="CENTER">
                            <children>
                             <TitledPane expanded="false" text="Client(s)">
                                  <content>
@@ -88,7 +90,7 @@
                               </TitledPane>
                            </children>
                            <VBox.margin>
-                              <Insets top="15.0" />
+                              <Insets left="15.0" right="15.0" top="15.0" />
                            </VBox.margin>
                         </VBox>
                         <ImageView fitHeight="56.0" fitWidth="39.0" onMouseClicked="#validTri" pickOnBounds="true" preserveRatio="true">
@@ -118,9 +120,6 @@
             </ImageView>
          </graphic></Tab>
       <Tab closable="false">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        </content>
          <graphic>
             <ImageView fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -131,11 +130,69 @@
                </cursor>
             </ImageView>
          </graphic>
+         <content>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="320.0" minWidth="320.0" prefWidth="320.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="120.0" minHeight="120.0" prefHeight="120.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
+                  <ScrollPane style="-fx-background-color: rgba(0,0,0,0.2);" GridPane.rowSpan="2">
+                     <content>
+                        <VBox prefWidth="125.0" />
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane style="-fx-background-color: rgba(0,0,0,0.2);" GridPane.columnIndex="2" GridPane.rowSpan="2">
+                     <content>
+                        <VBox prefWidth="315.0" />
+                     </content>
+                  </ScrollPane>
+                  <HBox alignment="CENTER_LEFT" style="-fx-background-color: rgba(0,0,0,0.08);" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assets/add.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <TextArea promptText="Message" wrapText="true" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextArea>
+                        <ImageView fitHeight="50.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assets/arrow-small-right.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </GridPane>
+         </content>
       </Tab>
       <Tab>
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        </content>
          <graphic>
             <ImageView fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
                <image>

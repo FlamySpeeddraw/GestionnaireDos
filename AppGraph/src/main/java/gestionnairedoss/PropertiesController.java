@@ -7,9 +7,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+
 import org.controlsfx.control.SearchableComboBox;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,8 +21,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class PropertiesController implements Initializable {
@@ -46,6 +52,8 @@ public class PropertiesController implements Initializable {
     private Button ouvrir;
     @FXML
     private Button retour;
+    @FXML
+    private Button supp;
 
     ArrayList<String> clients;
     ArrayList<String> agences;
@@ -59,6 +67,7 @@ public class PropertiesController implements Initializable {
 
         TreeItem<String> rootItem = new TreeItem<>(startingDirPath);
         treeView.setRoot(rootItem);
+        treeView.setCellFactory(param -> new CustomTreeCell());
         buildFileTree(startingDir, rootItem);
 
         treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -152,15 +161,47 @@ public class PropertiesController implements Initializable {
     }
 
     private void buildFileTree(File dir, TreeItem<String> parentItem) {
-        File[] files = dir.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                TreeItem<String> newItem = new TreeItem<>(file.getName());
-                parentItem.getChildren().add(newItem);
-                if (file.isDirectory()) {
-                    buildFileTree(file, newItem);
+        TreeItem<String> dummyItem = new TreeItem<>("Loading...");
+        parentItem.getChildren().add(dummyItem);
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call()throws Exception {
+                File[] files = dir.listFiles();
+                if (files != null) {
+                    for (File file : files) {
+                        TreeItem<String> newItem = new TreeItem<>(file.getName());
+                        parentItem.getChildren().add(newItem);
+                        if (file.isDirectory()) {
+                            newItem.getChildren().add(dummyItem);
+                        } else {
+                            newItem.setGraphic(getFileIcon(file));
+                        }
+                        Platform.runLater(() -> parentItem.getChildren().add(newItem));
+                    }
                 }
+                return null;
             }
+        };
+
+        task.setOnSucceeded(event -> parentItem.getChildren().remove(dummyItem));
+        new Thread(task).start();
+    }
+
+    private ImageView getFileIcon(File file) {
+        Image fxImage = new Image(file.toURI().toString());
+        ImageView imageView = new ImageView(fxImage);
+        imageView.setFitWidth(16);
+        imageView.setFitHeight(16);
+        return imageView;
+    }
+
+    private static class CustomTreeCell extends TreeCell<String> {
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(item);
+            setGraphic(getTreeItem().getGraphic());
         }
     }
 
@@ -204,5 +245,10 @@ public class PropertiesController implements Initializable {
         client.setValue("");
         agence.setValue("");
         personne.setValue("");
+    }
+
+    public void supprimer() throws IOException {
+        Passerelle.supprimerCheminDossier(leDos.getId());
+        retour();
     }
 }

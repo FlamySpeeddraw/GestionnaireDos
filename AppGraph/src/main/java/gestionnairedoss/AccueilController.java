@@ -3,6 +3,9 @@ package gestionnairedoss;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -11,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
@@ -49,12 +53,15 @@ public class AccueilController implements Initializable {
     @FXML
     private VBox personneFiltre;
 
+    private ScheduledExecutorService executorService;
     int i = 0, a = 0, verif = 0;
     String foncTri = "", foncFiltre = "AND ", leTri = "";
     ArrayList<Dossier> lesDoss;
     ArrayList<String> clientList;
     ArrayList<String> agenceList;
     ArrayList<String> personneList;
+    Stage stage;
+    Double scrollWidth = 0.0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -155,41 +162,28 @@ public class AccueilController implements Initializable {
             handleTriDossier();
         });
         Platform.runLater(() -> {
-            double vTaille = 80;
-            while (scrollDoss.getWidth() - vTaille >= 120) {
-                ColumnConstraints cc = new ColumnConstraints();
-                dossier.getColumnConstraints().add(cc);
-                vTaille += 120;
-            }
-            constGrid();
+            stage = (Stage) tri.getScene().getWindow();
         });
+        startThread();
+    }
+
+
+
+    public void adaptScreen() {
         Platform.runLater(() -> {
-            dossier.getScene().widthProperty().addListener((observable, oldValue, newValue) -> {
+            if (scrollWidth != scrollDoss.getWidth()) {
+                scrollWidth = scrollDoss.getWidth();
                 i = 0;
                 a = 0;
-                if (scrollDoss.getWidth() - dossier.getWidth() + ((double) newValue - (double) oldValue) >= 120) {
-                    dossier.getChildren().clear();
-                    double vTaille = 80 + (40 + 80) * (double) (dossier.getColumnCount() - 1);
-                    while (scrollDoss.getWidth() - vTaille >= 120) {
-                        ColumnConstraints cc = new ColumnConstraints();
-                        dossier.getColumnConstraints().add(cc);
-                        vTaille += 120;
-                    }
-                    constGrid();
-                } else if (scrollDoss.getWidth() - dossier.getWidth() + ((double) newValue - (double) oldValue) < 0) {
-                    dossier.getChildren().clear();
-                    while (dossier.getColumnCount() != 1) {
-                        dossier.getColumnConstraints().remove(dossier.getColumnCount() - 1);
-                    }
-                    double vTaille = 80;
-                    while (scrollDoss.getWidth() - vTaille >= 120) {
-                        ColumnConstraints cc = new ColumnConstraints();
-                        dossier.getColumnConstraints().add(cc);
-                        vTaille += 120;
-                    }
-                    constGrid();
+                resetGridPane();
+                double hTaille = 80.0;
+                while (hTaille + 120 < scrollWidth) {
+                    hTaille += 120;
+                    ColumnConstraints cc = new ColumnConstraints();
+                    dossier.getColumnConstraints().add(cc);
                 }
-            });
+                constGrid();
+            }
         });
     }
 
@@ -214,8 +208,10 @@ public class AccueilController implements Initializable {
             vbox.setAlignment(Pos.CENTER);
             vbox.setMaxWidth(80);
             dossier.add(vbox,i,a);
+            vbox.setCursor(Cursor.HAND);
             vbox.setOnMouseClicked(event -> {
                 try {
+                    stopThread();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Properties.fxml"));
                     PropertiesController prop = new PropertiesController(unDoss);
                     loader.setController(prop);
@@ -238,6 +234,16 @@ public class AccueilController implements Initializable {
                 i++;
             }
         }
+    }
+
+    private void resetGridPane() {
+        dossier.getChildren().clear();
+        dossier.getColumnConstraints().clear();
+        ColumnConstraints colConstraints = new ColumnConstraints();
+        dossier.getColumnConstraints().add(colConstraints);
+        dossier.getRowConstraints().clear();
+        RowConstraints rowConstraints = new RowConstraints();
+        dossier.getRowConstraints().add(rowConstraints);
     }
 
     public void handleTriDossier() {
@@ -266,5 +272,21 @@ public class AccueilController implements Initializable {
         dossier.getChildren().clear();
         lesDoss = Passerelle.getTousLesDossiers(leTri);
         constGrid();
+    }
+
+    private void stopThread() {
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+        }
+    }
+
+    private void startThread() {
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(this::adaptScreen, 0, 100, TimeUnit.MILLISECONDS);
+        Platform.runLater(() -> {
+            stage.setOnCloseRequest(event -> {
+                stopThread();
+            });
+        });
     }
 }
