@@ -1,0 +1,80 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* MENU */
+
+.navbar {
+    padding: 10px;
+    display: flex;
+    background-color: rgb(46, 46, 46);
+}
+
+.navbar-element:first-child {
+    margin-left: 30px;
+}
+
+.navbar-element {
+    display: flex;
+}
+
+.navbar-element:hover * {
+    color: rgb(36, 159, 207);
+    transition: all 0.5s ease-out 0s;
+}
+
+.navbar-element * {
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: large;
+    padding: 15px 20px;
+}
+
+.td-state {
+    user-select: none;
+}
+
+/* EDL */
+
+.head-container {
+    background-color: rgb(66, 43, 211);
+    padding: 10px;
+    color: white;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.reference-container {
+    display: flex;
+}
+
+.reference-container * {
+    margin: 15px;
+}
+
+.titre-reference {
+    align-self: center;
+}
+
+.main-container {
+    display: flex;
+    width: 100%;
+}
+
+.fiche-edl {
+    width: 80%;
+}
+
+.menu-container {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
