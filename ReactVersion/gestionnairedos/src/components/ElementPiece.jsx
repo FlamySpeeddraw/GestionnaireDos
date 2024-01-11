@@ -34,6 +34,7 @@ export const ElementPiece = ({infosElement,onUpdateElement,deleteElement}) => {
     useEffect(() => {
         if (verif) {
             const updatedElement = {
+                id:infosElement.id,
                 nomElement: nom,
                 etat: etat,
                 faire: faire,

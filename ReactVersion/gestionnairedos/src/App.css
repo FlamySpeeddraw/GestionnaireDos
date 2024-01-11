@@ -101,6 +101,10 @@ td {
 
 /* EDL - pièce */
 
+.nom-piece {
+    background-color: rgb(205, 232, 150);
+}
+
 /* EDL - élèment */
 
 .element-input {
