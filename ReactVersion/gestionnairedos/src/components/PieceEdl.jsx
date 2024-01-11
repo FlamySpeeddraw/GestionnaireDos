@@ -1,40 +1,27 @@
-import { useState } from "react";
-import { TrEdl } from "../components/TrEdl";
+import { ElementPiece } from "./ElementPiece";
 
-export const PieceEdl = ({nom}) => {
-    const [listeTrEdl,setListeTrEdl] = useState([]);
-    const [titreTr,setTitreTr] = useState("");
+export const PieceEdl = ({infosPiece,index,onUpdatedPiece,onDeleteElement}) => {
 
-    const handleAddTr = (event) => {
-        event.preventDefault();
-        if (titreTr !== "") {
-          const listeTrEdlCopy = [...listeTrEdl];
-          listeTrEdlCopy.push({key:listeTrEdlCopy.length+1,titre:titreTr,data:["","",""]});
-          setListeTrEdl(listeTrEdlCopy);
-          setTitreTr("");
-        }
+    const handleUpdateElement = (element,updatedElement) => {
+        const updatedElements = [...infosPiece.elements];
+        updatedElements[infosPiece.elements.indexOf(element)] = updatedElement;
+        onUpdatedPiece(index,updatedElements);
     }
-    
-      
-    
-    const handleChangeAgent = (event) => {
-        setTitreTr(event.target.value);
+
+    const handleDeleteElement = (element) => {
+        onDeleteElement(index,element)
     }
 
     return (
-        <li>
-            <p>{nom}</p>
-            <table className="travaux-container">
-                <tbody>
-                    {listeTrEdl.map((trEdl) => (
-                        <TrEdl titre={trEdl.titre} key={trEdl.key} />
-                    ))}
-                </tbody>
-            </table>
-            <form action="submit" onSubmit={handleAddTr} className="form-addtr">
-                <input value={titreTr} type="text" placeholder="Titre de la ligne" onChange={handleChangeAgent}/>
-                <button>+</button>
-            </form>
-        </li>
+        <>
+            <tr className="nom-piece">
+                <td colSpan={5}>{infosPiece.nom}</td>
+                <td>Observations en {infosPiece.nom.toLowerCase()} :</td>
+            </tr>
+            {infosPiece.elements.map((element) => (
+                <ElementPiece key={element.id} infosElement={element} onUpdateElement={handleUpdateElement} deleteElement={handleDeleteElement} />
+            ))}
+            <tr><td height={15} colSpan={6}></td></tr>
+        </>
     );
 }
