@@ -15,8 +15,8 @@ export const PieceEdl = ({infosPiece,index,onUpdatedPiece,onDeleteElement}) => {
     return (
         <>
             <tr className="nom-piece">
-                <td colSpan={5}>{infosPiece.nom}</td>
-                <td>Observations en {infosPiece.nom.toLowerCase()} :</td>
+                <td className="td-titre-piece" colSpan={5}>{infosPiece.nom}</td>
+                <td className="td-observations-piece">Observations en {infosPiece.nom.toLowerCase()} :</td>
             </tr>
             {infosPiece.elements.map((element) => (
                 <ElementPiece key={element.id} infosElement={element} onUpdateElement={handleUpdateElement} deleteElement={handleDeleteElement} />

@@ -102,7 +102,15 @@ td {
 /* EDL - pièce */
 
 .nom-piece {
-    background-color: rgb(205, 232, 150);
+    background-color: rgb(205, 232, 150); 
+}
+
+.td-titre-piece {
+    border-right: 0;
+}
+
+.td-observations-piece {
+    border-left: 0;
 }
 
 /* EDL - élèment */
