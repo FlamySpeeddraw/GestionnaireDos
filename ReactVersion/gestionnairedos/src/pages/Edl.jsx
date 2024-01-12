@@ -7,6 +7,24 @@ import { v4 as uuid } from 'uuid';
 export const Edl = () => {
   const [pieces,setPieces] = useState([]);
   //const [urlJson,setUrlJson] = useState("");
+  console.log(pieces);
+
+  const saveEdl = () => {
+    const  jsonPieces = JSON.stringify(pieces,null,2);
+    const blob = new Blob([jsonPieces], {type:"../datas/saveEdl"});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'test.json';
+    a.click();
+  }
+
+  const handleDeletepiece = (nomPiece) => {
+    if (nomPiece !== "") {
+      const piecesCopy = [...pieces];
+      const piecesCopyFiltered = piecesCopy.filter(piece => piece.nom !== nomPiece);
+      setPieces(piecesCopyFiltered);
+    }
+  }
 
   const handleUpdatePieces = (updatedPieces) => {
     setPieces(updatedPieces);
@@ -29,7 +47,7 @@ export const Edl = () => {
   return (
     <div className="main-container">
       <HeaderEdl />
-      <FormEdl handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
+      <FormEdl OnSave={saveEdl} onDelete={handleDeletepiece} handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
       <DecisionTravaux listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
     </div>
   );

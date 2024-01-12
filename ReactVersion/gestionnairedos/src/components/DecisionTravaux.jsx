@@ -4,7 +4,7 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces}) => {
 
   const updatePiece = (index,updatedElements) => {
     const updatedPieces = [...listePieces];
-    const indexPiece = -updatedPieces.findIndex(object => object.id === index);
+    const indexPiece = updatedPieces.findIndex(object => object.id === index);
     updatedPieces[indexPiece].elements = updatedElements;
     handleUpdatePieces(updatedPieces);
   }
@@ -36,6 +36,10 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces}) => {
             <PieceEdl key={piece.id} infosPiece={piece} index={piece.id} onUpdatedPiece={updatePiece} onDeleteElement={updateDeleteElement} />
           ))}
         </tbody>
+        <tfoot>
+          <tr className="nom-piece"><td colSpan={6}>Observations générales</td></tr>
+          <tr><td className="footer-textarea-container" colSpan={6}><textarea/></td></tr>
+        </tfoot>
       </table>
     );
 }

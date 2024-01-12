@@ -99,6 +99,19 @@ td {
     width: 50px;
 }
 
+.footer-textarea-container textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    resize: vertical;
+    border: 0;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    outline: none;
+
+}
+
 /* EDL - pièce */
 
 .nom-piece {
@@ -160,7 +173,13 @@ td {
 .form-container {
     display: flex;
     justify-content: center;
-    align-items: last baseline;
+    align-items: flex-end;
+}
+
+.form-container div {
+    margin: 30px;
+    display: flex;
+    align-items: center;
 }
 
 .form-container form {
@@ -170,6 +189,11 @@ td {
 .form-container select {
     width: 150px;
     height: 25px;
+}
+
+.form-container button {
+    height: 40px;
+    width: 40px;
 }
 
 /* MISC */
