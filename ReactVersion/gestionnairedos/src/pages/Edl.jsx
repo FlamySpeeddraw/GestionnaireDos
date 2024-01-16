@@ -84,3 +84,5 @@ export const Edl = () => {
     </div>
   );
 }
+
+//Regrouper les EDL par résidences, ajouter les opr, refaire le style, optimiser.
