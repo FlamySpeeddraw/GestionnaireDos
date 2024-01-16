@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { PieceEdl } from "../components/PieceEdl";
 
-export const DecisionTravaux = ({listePieces,handleUpdatePieces}) => {
+export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGenerales}) => {
+  const [observationsGenaralesArea,setObservationsGeneralesArea] = useState(observationsGenerales)
 
   const updatePiece = (index,updatedElements) => {
     const updatedPieces = [...listePieces];
@@ -14,6 +16,10 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces}) => {
     const indexPiece = piecesUpdated.findIndex(object => object.id === index);
     piecesUpdated[indexPiece].elements = piecesUpdated[indexPiece].elements.filter(filtre => filtre.id !== element);
     handleUpdatePieces(piecesUpdated);
+  }
+
+  const handleChangeObservationsGenerales = (event) => {
+    setObservationsGeneralesArea(event.target.value);
   }
 
     return (
@@ -38,7 +44,7 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces}) => {
         </tbody>
         <tfoot>
           <tr className="nom-piece"><td colSpan={6}>Observations générales</td></tr>
-          <tr><td className="footer-textarea-container" colSpan={6}><textarea/></td></tr>
+          <tr><td className="footer-textarea-container" colSpan={6}><textarea value={observationsGenaralesArea} onChange={handleChangeObservationsGenerales}/></td></tr>
         </tfoot>
       </table>
     );
