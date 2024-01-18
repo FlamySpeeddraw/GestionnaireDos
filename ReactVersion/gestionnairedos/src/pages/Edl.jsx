@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { HeaderEdl } from "../components/HeaderEdl";
-import { DecisionTravaux } from "../components/DecisionTravaux";
-import { FormEdl } from "../components/FormEdl";
+import { DecisionTravaux } from "../components/Fiches EDL/DecisionTravaux";
+import { FormEdl } from "../components/Fiches EDL/FormEdl";
 import { v4 as uuid } from 'uuid';
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { HamburgerEdl } from "../components/Fiches EDL/HamburgerEdl";
+import "./../styles/EDL/style.css"
 
 export const Edl = () => {
   const location = useLocation();
@@ -78,7 +79,7 @@ export const Edl = () => {
 
   return (
     <div className="main-container">
-      <HeaderEdl headerInfos={headerInfos} onUpdateHeaderInfos={updateHeaderInfos} />
+      <HamburgerEdl headerInfos={headerInfos} updateHeaderInfos={updateHeaderInfos}/>
       <FormEdl OnSave={saveEdl} onDelete={handleDeletepiece} handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
       <DecisionTravaux observationsGenerales={observationsGenerales} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
     </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { PieceEdl } from "../components/PieceEdl";
+import { PieceEdl } from "./PieceEdl";
+import './../../styles/EDL/tableau.css';
 
 export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGenerales}) => {
   const [observationsGenaralesArea,setObservationsGeneralesArea] = useState(observationsGenerales)

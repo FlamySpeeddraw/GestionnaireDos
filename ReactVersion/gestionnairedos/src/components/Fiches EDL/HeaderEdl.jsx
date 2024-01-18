@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./../../styles/EDL/header.css";
 
 export const HeaderEdl = ({headerInfos,onUpdateHeaderInfos}) => {
   const [titreDossier,setTitreDossier] = useState(headerInfos.titreDossier);

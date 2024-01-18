@@ -1,0 +1,31 @@
+#cross {
+    scale: 0.5;
+    position: relative;
+    right: 0;
+}
+
+.burger-menu {
+    position: fixed;
+}
+
+.burger-menu-icon {
+    height: 30px;
+    cursor: pointer;
+}
+
+.burger-menu-inner {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(201, 201, 201);
+    justify-content: center;
+}
+
+.actif {
+    width: 20%;
+    height: 100%;
+}
+
+.inactif {
+    display: none;
+}

@@ -1,5 +1,5 @@
-import './App.css';
-import { NavigationRoutes } from './components/NavigationRoutes';
+import { NavigationRoutes } from './components/Navigation/NavigationRoutes';
+import './styles/navigation.css'
 
 export const App = () => {
   return (

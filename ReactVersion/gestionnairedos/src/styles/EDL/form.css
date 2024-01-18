@@ -1,0 +1,29 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.form-container div {
+    margin: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.form-container form {
+    margin: 30px;
+}
+
+.form-container select {
+    width: 150px;
+    height: 25px;
+}
+
+.form-container button {
+    height: 40px;
+    width: 40px;
+}
+
+.save-edl {
+    margin: 30px;
+}

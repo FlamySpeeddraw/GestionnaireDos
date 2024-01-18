@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./../../styles/EDL/form.css";
 
 export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete,OnSave}) => {
     const [nomPiece,setNomPiece] = useState("");
@@ -59,7 +60,7 @@ export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete,OnSa
                 </label>
                 <button>+</button> 
             </form>
-            <button onClick={OnSave}>Enregistrer la fiche</button>
+            <button className="save-edl" onClick={OnSave}>Enregistrer la fiche</button>
         </div>
     );
 }

@@ -1,8 +1,8 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { EdlListe } from "../pages/EdlListe";
-import { Edl } from "../pages/Edl"
+import { EdlListe } from "../../pages/EdlListe";
+import { Edl } from "../../pages/Edl"
 import { NavBar } from "./NavBar";
-import { Dossiers } from "../pages/Dossiers";
+import { Dossiers } from "../../pages/Dossiers";
 
 export const NavigationRoutes = () => {
     return (

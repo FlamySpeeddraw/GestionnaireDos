@@ -1,0 +1,14 @@
+.head-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.reference-container {
+    display: flex;
+    flex-direction: column;
+}
