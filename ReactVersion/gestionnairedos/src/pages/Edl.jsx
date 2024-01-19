@@ -11,29 +11,28 @@ export const Edl = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
+  const [residence,setResidence] = useState({nom:"nouvelleResidence",dossier:"nouveauDossier",date:"",edls:[]});
   const [observationsGenerales,setObservationsGenerales] = useState("");
   const [idPage,setIdPage] = useState(uuid());
   const [pieces,setPieces] = useState([]);
-  const [headerInfos,setHeaderInfos] = useState({titreDossier:"",titreResidence:"",numeroAppartement:"",typeAppartement:"",numeroBat:"",numeroEtage:""});
+  const [headerInfos,setHeaderInfos] = useState({numeroAppartement:"",typeAppartement:"",numeroBat:"",numeroEtage:""});
 
   useEffect(() => {
-    if(location.pathname !== "/edl/edit/new") {
-      axios.get('http://localhost:8080/JSON/fiche/' + params.uid).then(response => {
+    if(location.pathname !== "/edl/nouvelleResidence/edit/new") {
+      axios.get('http://localhost:8080/JSON/' + residence.nom + '/edls/' + params.uid).then(response => {
         setObservationsGenerales(response.data.observationsGenerales);
         setIdPage(response.data.id);
         setPieces(response.data.pieces);
-        setHeaderInfos({titreDossier:response.data.titreDossier,titreResidence:response.data.titreResidence,numeroAppartement:response.data.numeroAppartement,typeAppartement:response.data.typeAppartement,numeroBat:response.data.numeroBat,numeroEtage:response.data.numeroEtage});
+        setHeaderInfos({numeroAppartement:response.data.numeroAppartement,typeAppartement:response.data.typeAppartement,numeroBat:response.data.numeroBat,numeroEtage:response.data.numeroEtage});
       }).catch(error => {
         console.log(error);
       });
     }
-  },[location,params]);
+  },[location,params,residence]);
 
   const saveEdl = () => {
-    axios.post('http://localhost:8080/JSON/create',{
+    axios.post('http://localhost:8080/JSON/' + residence.nom + '/save',{
       id:idPage,
-      titreDossier:headerInfos.titreDossier,
-      titreResidence:headerInfos.titreResidence,
       numeroAppartement:headerInfos.numeroAppartement,
       typeAppartement:headerInfos.typeAppartement,
       numeroBat:headerInfos.numeroBat,
@@ -41,7 +40,7 @@ export const Edl = () => {
       pieces,
       observationsGenerales:observationsGenerales
     }).then(response => {
-      navigate("/edl/edit/" + idPage);
+      navigate("/edl/" + residence.nom + "/edit/" + idPage);
     }).catch(error => {
       console.log(error);
     });
@@ -79,7 +78,7 @@ export const Edl = () => {
 
   return (
     <div className="main-container">
-      <HamburgerEdl headerInfos={headerInfos} updateHeaderInfos={updateHeaderInfos}/>
+      <HamburgerEdl nomResidence={residence.nom} date={residence.date} headerInfos={headerInfos} updateHeaderInfos={updateHeaderInfos}/>
       <FormEdl OnSave={saveEdl} onDelete={handleDeletepiece} handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
       <DecisionTravaux observationsGenerales={observationsGenerales} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
     </div>

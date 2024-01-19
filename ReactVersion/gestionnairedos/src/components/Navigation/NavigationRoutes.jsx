@@ -12,7 +12,7 @@ export const NavigationRoutes = () => {
                 <Routes>
                     <Route path="/dossiers" element={<Dossiers />} />
                     <Route path="/edl" element={<EdlListe />} />
-                    <Route path="/edl/edit/:uid" element={<Edl />} />
+                    <Route path="/edl/:residence/edit/:uid" element={<Edl />} />
                 </Routes>
             </Router>
         </>

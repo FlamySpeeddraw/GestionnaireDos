@@ -21,9 +21,57 @@
 
 .form-container button {
     height: 40px;
-    width: 40px;
+    width: fit-content;
 }
 
 .save-edl {
     margin: 30px;
+    font-size: small;
+    border-radius: 15px;
+    border: 1px solid black;
+    padding: 5px;
+    transition: all 0.3s ease;
+}
+
+.save-edl:hover {
+    background-color: black;
+    color: white;
+}
+
+.td-delete {
+    border: 0;
+}
+
+.trash-lid {
+    transform-origin: right bottom;
+    transition: transform 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+  
+.icon-trash:hover .trash-lid {
+    transform: translateY(-2px) rotate(30deg);
+}
+
+label {
+    font-size: 70%;
+}
+
+label input {
+    border: 0;
+    border-bottom: 1px solid black;
+    background-color: rgba(0, 0, 0, 0.082);
+    border-radius: 0;
+    height: 20px;
+}
+
+button {
+    padding: 2px;
+    font-size: larger;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+td input {
+    border: 0;
+    width: 100%;
 }
