@@ -1,5 +1,6 @@
 package fr.athemes.apijson.controllers;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,19 +53,42 @@ public class JsonController {
         return residences;
     }
 
-    @DeleteMapping("/{residence}/delete")
-    public boolean deleteResidence(@PathVariable String residence) {
-        File[] listOfFolders = getAllFile("EdlTemplates/" + residence);
+    @DeleteMapping("/{residence}/{dossier}/delete")
+    public boolean deleteResidence(@PathVariable String residence,@PathVariable String dossier) {
+        File[] listOfFolders = getAllFile("EdlTemplates/" + residence + "/" + dossier);
         for (File file : listOfFolders) {
             file.delete();
         }
-        return new File("EdlTemplates/" + residence).delete();
+        new File("EdlTemplates/" + residence + "/" + dossier).delete();
+        File residenceFolder = new File("EdlTemplates/" + residence);
+        if (residenceFolder.length() != 0) {
+            return false;
+        }
+        return residenceFolder.delete();
     }
 
     @PostMapping("/residence/create")
     public boolean createResidence(@RequestBody Residence residence) {
         File folder = new File("EdlTemplates/" + residence.nom + "/" + residence.dossier);
         return folder.mkdirs();
+    }
+
+    @PostMapping("/{residence}/{dossier}/{newResidence}/{newDossier}")
+    public boolean updateNoms(@PathVariable String residence, @PathVariable String dossier, @PathVariable String newResidence, @PathVariable String newDossier) throws IOException {
+        File copy = new File("EdlTemplates/" + residence + "/" + dossier);
+        File newFile = new File("EdlTemplates/" + newResidence + "/" + newDossier);
+        FileUtils.copyDirectory(copy, newFile);
+        return deleteResidence(residence, dossier);
+    }
+
+    @PostMapping("/{residence}/{dossier}/save")
+    public void saveEdl(@PathVariable String residence,@PathVariable String dossier,@RequestBody Edl edl) throws IOException {
+        File json = new File("EdlTemplates/" + residence + "/" + dossier + "/" + edl.id + ".json");
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(edl);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(json));
+        writer.write(jsonString);
+        writer.close();
     }
 
     public File[] getAllFile(String url) {

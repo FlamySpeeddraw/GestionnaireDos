@@ -8,10 +8,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.5s ease;
+  }
+
+  .modal-overlay::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(1px);
   }
 
   .modal-content {
-    background: #fff;
+    z-index: 100;
+    background-color: rgb(46, 46, 46);
     padding: 20px;
     border-radius: 8px;
     max-width: 400px;
@@ -19,20 +29,122 @@
     text-align: center;
   }
 
+  .modal-content h3 {
+    padding: 10px;
+    color: white;
+    border-bottom: 2px solid white;
+  }
+
   .inner-content-modal {
     display: flex;
-    margin: 25px 40px 40px 40px;
+    margin: 25px 40px 25px 40px;
     flex-direction: column;
   }
 
-  .inner-content-modal label {
-    display: flex;
-    flex-direction: column;
-    text-align: start;
+  .inner-content-modal input {
     margin: 20px 0;
+    height: 40px;
+    border-radius: 7px;
+    border: 0;
+    text-indent: 20px;
+  }
+
+  .inner-content-modal input::placeholder {
+    color: rgb(200, 192, 234);
   }
 
 .button-modal-container {
     display: flex;
     justify-content: space-between;
+}
+
+.button-modal-container button {
+  color: white;
+  transition: all 0.3s ease-out;
+}
+
+.button-modal-container button:hover {
+  color: rgb(36, 159, 207);
+}
+
+.li-liste-residence {
+  height: 45px;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(218, 218, 218);
+}
+
+.link-liste-residence {
+  text-decoration: none;
+  color: black;
+  width: 250px;
+  transition: all ease 0.3s;
+}
+
+.link-liste-residence:hover {
+  color: rgb(36, 159, 207);
+}
+
+.li-liste-residence p {
+  margin-left: 20px;
+  width: 60px;
+}
+
+.li-liste-residence #delete {
+  margin-left: 20px;
+  padding: 0;
+  display: flex;
+}
+
+.li-liste-residence #modifier {
+  margin-left: 20px;
+  padding: 0;
+  cursor: pointer;
+  width: 60px;
+  transition: all ease 0.3s;
+}
+
+.li-liste-residence #modifier:hover {
+  color: rgb(36, 159, 207);
+}
+
+#li-ajouter-residence {
+  cursor: pointer;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgb(218, 218, 218);
+  transition: all 0.3s ease-out;
+}
+
+#li-ajouter-residence:hover {
+  color: rgb(36, 159, 207);
+}
+
+.error-message {
+  color: rgb(184, 29, 29);
+  font-weight: bold;
+  font-style: italic;
+  animation: shake 0.2s ease-in 0s;
+}
+
+.error-container {
+  height: 30px;
+}
+
+@keyframes shake {
+  0%,100% {
+      transform: translate(0px);
+  }
+  25% {
+      transform: translate(-5px);
+  }
+  50% {
+      transform: translate(5px);
+  }
+  75% {
+      transform: translate(-5px);
+  }
 }

@@ -12,16 +12,6 @@ export const HamburgerEdl = ({nomResidence,date,headerInfos,updateHeaderInfos}) 
         setEdlSelected("Bat " + headerInfos.numeroBat + " E" + headerInfos.numeroEtage + " N°" + headerInfos.numeroAppartement);
     },[edlSelected,headerInfos.numeroBat,headerInfos.numeroEtage,headerInfos.numeroAppartement])
 
-    useEffect(() => {
-        if (date !== "") {
-            axios.get('http://localhost:8080/JSON/' + nomResidence + '/elds').then(response => {
-                setFiches(response.data);
-            }).catch(error => {
-                console.log(error);
-            });
-        }
-    },[fiches,date,nomResidence]);
-
     return (
         <div className={`burger-menu ${!toggle ? '' : 'actif'} `}>
             <img onClick={() => setToggle(true)} className={`burger-menu-icon ${!toggle ? '' : 'inactif'} `} src="./assets/hamburger.png" alt="Menu"/>

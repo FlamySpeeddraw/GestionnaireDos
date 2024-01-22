@@ -11,27 +11,27 @@ export const Edl = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-  const [residence,setResidence] = useState({nom:"nouvelleResidence",dossier:"nouveauDossier",date:"",edls:[]});
+  const [residence,setResidence] = useState({nom:params.nomResidence,dossier:params.nomDossier,edls:[]});
   const [observationsGenerales,setObservationsGenerales] = useState("");
   const [idPage,setIdPage] = useState(uuid());
   const [pieces,setPieces] = useState([]);
   const [headerInfos,setHeaderInfos] = useState({numeroAppartement:"",typeAppartement:"",numeroBat:"",numeroEtage:""});
 
   useEffect(() => {
-    if(location.pathname !== "/edl/nouvelleResidence/edit/new") {
-      axios.get('http://localhost:8080/JSON/' + residence.nom + '/edls/' + params.uid).then(response => {
+    if(location.pathname !== "/edl/" + residence.nom + "/" + residence.dossier + "edit/new") {
+      /*axios.get('http://localhost:8080/JSON/' + residence.nom + '/edls/' + params.uid).then(response => {
         setObservationsGenerales(response.data.observationsGenerales);
         setIdPage(response.data.id);
         setPieces(response.data.pieces);
         setHeaderInfos({numeroAppartement:response.data.numeroAppartement,typeAppartement:response.data.typeAppartement,numeroBat:response.data.numeroBat,numeroEtage:response.data.numeroEtage});
       }).catch(error => {
         console.log(error);
-      });
+      });*/
     }
   },[location,params,residence]);
 
   const saveEdl = () => {
-    axios.post('http://localhost:8080/JSON/' + residence.nom + '/save',{
+    axios.post('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/save',{
       id:idPage,
       numeroAppartement:headerInfos.numeroAppartement,
       typeAppartement:headerInfos.typeAppartement,
@@ -40,7 +40,7 @@ export const Edl = () => {
       pieces,
       observationsGenerales:observationsGenerales
     }).then(response => {
-      navigate("/edl/" + residence.nom + "/edit/" + idPage);
+      //navigate("/edl/" + residence.nom + "/edit/" + idPage);
     }).catch(error => {
       console.log(error);
     });
