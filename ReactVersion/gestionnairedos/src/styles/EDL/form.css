@@ -4,7 +4,7 @@
     align-items: flex-end;
 }
 
-.form-container div {
+.form-container #form-margin-div {
     margin: 30px;
     display: flex;
     align-items: center;
@@ -19,18 +19,16 @@
     height: 25px;
 }
 
-.form-container button {
-    height: 40px;
-    width: fit-content;
-}
-
 .save-edl {
-    margin: 30px;
-    font-size: small;
     border-radius: 15px;
-    border: 1px solid black;
-    padding: 5px;
+    border: 2px solid rgb(46, 46, 46);
     transition: all 0.3s ease;
+    font-size: medium;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    margin: auto 0;
 }
 
 .save-edl:hover {

@@ -34,33 +34,39 @@ export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete,OnSa
     return (
         <div className="form-container">
             <form className="form-addpiece" action="submit" onSubmit={handleSubmitAddPiece}>
-                <label>
-                    Nom de la pièce<br/>
-                    <input type="text" value={nomPiece} onChange={(e) => {setNomPiece(e.target.value)}} />
-                </label>
-                <button>+</button>
+                <div id="form-margin-div" className="contain-input">
+                    <input placeholder="Nom de la pièce" type="text" value={nomPiece} onChange={(e) => {setNomPiece(e.target.value)}} />
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+                            <path fillRule="evenodd" d="M 11 2 L 11 11 L 2 11 L 2 13 L 11 13 L 11 22 L 13 22 L 13 13 L 22 13 L 22 11 L 13 11 L 13 2 Z"></path>
+                        </svg>
+                    </button>
+                </div>
             </form>
-            <div>
+            <div id="form-margin-div">
                 <select value={nomPieceSelected} onChange={(e) => {setNomPieceSelected(e.target.value)}}>
                     {nomPieces.map((objetPiece) => (
                         <option key={objetPiece.id} value={objetPiece.nom}>{objetPiece.nom}</option>
                     ))}
                 </select>
                 <button className="button-delete" onClick={deletePiece}>
-                    <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 40" width="40" height="40">
+                    <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
                         <path className="trash-lid" fillRule="evenodd" d="M6 15l4 0 0-3 8 0 0 3 4 0 0 2 -16 0zM12 14l4 0 0 1 -4 0z" />
                         <path className="trash-can" d="M8 17h2v9h8v-9h2v9a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z" />
                     </svg>
                 </button>
             </div>
-            <form className="form-addElement" action="submit" onSubmit={handleSubmitAddElement}>
-                <label>
-                    Nom de l'élèment<br/>
-                    <input type="text" value={nomElement} onChange={(e) => {setNomElement(e.target.value)}} />
-                </label>
-                <button>+</button> 
+            <form className="form-addelement" action="submit" onSubmit={handleSubmitAddElement}>
+                <div id="form-margin-div" className="contain-input">
+                    <input placeholder="Nom de l'élèment" type="text" value={nomElement} onChange={(e) => {setNomElement(e.target.value)}} />
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+                            <path fillRule="evenodd" d="M 11 2 L 11 11 L 2 11 L 2 13 L 11 13 L 11 22 L 13 22 L 13 13 L 22 13 L 22 11 L 13 11 L 13 2 Z"></path>
+                        </svg>
+                    </button>
+                </div>
             </form>
-            <button className="save-edl" onClick={OnSave}>Enregistrer la fiche</button>
+            <p className="save-edl" onClick={OnSave}>Enregistrer la fiche</p>
         </div>
     );
 }

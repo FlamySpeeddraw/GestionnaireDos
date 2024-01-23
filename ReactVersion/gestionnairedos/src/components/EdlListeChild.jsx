@@ -11,7 +11,7 @@ export const EdlListeChild = ({residenceInfos,handleDeleteResidence,handleModifi
     return (
         <li className="li-liste-residence">
             <Link className="link-liste-residence" to={"/edl/" + residenceInfos.nom + "/" + residenceInfos.dossier + "/edit/new"}>{residenceInfos.nom} - {residenceInfos.dossier}</Link>
-            <p>{nbFiches} fiche {nbFiches > 1 ? "s" : ""}</p>
+            <p>{nbFiches} {nbFiches > 1 ? "fiches" : "fiche"}</p>
             <p id="modifier" onClick={() => handleModifierNom(residenceInfos.nom,residenceInfos.dossier)}>Modifier</p>
             <button id="delete" onClick={() => handleDeleteResidence(residenceInfos.nom,residenceInfos.dossier)}>
                 <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 40" width="40" height="40">

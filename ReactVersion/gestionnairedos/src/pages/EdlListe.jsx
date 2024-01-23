@@ -90,12 +90,12 @@ export const EdlListe = () => {
     return (
         <div>
             <ul>
-                <li id="li-ajouter-residence" onClick={() => setIsModalOpen(true)}><p>Ajouter une nouvelle résidence</p></li>
+                <li id="li-ajouter-residence" onClick={() => {setNomResidence("");setnomDossier("");setIsModalOpen(true);}}><p>Ajouter une nouvelle résidence</p></li>
                 {residences.map((residence) => (
                     <EdlListeChild key={residence.nom+residence.dossier} residenceInfos={residence} handleDeleteResidence={deleteResidence} handleModifierNom={openModalModifier} />
                 ))}
             </ul>
-            <Modal isOpen={isModalOpen} onValidate={() => onValidate()} onClose={() => setIsModalOpen(false)}>
+            <Modal isOpen={isModalOpen} onAnnulate={() => setIsModalOpen(false)}  onValidate={() => onValidate()} onClose={() => setIsModalOpen(false)}>
                 <h3>Création d'une nouvelle résidence</h3>
                 <div className="inner-content-modal">
                     <input placeholder="Nom de la résidence" value={nomResidence} onChange={(e) => setNomResidence(e.target.value)} />
@@ -103,11 +103,12 @@ export const EdlListe = () => {
                     {errorMessage ? <p className="error-message error-container">Veuillez remplir tous les champs</p> : <p className="error-container"></p>}
                 </div>
             </Modal>
-            <Modal isOpen={isModalOpenModifer} onValidate={() => onValidateModifier()} onClose={() => setIsModalOpenModifer(false)}>
+            <Modal isOpen={isModalOpenModifer} onAnnulate={() => setIsModalOpenModifer(false)} onValidate={() => onValidateModifier()} onClose={() => setIsModalOpenModifer(false)}>
                 <h3>Modifier la résidence</h3>
                 <div className="inner-content-modal">
                     <input placeholder="Nouveau nom de la résidence" value={nomResidence} onChange={(e) => setNomResidence(e.target.value)} />
                     <input placeholder="Nouveau nom du dossier" value={nomDossier} onChange={(e) => setnomDossier(e.target.value)} />
+                    {errorMessage ? <p className="error-message error-container">Veuillez remplir tous les champs</p> : <p className="error-container"></p>}
                 </div>
             </Modal>
         </div>
