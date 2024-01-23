@@ -1,4 +1,4 @@
-export const Modal = ({isOpen,onClose,onAnnulate,onValidate,children}) => {
+export const Modal = ({isOpen,onClose,onValidate,children}) => {
     if (!isOpen) return null;
 
     return (
@@ -6,7 +6,7 @@ export const Modal = ({isOpen,onClose,onAnnulate,onValidate,children}) => {
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 {children}
                 <div className="button-modal-container">
-                    <button autoFocus onClick={onAnnulate}>Annuler</button>
+                    <button autoFocus onClick={onClose}>Annuler</button>
                     <button onClick={onValidate}>Valider</button>
                 </div>
             </div>

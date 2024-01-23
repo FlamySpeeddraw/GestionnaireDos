@@ -14,7 +14,7 @@ export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete,OnSa
 
     const handleSubmitAddPiece = (event) => {
         event.preventDefault();
-        if (nomPieces.findIndex(object => object.nom === nomPiece) !== -1) {
+        if (nomPieces.findIndex(object => object.nom === nomPiece) !== -1 || nomPiece === "") {
         } else {
             handleAddPiece(nomPiece);
             setNomPiece("");
@@ -24,7 +24,7 @@ export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete,OnSa
 
     const handleSubmitAddElement = (event) => {
         event.preventDefault();
-        if (nomPieceSelected === "Choisir une pièce" || pieces[pieces.findIndex(object => object.nom === nomPieceSelected)].elements.findIndex(object => object.nomElement === nomElement) !== -1) {
+        if (nomPieceSelected === "" || nomPieceSelected === "Choisir une pièce" || nomElement === "" || pieces[pieces.findIndex(object => object.nom === nomPieceSelected)].elements.findIndex(object => object.nomElement === nomElement) !== -1) {
         } else {
             handleAddNomElement(nomPieceSelected,nomElement);
             setNomElement("");

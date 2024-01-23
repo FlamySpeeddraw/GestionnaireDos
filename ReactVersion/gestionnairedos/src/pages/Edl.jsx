@@ -86,7 +86,13 @@ export const Edl = () => {
 
   const onValidate = () => {
     if (numeroAppartement === "" || etage === "" || batiment === "" || typeAppartement === "") {
-      console.log("test");
+      //METTRE MODAL DE CONFIRMATION
+    }
+  }
+
+  const closeModal = () => {
+    if (numeroAppartement === "" || etage === "" || batiment === "" || typeAppartement === "") {
+      //METTRE MODAL DE CONFIRMATION
     }
   }
 
