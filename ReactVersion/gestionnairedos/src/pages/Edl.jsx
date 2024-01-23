@@ -11,7 +11,6 @@ export const Edl = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-  const [errorMessage,setErrorMessage] = useState(false);
   const [toggleModal,setToggleModal] = useState(true);
   const [verif,setVerif] = useState(false);
   const [residence,setResidence] = useState({nom:params.nomResidence,dossier:params.nomDossier,edls:[]});
@@ -112,7 +111,6 @@ export const Edl = () => {
               <option key={edl.id} value={edl.numeroAppartement}>Bât {edl.numeroBat} Etage n°{edl.numeroEtage} logement {edl.numeroAppartement} {edl.typeAppartement}</option>
             ))}
           </select>
-          {errorMessage ? <p className="error-message error-container">Veuillez remplir tous les champs</p> : <p className="error-container"></p>}
         </div>
       </Modal>
     </div>
