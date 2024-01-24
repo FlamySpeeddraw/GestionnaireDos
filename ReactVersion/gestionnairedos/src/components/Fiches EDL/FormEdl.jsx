@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./../../styles/EDL/form.css";
 
-export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete,OnSave}) => {
+export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete}) => {
     const [nomPiece,setNomPiece] = useState("");
     const [nomElement,setNomElement] = useState("");
     const [nomPieceSelected,setNomPieceSelected] = useState("");
@@ -44,7 +44,7 @@ export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete,OnSa
                 </div>
             </form>
             <div id="form-margin-div">
-                <select value={nomPieceSelected} onChange={(e) => {setNomPieceSelected(e.target.value)}}>
+                <select className="select-piece" value={nomPieceSelected} onChange={(e) => {setNomPieceSelected(e.target.value)}}>
                     {nomPieces.map((objetPiece) => (
                         <option key={objetPiece.id} value={objetPiece.nom}>{objetPiece.nom}</option>
                     ))}
@@ -66,7 +66,6 @@ export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete,OnSa
                     </button>
                 </div>
             </form>
-            <p className="save-edl" onClick={OnSave}>Enregistrer la fiche</p>
         </div>
     );
 }

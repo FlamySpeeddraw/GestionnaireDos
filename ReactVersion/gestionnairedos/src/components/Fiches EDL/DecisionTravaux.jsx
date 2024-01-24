@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PieceEdl } from "./PieceEdl";
 import './../../styles/EDL/tableau.css';
 
-export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGenerales}) => {
-  const [observationsGenaralesArea,setObservationsGeneralesArea] = useState(observationsGenerales)
+export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGenerales,handleChangeObservationsGenerales}) => {
+  const [observationsGenaralesArea,setObservationsGeneralesArea] = useState(observationsGenerales);
+  const [verif,setVerif] = useState(false);
+
+  useEffect(() => {
+    if (verif) {
+      handleChangeObservationsGenerales(observationsGenaralesArea);
+      setVerif(false);
+    }
+  },[verif,observationsGenaralesArea,handleChangeObservationsGenerales]);
 
   const updatePiece = (index,updatedElements) => {
     const updatedPieces = [...listePieces];
@@ -19,8 +27,9 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
     handleUpdatePieces(piecesUpdated);
   }
 
-  const handleChangeObservationsGenerales = (event) => {
-    setObservationsGeneralesArea(event.target.value);
+  const handleObservationsGenerales = (e) => {
+    setObservationsGeneralesArea(e.target.value);
+    setVerif(true);
   }
 
     return (
@@ -45,7 +54,7 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
         </tbody>
         <tfoot>
           <tr className="nom-piece"><td colSpan={6}>Observations générales</td></tr>
-          <tr><td className="footer-textarea-container" colSpan={6}><textarea value={observationsGenaralesArea} onChange={handleChangeObservationsGenerales}/></td></tr>
+          <tr><td className="footer-textarea-container" colSpan={6}><textarea value={observationsGenaralesArea} onChange={handleObservationsGenerales}/></td></tr>
         </tfoot>
       </table>
     );

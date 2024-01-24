@@ -91,6 +91,22 @@ public class JsonController {
         writer.close();
     }
 
+    @GetMapping("/{residence}/{dossier}")
+    public Residence getResidence(@PathVariable String residence, @PathVariable String dossier) throws JsonMappingException, JsonProcessingException, FileNotFoundException {
+        List<Edl> edls = new ArrayList<>();
+        for (File file : getAllFile("EdlTemplates/" + residence + "/" + dossier)) {
+            if(file.isFile()) {
+                Scanner sc = new Scanner(file);
+                String json = sc.nextLine();
+                ObjectMapper objectMapper = new ObjectMapper();
+                Edl fiche = objectMapper.readValue(json, Edl.class);
+                edls.add(fiche);
+                sc.close();
+            }
+        }
+        return new Residence(residence, dossier, edls);
+    }
+
     public File[] getAllFile(String url) {
         File folder = new File(url);
         File[] listOfFolders = folder.listFiles();

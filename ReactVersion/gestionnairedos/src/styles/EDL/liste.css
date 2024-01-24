@@ -49,6 +49,11 @@
     text-indent: 20px;
   }
 
+  .inner-content-modal p {
+    color: white;
+    margin: 25px 0;
+  }
+
   .inner-content-modal select {
     margin: 20px 0;
     height: 40px;

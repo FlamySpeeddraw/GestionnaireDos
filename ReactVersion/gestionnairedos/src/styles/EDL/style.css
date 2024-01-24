@@ -38,3 +38,79 @@
     margin: 0;
     padding: 0 8px 0 8px;
 }
+
+.menu-container {
+    border-bottom: 1px solid rgb(218, 218, 218);
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.right-arrow-select {
+    padding: 0;
+    width: 30px;
+    height: 30px;
+}
+
+.select-fiche {
+    margin-left: 30px;
+    width: 250px;
+    height: 30px;
+    border: 2px solid black;
+    border-radius: 7px;
+}
+
+#button-fiche-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+.img-info {
+    margin-left: 40px;
+    height: 30px;
+    width: 30px;
+    animation: info 2s linear infinite;
+}
+
+.img-info:hover {
+    cursor: pointer;
+}
+
+.img-save {
+    height: 30px;
+    width: 30px;
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+.img-save:hover {
+    animation: name duration timing-function delay iteration-count direction fill-mode;
+    animation: save 2s linear infinite;
+    cursor: pointer;
+}
+
+@keyframes info {
+    0%,100% {
+        scale: 1;
+    }
+    50% {
+        scale: 1.1;
+    }
+}
+
+@keyframes save {
+    0%,8%,16%,24%,100% {
+        rotate: 0deg;
+    }
+    2%,10%,18% {
+        rotate: 10deg;
+    }
+    4%,12%,20% {
+        rotate: 0deg;
+    }
+    6%,14%,22% {
+        rotate: -10deg;
+    }
+}

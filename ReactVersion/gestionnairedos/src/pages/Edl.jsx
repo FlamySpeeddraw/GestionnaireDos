@@ -11,8 +11,10 @@ export const Edl = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-  const [toggleModal,setToggleModal] = useState(true);
+  const [toggleModal,setToggleModal] = useState(false);
+  const [toggleModalConfirmation,setToggleModalConfirmation] = useState(false);
   const [verif,setVerif] = useState(false);
+  const [verifModal,setVerifModal] = useState(true);
   const [residence,setResidence] = useState({nom:params.nomResidence,dossier:params.nomDossier,edls:[]});
   const [observationsGenerales,setObservationsGenerales] = useState("");
   const [idPage,setIdPage] = useState(uuid());
@@ -21,25 +23,28 @@ export const Edl = () => {
   const [typeAppartement,setTypeAppartement] = useState("");
   const [batiment,setBatiment] = useState("");
   const [etage,setEtage] = useState("");
-
-  /*useEffect(() => {
-    if (headerInfos.numeroAppartement === "" || headerInfos.typeAppartement === "" || headerInfos.numeroBat === "" || headerInfos.numeroEtage === "") {
-      setToggleModal(true);
-    }
-  },[headerInfos]);*/
-
+  const [previousNumeroAppartement,setPreviousNumeroAppartement] = useState("");
+  const [previousTypeAppartement,setPreviousTypeAppartement] = useState("");
+  const [previousBatiment,setPreviousBatiment] = useState("");
+  const [previousEtage,setPreviousEtage] = useState("");
+  const [validate,setValidate] = useState(false);
+  
   useEffect(() => {
-    if(location.pathname !== "/edl/" + residence.nom.replace(" ","%20") + "/" + residence.dossier.replace(" ","%20") + "/edit/new") {
-      if (!verif) {
-        axios.get('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier).then(response => {
-          setResidence(response.data);
-          setVerif(true);
-        }).catch(error => {
-          console.log(error);
-        });
+    if(location.pathname === "/edl/" + residence.nom.replace(" ","%20") + "/" + residence.dossier.replace(" ","%20") + "/edit/new") {
+      if (verifModal) {
+        setToggleModal(true);
+        setVerifModal(false);
       }
     }
-  },[location,residence,verif,toggleModal]);
+    if (!verif) {
+      axios.get('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier).then(response => {
+        setResidence(response.data);
+        setVerif(true);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  },[location,residence,verif,toggleModal,verifModal]);
 
   const saveEdl = () => {
     axios.post('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/save',{
@@ -84,33 +89,97 @@ export const Edl = () => {
   };
 
   const onValidate = () => {
+    setValidate(false);
     if (numeroAppartement === "" || etage === "" || batiment === "" || typeAppartement === "") {
-      //METTRE MODAL DE CONFIRMATION
+      setToggleModalConfirmation(true);
+    } else {
+      setToggleModal(false);
     }
   }
 
   const closeModal = () => {
-    if (numeroAppartement === "" || etage === "" || batiment === "" || typeAppartement === "") {
-      //METTRE MODAL DE CONFIRMATION
+    setValidate(true);
+    if (previousNumeroAppartement === "" || previousEtage === "" || previousBatiment === "" || previousTypeAppartement === "") {
+      setToggleModalConfirmation(true);
+    } else {
+      setToggleModal(false);
+      setBatiment(previousBatiment);
+      setEtage(previousEtage);
+      setNumeroAppartement(previousNumeroAppartement);
+      setTypeAppartement(previousTypeAppartement);
+    }
+  }
+
+  const onValidateConfirmation = () => {
+    if (validate) {
+      setBatiment(previousBatiment);
+      setEtage(previousEtage);
+      setNumeroAppartement(previousNumeroAppartement);
+      setTypeAppartement(previousTypeAppartement);
+    }
+    setToggleModalConfirmation(false);
+    setToggleModal(false);
+    setValidate(false);
+  }
+
+  const openModalForm = () => {
+    setPreviousBatiment(batiment);
+    setPreviousEtage(etage);
+    setPreviousNumeroAppartement(numeroAppartement);
+    setPreviousTypeAppartement(typeAppartement);
+    setToggleModal(true);
+  }
+
+  const changeObservationsGenerales = (observ) => {
+    setObservationsGenerales(observ);
+  }
+
+  const deleteFiche = () => {
+    if (location.pathname !== "/edl/" + residence.nom.replace(" ","%20") + "/" + residence.dossier.replace(" ","%20") + "/edit/new") {
+      console.log("Fiche effacée");
+    } else {
+      window.location.reload();
     }
   }
 
   return (
     <div className="main-container">
-      <FormEdl OnSave={saveEdl} onDelete={handleDeletepiece} handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
-      <DecisionTravaux observationsGenerales={observationsGenerales} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
-      <Modal isOpen={toggleModal} onValidate={() => ""} onClose={() => setToggleModal(false)}>
+      <div className="menu-container">
+        <img className="img-info" alt="Détails du logement" src="assets/info.png" onClick={() => openModalForm()} />
+        <select className="select-fiche" onChange={(e) => {""}}>
+            <option value={uuid()}>Nouvelle fiche d'état des lieux</option>
+          {residence.edls.map((edl) => (
+            <option key={edl.id} value={edl.id}>Bât {edl.numeroBat}, étage {edl.numeroEtage} N°{edl.numeroAppartement}, {edl.typeAppartement}</option>
+          ))}
+        </select>
+        <button className="right-arrow-select">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
+          </svg>
+        </button>
+        <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => saveEdl()} />
+        <button id="button-fiche-delete" onClick={() => deleteFiche()}>
+          <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+            <path className="trash-lid" fillRule="evenodd" d="M6 15l4 0 0-3 8 0 0 3 4 0 0 2 -16 0zM12 14l4 0 0 1 -4 0z" />
+            <path className="trash-can" d="M8 17h2v9h8v-9h2v9a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z" />
+          </svg>
+        </button>
+      </div>
+      <FormEdl onDelete={handleDeletepiece} handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
+      <DecisionTravaux handleChangeObservationsGenerales={changeObservationsGenerales} observationsGenerales={observationsGenerales} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
+      <Modal isOpen={toggleModal} onValidate={() => onValidate()} onClose={() => closeModal()}>
         <h3>Détails du logement</h3>
         <div className="inner-content-modal">
           <input placeholder="Appartement N°" type="text" value={numeroAppartement} onChange={(e) => setNumeroAppartement(e.target.value)}/>
           <input placeholder="Type" type="text" value={typeAppartement} onChange={(e) => setTypeAppartement(e.target.value)}/>
           <input placeholder="Bâtiment" type="text" value={batiment} onChange={(e) => setBatiment(e.target.value)}/>
           <input placeholder="Etage" type="text" value={etage} onChange={(e) => setEtage(e.target.value)}/>
-          <select value={"Bât " + batiment + " etage n°" + etage + " logement " + numeroAppartement + " " + typeAppartement} onChange={(e) => {""}}>
-            {residence.edls.map((edl) => (
-              <option key={edl.id} value={edl.numeroAppartement}>Bât {edl.numeroBat} Etage n°{edl.numeroEtage} logement {edl.numeroAppartement} {edl.typeAppartement}</option>
-            ))}
-          </select>
+        </div>
+      </Modal>
+      <Modal isOpen={toggleModalConfirmation} onValidate={() => onValidateConfirmation()} onClose={() => setToggleModalConfirmation(false)}>
+        <h3>Etes-vous sûr(e) de vouloir laisser des champs vident ?</h3>
+        <div className="inner-content-modal">
+          <p>Laisser des champs vide pourrait amener à une confusion lors du choix de la fiche parmi toutes les autres fiches.</p>
         </div>
       </Modal>
     </div>
