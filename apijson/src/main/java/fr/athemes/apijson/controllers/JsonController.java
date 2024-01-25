@@ -107,6 +107,16 @@ public class JsonController {
         return new Residence(residence, dossier, edls);
     }
 
+    @DeleteMapping("/{residence}/{dossier}/{idPage}/delete")
+    public boolean deleteEdl(@PathVariable String residence,@PathVariable String dossier,@PathVariable String idPage) {
+        for (File file : getAllFile("EdlTemplates/" + residence + "/" + dossier)) {
+            if (file.getName().equals(idPage + ".json")) {
+                return file.delete();
+            }
+        }
+        return false;
+    }
+
     public File[] getAllFile(String url) {
         File folder = new File(url);
         File[] listOfFolders = folder.listFiles();

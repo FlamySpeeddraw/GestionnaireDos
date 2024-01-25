@@ -7,11 +7,12 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
   const [verif,setVerif] = useState(false);
 
   useEffect(() => {
+    setObservationsGeneralesArea(observationsGenerales);
     if (verif) {
       handleChangeObservationsGenerales(observationsGenaralesArea);
       setVerif(false);
     }
-  },[verif,observationsGenaralesArea,handleChangeObservationsGenerales]);
+  },[verif,observationsGenaralesArea,handleChangeObservationsGenerales,observationsGenerales]);
 
   const updatePiece = (index,updatedElements) => {
     const updatedPieces = [...listePieces];

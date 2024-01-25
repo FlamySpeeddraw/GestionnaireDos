@@ -31,9 +31,27 @@ export const Edl = () => {
   
   useEffect(() => {
     if(location.pathname === "/edl/" + residence.nom.replace(" ","%20") + "/" + residence.dossier.replace(" ","%20") + "/edit/new") {
+      setIdPage(uuid());
+      setNumeroAppartement("");
+      setTypeAppartement("");
+      setBatiment("");
+      setEtage("");
+      setObservationsGenerales("");
+      setPieces([]);
       if (verifModal) {
         setToggleModal(true);
         setVerifModal(false);
+      }
+    } else {
+      const tempEdl = {...residence.edls[residence.edls.findIndex((edl) => edl.id === params.uid)]};
+      if (!verif && tempEdl.id !== undefined && tempEdl.numeroAppartement !== undefined && tempEdl.typeAppartement !== undefined && tempEdl.numeroBat !== undefined && tempEdl.numeroEtage !== undefined && tempEdl.pieces !== null && tempEdl.observationsGenerales !== undefined) {
+        setIdPage(tempEdl.id);
+        setNumeroAppartement(tempEdl.numeroAppartement);
+        setTypeAppartement(tempEdl.typeAppartement);
+        setBatiment(tempEdl.numeroBat);
+        setEtage(tempEdl.numeroEtage);
+        setObservationsGenerales(tempEdl.observationsGenerales);
+        setPieces(tempEdl.pieces);
       }
     }
     if (!verif) {
@@ -44,7 +62,7 @@ export const Edl = () => {
         console.log(error);
       });
     }
-  },[location,residence,verif,toggleModal,verifModal]);
+  },[location,residence,verif,toggleModal,verifModal,params]);
 
   const saveEdl = () => {
     axios.post('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/save',{
@@ -57,6 +75,7 @@ export const Edl = () => {
       observationsGenerales:observationsGenerales
     }).then(response => {
       navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/" + idPage);
+      window.location.reload();
     }).catch(error => {
       console.log(error);
     });
@@ -136,9 +155,23 @@ export const Edl = () => {
 
   const deleteFiche = () => {
     if (location.pathname !== "/edl/" + residence.nom.replace(" ","%20") + "/" + residence.dossier.replace(" ","%20") + "/edit/new") {
-      console.log("Fiche effacée");
+      const edlIndex = residence.edls.findIndex((edl) => edl.id === params.uid);
+      residence.edls.splice(edlIndex,1);
+      axios.delete('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/' + idPage + '/delete').then(response => {
+        navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/new");
+      }).catch(error => {
+        console.log(error);
+      });
     } else {
       window.location.reload();
+    }
+  }
+
+  const openEdl = () => {
+    setVerif(true);
+    navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/" + idPage);
+    if (idPage === "new") {
+      setVerifModal(true);
     }
   }
 
@@ -146,13 +179,13 @@ export const Edl = () => {
     <div className="main-container">
       <div className="menu-container">
         <img className="img-info" alt="Détails du logement" src="assets/info.png" onClick={() => openModalForm()} />
-        <select className="select-fiche" onChange={(e) => {""}}>
-            <option value={uuid()}>Nouvelle fiche d'état des lieux</option>
+        <select className="select-fiche" value={idPage} onChange={(e) => setIdPage(e.target.value)}>
+            <option value={"new"}>Nouvelle fiche d'état des lieux</option>
           {residence.edls.map((edl) => (
             <option key={edl.id} value={edl.id}>Bât {edl.numeroBat}, étage {edl.numeroEtage} N°{edl.numeroAppartement}, {edl.typeAppartement}</option>
           ))}
         </select>
-        <button className="right-arrow-select">
+        <button onClick={() => openEdl()} className="right-arrow-select">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
           </svg>
