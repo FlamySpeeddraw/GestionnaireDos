@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-export const ElementPiece = ({infosElement,onUpdateElement,deleteElement}) => {
+export const ElementPiece = ({infosElement,onUpdateElement,deleteElement,index,lengthElements,observationsPiece}) => {
     const [nom,setNom] = useState(infosElement.nomElement);
     const [etat,setEtat] = useState(infosElement.etat);
     const [faire,setFaire] = useState(infosElement.faire);
-    const [observations,setObservations] = useState(infosElement.observations);
+    const [observations,setObservations] = useState(observationsPiece);
     const [verif,setVerif] = useState(false);
 
     const handleChangeNom = (event) => {
@@ -37,10 +37,9 @@ export const ElementPiece = ({infosElement,onUpdateElement,deleteElement}) => {
                 id:infosElement.id,
                 nomElement: nom,
                 etat: etat,
-                faire: faire,
-                observations: observations
+                faire: faire
             };
-            onUpdateElement(infosElement, updatedElement);
+            onUpdateElement(infosElement, updatedElement, observations);
             setVerif(false);
         }
     }, [nom, etat, faire, observations, verif, infosElement, onUpdateElement]);
@@ -61,7 +60,7 @@ export const ElementPiece = ({infosElement,onUpdateElement,deleteElement}) => {
                     </label>
                 </div>
             </td>
-            <td className="element-textarea-container"><textarea value={observations} onChange={handleChangeObservations}/></td>
+            {index === 0 ? <td rowSpan={lengthElements} className="piece-textarea-container"><textarea value={observations} onChange={handleChangeObservations}/></td> : null}
             <td className="td-delete">
                 <button onClick={() => deleteElement(infosElement.id)}>
                     <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 40" width="40" height="40">

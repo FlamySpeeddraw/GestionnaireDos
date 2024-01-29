@@ -31,6 +31,11 @@ import fr.athemes.apijson.Residence;
 @RequestMapping("/JSON")
 public class JsonController {
 
+    @GetMapping("")
+    public boolean verifyConnexion() {
+        return true;
+    }
+
     @GetMapping("/residences")
     public List<Residence> getAllResidences() throws FileNotFoundException, JsonMappingException, JsonProcessingException {
         List<Residence> residences = new ArrayList<>();
@@ -94,14 +99,16 @@ public class JsonController {
     @GetMapping("/{residence}/{dossier}")
     public Residence getResidence(@PathVariable String residence, @PathVariable String dossier) throws JsonMappingException, JsonProcessingException, FileNotFoundException {
         List<Edl> edls = new ArrayList<>();
-        for (File file : getAllFile("EdlTemplates/" + residence + "/" + dossier)) {
-            if(file.isFile()) {
-                Scanner sc = new Scanner(file);
-                String json = sc.nextLine();
-                ObjectMapper objectMapper = new ObjectMapper();
-                Edl fiche = objectMapper.readValue(json, Edl.class);
-                edls.add(fiche);
-                sc.close();
+        if (getAllFile("EdlTemplates/" + residence + "/" + dossier) != null) {
+            for (File file : getAllFile("EdlTemplates/" + residence + "/" + dossier)) {
+                if(file.isFile()) {
+                    Scanner sc = new Scanner(file);
+                    String json = sc.nextLine();
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    Edl fiche = objectMapper.readValue(json, Edl.class);
+                    edls.add(fiche);
+                    sc.close();
+                }
             }
         }
         return new Residence(residence, dossier, edls);

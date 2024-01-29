@@ -8,8 +8,8 @@ export const FormEdl = ({handleAddNomElement,handleAddPiece,pieces,onDelete}) =>
     const nomPieces = [{id:"",nom:"Choisir une pièce"}].concat(pieces.map(objetPiece => ({id:objetPiece.id,nom:objetPiece.nom})));
     
     const deletePiece = () => {
-        setNomPieceSelected("");
         onDelete(nomPieceSelected);
+        setNomPieceSelected("Choisir une pièce");
     }
 
     const handleSubmitAddPiece = (event) => {

@@ -16,6 +16,8 @@ export const EdlListe = () => {
     const [selectDossier,setSelectDossier] = useState("");
     const [errorMessage,setErrorMessage] = useState(false);
 
+    document.title = "Liste des résidences";
+
     useEffect(() => {
         axios.get('http://localhost:8080/JSON/residences').then((response) => {
             setResidences(response.data);

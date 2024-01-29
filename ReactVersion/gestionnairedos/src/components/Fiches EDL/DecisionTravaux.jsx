@@ -14,10 +14,11 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
     }
   },[verif,observationsGenaralesArea,handleChangeObservationsGenerales,observationsGenerales]);
 
-  const updatePiece = (index,updatedElements) => {
+  const updatePiece = (index,updatedElements,observations) => {
     const updatedPieces = [...listePieces];
     const indexPiece = updatedPieces.findIndex(object => object.id === index);
     updatedPieces[indexPiece].elements = updatedElements;
+    updatedPieces[indexPiece].observations = observations;
     handleUpdatePieces(updatedPieces);
   }
 

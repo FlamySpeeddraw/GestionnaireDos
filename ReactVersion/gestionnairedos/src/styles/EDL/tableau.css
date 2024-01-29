@@ -4,6 +4,10 @@
     width: 80%;
 }
 
+.table-travaux * {
+    box-sizing: border-box;
+}
+
 td {
     border: 2px solid black;
 }
@@ -61,6 +65,10 @@ td {
     outline: none;
 }
 
+.element-container td {
+    height: 45px;
+}
+
 .radio-faire-container {
     display: flex;
     align-items: center;
@@ -85,10 +93,14 @@ td {
     align-items: center;
 }
 
-.element-textarea-container textarea {
+.piece-textarea-container {
+    vertical-align: top;
+}
+
+.piece-textarea-container textarea {
     width: 100%;
-    box-sizing: border-box;
     height: 100%;
+    box-sizing: border-box;
     resize: vertical;
     border: 0;
     background-color: transparent;

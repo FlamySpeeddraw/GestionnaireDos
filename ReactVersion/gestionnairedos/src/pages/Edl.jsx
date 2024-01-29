@@ -6,6 +6,7 @@ import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Modal } from "../components/Modal";
 import "./../styles/EDL/style.css"
+import { Switch } from "../components/Switch";
 
 export const Edl = () => {
   const location = useLocation();
@@ -14,10 +15,12 @@ export const Edl = () => {
   const [toggleModal,setToggleModal] = useState(false);
   const [toggleModalConfirmation,setToggleModalConfirmation] = useState(false);
   const [verif,setVerif] = useState(false);
+  const [verif2,setVerif2] = useState(false);
   const [verifModal,setVerifModal] = useState(true);
   const [residence,setResidence] = useState({nom:params.nomResidence,dossier:params.nomDossier,edls:[]});
   const [observationsGenerales,setObservationsGenerales] = useState("");
   const [idPage,setIdPage] = useState(uuid());
+  const [idPageTemp,setIdPageTemp] = useState(uuid());
   const [pieces,setPieces] = useState([]);
   const [numeroAppartement,setNumeroAppartement] = useState("");
   const [typeAppartement,setTypeAppartement] = useState("");
@@ -28,30 +31,40 @@ export const Edl = () => {
   const [previousBatiment,setPreviousBatiment] = useState("");
   const [previousEtage,setPreviousEtage] = useState("");
   const [validate,setValidate] = useState(false);
+  const [newPage,setNewPage] = useState(false);
+  const [needToSave,setNeedToSave] = useState(false);
+
+  needToSave ? document.title = "EDL n°" + numeroAppartement + " *" : document.title = "EDL n°" + numeroAppartement;
   
   useEffect(() => {
     if(location.pathname === "/edl/" + residence.nom.replace(" ","%20") + "/" + residence.dossier.replace(" ","%20") + "/edit/new") {
-      setIdPage(uuid());
-      setNumeroAppartement("");
-      setTypeAppartement("");
-      setBatiment("");
-      setEtage("");
-      setObservationsGenerales("");
-      setPieces([]);
       if (verifModal) {
         setToggleModal(true);
         setVerifModal(false);
       }
+      if (newPage) {
+        setIdPage(uuid());
+        setNumeroAppartement("");
+        setTypeAppartement("");
+        setBatiment("");
+        setEtage("");
+        setObservationsGenerales("");
+        setPieces([]);
+        setNewPage(false);
+      }
+      needToSave ? document.title = "Nouveau logement *" : document.title = "Nouveau logement";
     } else {
       const tempEdl = {...residence.edls[residence.edls.findIndex((edl) => edl.id === params.uid)]};
-      if (!verif && tempEdl.id !== undefined && tempEdl.numeroAppartement !== undefined && tempEdl.typeAppartement !== undefined && tempEdl.numeroBat !== undefined && tempEdl.numeroEtage !== undefined && tempEdl.pieces !== null && tempEdl.observationsGenerales !== undefined) {
+      if (!verif2 && tempEdl.id !== undefined && tempEdl.numeroAppartement !== undefined && tempEdl.typeAppartement !== undefined && tempEdl.numeroBat !== undefined && tempEdl.numeroEtage !== undefined && tempEdl.pieces !== null && tempEdl.observationsGenerales !== undefined) {
         setIdPage(tempEdl.id);
+        setIdPageTemp(tempEdl.id);
         setNumeroAppartement(tempEdl.numeroAppartement);
         setTypeAppartement(tempEdl.typeAppartement);
         setBatiment(tempEdl.numeroBat);
         setEtage(tempEdl.numeroEtage);
         setObservationsGenerales(tempEdl.observationsGenerales);
         setPieces(tempEdl.pieces);
+        setVerif2(false);
       }
     }
     if (!verif) {
@@ -62,7 +75,7 @@ export const Edl = () => {
         console.log(error);
       });
     }
-  },[location,residence,verif,toggleModal,verifModal,params]);
+  },[location,residence,verif,toggleModal,verifModal,params,verif2,newPage,needToSave]);
 
   const saveEdl = () => {
     axios.post('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/save',{
@@ -79,13 +92,15 @@ export const Edl = () => {
     }).catch(error => {
       console.log(error);
     });
+    setNeedToSave(false);
   }
 
   const handleDeletepiece = (nomPiece) => {
-    if (nomPiece !== "") {
+    if (nomPiece !== "Choisir une pièce") {
       const piecesCopy = [...pieces];
       const piecesCopyFiltered = piecesCopy.filter(piece => piece.nom !== nomPiece);
       setPieces(piecesCopyFiltered);
+      setNeedToSave(true);
     }
   }
 
@@ -94,14 +109,14 @@ export const Edl = () => {
   }
 
   const handleAddPiece = (nomPiece) => {
-    setPieces((prevPieces) => [...prevPieces,{id:uuid(),nom:nomPiece,elements:[]}]);
+    setPieces((prevPieces) => [...prevPieces,{id:uuid(),nom:nomPiece,elements:[],observations:""}]);
   }
   
   const handleAddElement = (nomPiece, nomElement) => {
     setPieces((prevPieces) =>
       prevPieces.map((piece) =>
         piece.nom === nomPiece
-          ? { ...piece, elements: [...piece.elements, {id:uuid(),nomElement, etat: "", faire: "", observations: "" }] }
+          ? { ...piece, elements: [...piece.elements, {id:uuid(),nomElement, etat: "", faire: ""}] }
           : piece
       )
     );
@@ -109,6 +124,7 @@ export const Edl = () => {
 
   const onValidate = () => {
     setValidate(false);
+    setNeedToSave(true);  
     if (numeroAppartement === "" || etage === "" || batiment === "" || typeAppartement === "") {
       setToggleModalConfirmation(true);
     } else {
@@ -162,6 +178,10 @@ export const Edl = () => {
       }).catch(error => {
         console.log(error);
       });
+      setBatiment("");
+      setEtage("");
+      setNumeroAppartement("");
+      setTypeAppartement("");
     } else {
       window.location.reload();
     }
@@ -169,8 +189,9 @@ export const Edl = () => {
 
   const openEdl = () => {
     setVerif(true);
-    navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/" + idPage);
-    if (idPage === "new") {
+    navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/" + idPageTemp);
+    if (idPageTemp === "new") {
+      setNewPage(true);
       setVerifModal(true);
     }
   }
@@ -179,7 +200,7 @@ export const Edl = () => {
     <div className="main-container">
       <div className="menu-container">
         <img className="img-info" alt="Détails du logement" src="assets/info.png" onClick={() => openModalForm()} />
-        <select className="select-fiche" value={idPage} onChange={(e) => setIdPage(e.target.value)}>
+        <select className="select-fiche" value={idPageTemp} onChange={(e) => setIdPageTemp(e.target.value)}>
             <option value={"new"}>Nouvelle fiche d'état des lieux</option>
           {residence.edls.map((edl) => (
             <option key={edl.id} value={edl.id}>Bât {edl.numeroBat}, étage {edl.numeroEtage} N°{edl.numeroAppartement}, {edl.typeAppartement}</option>
@@ -190,7 +211,8 @@ export const Edl = () => {
             <path fillRule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
           </svg>
         </button>
-        <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => saveEdl()} />
+        <Switch labelAvant={"EDL"} labelApres={"OPR"} clickSwitch={() => console.log("oui")} />
+        <img className={`img-save ${needToSave ? 'toSave' : '' }`} alt="Enregistrer" src="assets/save.png" onClick={() => saveEdl()} />
         <button id="button-fiche-delete" onClick={() => deleteFiche()}>
           <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
             <path className="trash-lid" fillRule="evenodd" d="M6 15l4 0 0-3 8 0 0 3 4 0 0 2 -16 0zM12 14l4 0 0 1 -4 0z" />

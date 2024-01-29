@@ -81,14 +81,62 @@
 .img-save {
     height: 30px;
     width: 30px;
-    margin-left: auto;
+    margin-left: 25px;
     margin-right: 40px;
 }
 
-.img-save:hover {
-    animation: name duration timing-function delay iteration-count direction fill-mode;
-    animation: save 2s linear infinite;
+.img-save {
     cursor: pointer;
+}
+
+.toSave {
+    animation: save 2s linear infinite;
+}
+
+.switch-content {
+    display: flex;
+    margin-left: auto;
+}
+
+.switch-container {
+    cursor: pointer;
+    display: flex;
+    width: 50px;
+    height: 25px;
+    background-color: rgb(181, 181, 181);
+    align-items: center;
+    border-radius: 12.5px;
+    transition: all 0.4s;
+    margin: 0 7px;
+}
+
+.container-toggle {
+    cursor: pointer;
+    display: flex;
+    width: 50px;
+    height: 25px;
+    background-color: rgb(84, 202, 248);
+    align-items: center;
+    border-radius: 12.5px;
+    transition: all 0.4s;
+}
+
+.switch-button {
+    position: relative;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    transition: all 0.4s;
+}
+
+.switch-left {
+    background-color: white;
+    left: 5px;
+}
+
+.switch-right {
+    left: 25px;
+    background-color: rgb(36, 159, 207);    
 }
 
 @keyframes info {
