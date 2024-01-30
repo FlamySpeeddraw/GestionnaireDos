@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { PieceEdl } from "./PieceEdl";
+import { PieceEdl, PieceOpr } from "./PieceEdl";
 import './../../styles/EDL/tableau.css';
 
-export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGenerales,handleChangeObservationsGenerales}) => {
+export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGenerales,handleChangeObservationsGenerales,edlOpr}) => {
   const [observationsGenaralesArea,setObservationsGeneralesArea] = useState(observationsGenerales);
   const [verif,setVerif] = useState(false);
 
@@ -14,11 +14,17 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
     }
   },[verif,observationsGenaralesArea,handleChangeObservationsGenerales,observationsGenerales]);
 
-  const updatePiece = (index,updatedElements,observations) => {
+  const updatePiece = (index,updatedElements) => {
     const updatedPieces = [...listePieces];
     const indexPiece = updatedPieces.findIndex(object => object.id === index);
     updatedPieces[indexPiece].elements = updatedElements;
-    updatedPieces[indexPiece].observations = observations;
+    handleUpdatePieces(updatedPieces);
+  }
+
+  const updateOpr = (index,updatedElements) => {
+    const updatedPieces = [...listePieces];
+    const indexPiece = updatedPieces.findIndex(object => object.id === index);
+    updatedPieces[indexPiece].elements = updatedElements;
     handleUpdatePieces(updatedPieces);
   }
 
@@ -34,7 +40,30 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
     setVerif(true);
   }
 
-    return (
+    return edlOpr ? (
+      <table className="table-travaux">
+        <thead>
+          <tr className="opr-head">
+            <td className="td-designation">Désignations</td>
+            <td className="td-faire" rowSpan={2}>A faire ?</td>
+            <td id="sans-reserve" className="td-prestation">Sans réserve</td>
+            <td id="reserve" className="td-prestation">Avec réserve(s)</td>
+            <td id="effectuee" className="td-prestation">Prestation non effectuée</td>
+            <td id="concerne" className="td-prestation">Non concerné</td>
+            <td className="opr-observations">Observations</td>
+          </tr>
+        </thead>
+        <tbody>
+          {listePieces.map((piece) => (
+            <PieceOpr key={piece.id} infosPiece={piece} onUpdatedOpr={updateOpr} onDeleteElement={updateDeleteElement} index={piece.id} />
+          ))}
+        </tbody>
+        <tfoot>
+          <tr className="nom-piece"><td colSpan={7}>Observations générales</td></tr>
+          <tr><td className="footer-textarea-container" colSpan={7}><textarea value={observationsGenaralesArea} onChange={handleObservationsGenerales}/></td></tr>
+        </tfoot>
+      </table>
+    ) : (
       <table className="table-travaux">
         <thead>
           <tr className="decision-head">

@@ -5,6 +5,7 @@
 }
 
 .table-travaux * {
+    transition: all 0.5s;
     box-sizing: border-box;
 }
 
@@ -18,6 +19,7 @@ td {
 
 .decision-head {
     text-align: center;
+    font-size: small;
 }
 
 .tr-etat {
@@ -48,7 +50,7 @@ td {
 /* EDL - pièce */
 
 .nom-piece {
-    background-color: rgb(205, 232, 150); 
+    background-color: rgb(84, 202, 248);
 }
 
 .td-titre-piece {
@@ -93,10 +95,6 @@ td {
     align-items: center;
 }
 
-.piece-textarea-container {
-    vertical-align: top;
-}
-
 .piece-textarea-container textarea {
     width: 100%;
     height: 100%;
@@ -107,4 +105,27 @@ td {
     margin: 0;
     padding: 0;
     outline: none;
+}
+
+.opr-head {
+    height: 42.4px;
+    text-align: center;
+    font-size: small;
+}
+
+.td-prestation {
+    width: 50px;
+    font-size: x-small;
+}
+
+#effectuee {
+    color: red;
+}
+
+#reserve {
+    color: orange;
+}
+
+#sans-reserve {
+    color: green;
 }

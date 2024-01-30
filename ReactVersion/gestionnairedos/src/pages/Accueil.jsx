@@ -1,5 +1,3 @@
-import { Switch } from "../components/Switch"
-
 export const Accueil = () => {
     return (
         <div>
