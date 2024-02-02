@@ -15,6 +15,7 @@ export const EdlListe = () => {
     const [selectNom,setSelectNom] = useState("");
     const [selectDossier,setSelectDossier] = useState("");
     const [errorMessage,setErrorMessage] = useState(false);
+    const [message,setMessage] = useState("");
 
     document.title = "Liste des résidences";
 
@@ -26,10 +27,28 @@ export const EdlListe = () => {
         });
     },[]);
 
+    const checkIfExist = (nomResidenceF,nomDossierF) => {
+        for (var i = 0;i < residences.length;i++) {
+            if (residences[i].nom.toLowerCase() === nomResidenceF && residences[i].dossier.toLowerCase() === nomDossierF) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     const onValidate = () => {
         if (nomResidence === "" || nomDossier === "") {
+            setMessage("Veuillez remplir tous les champs");
             setErrorMessage(true);
             setTimeout(() => {
+                setMessage("");
+                setErrorMessage(false);
+            },2000);
+        } else if (checkIfExist(nomResidence.toLowerCase(),nomDossier.toLowerCase())) {
+            setMessage("La résidence éxiste déjà");
+            setErrorMessage(true);
+            setTimeout(() => {
+                setMessage("");
                 setErrorMessage(false);
             },2000);
         } else {
@@ -56,8 +75,17 @@ export const EdlListe = () => {
 
     const onValidateModifier = () => {
         if (nomResidence === "" || nomDossier === "") {
+            setMessage("Veuillez remplir tous les champs");
             setErrorMessage(true);
             setTimeout(() => {
+                setMessage("");
+                setErrorMessage(false);
+            },2000);
+        } else if (checkIfExist(nomResidence.toLowerCase(),nomDossier.toLowerCase())) {
+            setMessage("La résidence éxiste déjà");
+            setErrorMessage(true);
+            setTimeout(() => {
+                setMessage("");
                 setErrorMessage(false);
             },2000);
         } else if (nomResidence === selectNom && nomDossier === selectDossier) {
@@ -102,7 +130,7 @@ export const EdlListe = () => {
                 <div className="inner-content-modal">
                     <input placeholder="Nom de la résidence" value={nomResidence} onChange={(e) => setNomResidence(e.target.value)} />
                     <input placeholder="Nom du dossier" value={nomDossier} onChange={(e) => setnomDossier(e.target.value)} />
-                    {errorMessage ? <p className="error-message error-container">Veuillez remplir tous les champs</p> : <p className="error-container"></p>}
+                    {errorMessage ? <p className="error-message error-container">{message}</p> : <p className="error-container"></p>}
                 </div>
             </Modal>
             <Modal isOpen={isModalOpenModifer} onValidate={() => onValidateModifier()} onClose={() => setIsModalOpenModifer(false)}>
@@ -110,7 +138,7 @@ export const EdlListe = () => {
                 <div className="inner-content-modal">
                     <input placeholder="Nouveau nom de la résidence" value={nomResidence} onChange={(e) => setNomResidence(e.target.value)} />
                     <input placeholder="Nouveau nom du dossier" value={nomDossier} onChange={(e) => setnomDossier(e.target.value)} />
-                    {errorMessage ? <p className="error-message error-container">Veuillez remplir tous les champs</p> : <p className="error-container"></p>}
+                    {errorMessage ? <p className="error-message error-container">{message}</p> : <p className="error-container"></p>}
                 </div>
             </Modal>
         </div>

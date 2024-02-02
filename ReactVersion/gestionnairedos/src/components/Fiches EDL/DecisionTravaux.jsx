@@ -2,17 +2,24 @@ import { useEffect, useState } from "react";
 import { PieceEdl, PieceOpr } from "./PieceEdl";
 import './../../styles/EDL/tableau.css';
 
-export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGenerales,handleChangeObservationsGenerales,edlOpr}) => {
+export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGeneralesOpr,observationsGenerales,handleChangeObservationsGeneralesOpr,handleChangeObservationsGenerales,edlOpr}) => {
   const [observationsGenaralesArea,setObservationsGeneralesArea] = useState(observationsGenerales);
+  const [observationsGenaralesAreaOpr,setObservationsGeneralesAreaOpr] = useState(observationsGeneralesOpr);
   const [verif,setVerif] = useState(false);
+  const [verif2,setVerif2] = useState(false);
 
   useEffect(() => {
     setObservationsGeneralesArea(observationsGenerales);
+    setObservationsGeneralesAreaOpr(observationsGeneralesOpr);
     if (verif) {
       handleChangeObservationsGenerales(observationsGenaralesArea);
       setVerif(false);
     }
-  },[verif,observationsGenaralesArea,handleChangeObservationsGenerales,observationsGenerales]);
+    if (verif2) {
+      handleChangeObservationsGeneralesOpr(observationsGenaralesAreaOpr);
+      setVerif2(false);
+    }
+  },[verif,observationsGenaralesArea,handleChangeObservationsGenerales,observationsGenerales,handleChangeObservationsGeneralesOpr,observationsGeneralesOpr,observationsGenaralesAreaOpr,verif2]);
 
   const updatePiece = (index,updatedElements) => {
     const updatedPieces = [...listePieces];
@@ -40,6 +47,11 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
     setVerif(true);
   }
 
+  const handleObservationsGeneralesOpr = (e) => {
+    setObservationsGeneralesAreaOpr(e.target.value);
+    setVerif2(true);
+  }
+
     return edlOpr ? (
       <table className="table-travaux">
         <thead>
@@ -59,8 +71,8 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
           ))}
         </tbody>
         <tfoot>
-          <tr className="nom-piece"><td colSpan={7}>Observations générales</td></tr>
-          <tr><td className="footer-textarea-container" colSpan={7}><textarea value={observationsGenaralesArea} onChange={handleObservationsGenerales}/></td></tr>
+          <tr className="nom-piece"><td className="td-observations-gene" colSpan={7}>Observations générales MOE</td></tr>
+          <tr><td className="footer-textarea-container" colSpan={7}><textarea value={observationsGenaralesAreaOpr} onChange={handleObservationsGeneralesOpr}/></td></tr>
         </tfoot>
       </table>
     ) : (
@@ -70,7 +82,7 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
             <td className="td-designation" rowSpan={2}>Désignations</td>
             <td className="td-etat" colSpan={3}>Etat</td>
             <td className="td-faire" rowSpan={2}>A faire ?</td>
-            <td rowSpan={2}>Observations</td>
+            <td className="td-observations" rowSpan={2}>Observations</td>
           </tr>
           <tr className="tr-etat">
             <td>+</td>
@@ -84,7 +96,7 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
           ))}
         </tbody>
         <tfoot>
-          <tr className="nom-piece"><td colSpan={6}>Observations générales</td></tr>
+          <tr className="nom-piece"><td className="td-observations-gene" colSpan={6}>Observations générales</td></tr>
           <tr><td className="footer-textarea-container" colSpan={6}><textarea value={observationsGenaralesArea} onChange={handleObservationsGenerales}/></td></tr>
         </tfoot>
       </table>

@@ -14,7 +14,7 @@ export const ElementPiece = ({infosElement,onUpdateElement,deleteElement}) => {
     
     const handleChangeEtat = (changeEtat) => {
         if (changeEtat === etat) {
-            setEtat();
+            setEtat(0);
         } else {
             setEtat(changeEtat);
         }
@@ -44,14 +44,14 @@ export const ElementPiece = ({infosElement,onUpdateElement,deleteElement}) => {
             setVerif(false);
         }
     }, [nom, etat, faire, observations, verif, infosElement, onUpdateElement]);
-    
+
     return (
         <tr className="element-container">
             <td className="element-input-container"><input className="element-input" type="text" value={nom} onChange={handleChangeNom}/></td>
-            <td className="element-etat-container" onClick={() => {handleChangeEtat(1)}}><div className="element-etat">{etat === 1?"X":""}</div></td>
-            <td className="element-etat-container" onClick={() => {handleChangeEtat(2)}}><div className="element-etat">{etat === 2?"X":""}</div></td>
-            <td className="element-etat-container" onClick={() => {handleChangeEtat(3)}}><div className="element-etat">{etat === 3?"X":""}</div></td>
-            <td>
+            <td className={`element-etat-container ${etat !== 0 ? '' : 'pasRempli'}`} onClick={() => {handleChangeEtat(1)}}><div className="element-etat">{etat === 1?"X":""}</div></td>
+            <td className={`element-etat-container ${etat !== 0 ? '' : 'pasRempli'}`} onClick={() => {handleChangeEtat(2)}}><div className="element-etat">{etat === 2?"X":""}</div></td>
+            <td className={`element-etat-container ${etat !== 0 ? '' : 'pasRempli'}`} onClick={() => {handleChangeEtat(3)}}><div className="element-etat">{etat === 3?"X":""}</div></td>
+            <td className="td-radio-faire">
                 <div className="radio-faire-container">
                     <label className="radio-faire">
                         <input type="radio" value={"oui"} checked={faire === "oui"} onChange={handleChangeFaire} />Oui
@@ -87,7 +87,7 @@ export const ElementOpr = ({infosElement,onUpdateOpr,deleteElement}) => {
     
     const handleChangeEtatOpr = (changeEtat) => {
         if (changeEtat === etatOpr) {
-            setEtatOpr();
+            setEtatOpr(0);
         } else {
             setEtatOpr(changeEtat);
         }
@@ -114,7 +114,7 @@ export const ElementOpr = ({infosElement,onUpdateOpr,deleteElement}) => {
     return (
         <tr className="element-container">
             <td className="element-input-container"><input className="element-input" type="text" value={nom} onChange={handleChangeNom}/></td>
-            <td>
+            <td className="td-radio-faire">
                 <div className="radio-faire-container">
                     <label className="radio-faire">
                         <input disabled type="radio" value={"oui"} checked={infosElement.faire === "oui"} />Oui
@@ -124,10 +124,10 @@ export const ElementOpr = ({infosElement,onUpdateOpr,deleteElement}) => {
                     </label>
                 </div>
             </td>
-            <td className="element-etat-container" onClick={() => {handleChangeEtatOpr(1)}}><div className="element-etat">{etatOpr === 1?"X":""}</div></td>
-            <td className="element-etat-container" onClick={() => {handleChangeEtatOpr(2)}}><div className="element-etat">{etatOpr === 2?"X":""}</div></td>
-            <td className="element-etat-container" onClick={() => {handleChangeEtatOpr(3)}}><div className="element-etat">{etatOpr === 3?"X":""}</div></td>
-            <td className="element-etat-container" onClick={() => {handleChangeEtatOpr(4)}}><div className="element-etat">{etatOpr === 4?"X":""}</div></td>
+            <td id="sans-reserve" className={`element-etat-container ${etatOpr !== 0 ? '' : 'pasRempli'}`} onClick={() => {handleChangeEtatOpr(1)}}><div className="element-etat">{etatOpr === 1?"X":""}</div></td>
+            <td id="reserve" className={`element-etat-container ${etatOpr !== 0 ? '' : 'pasRempli'}`} onClick={() => {handleChangeEtatOpr(2)}}><div className="element-etat">{etatOpr === 2?"X":""}</div></td>
+            <td id="effectuee" className={`element-etat-container ${etatOpr !== 0 ? '' : 'pasRempli'}`} onClick={() => {handleChangeEtatOpr(3)}}><div className="element-etat">{etatOpr === 3?"X":""}</div></td>
+            <td id="concerne" className={`element-etat-container ${etatOpr !== 0 ? '' : 'pasRempli'}`} onClick={() => {handleChangeEtatOpr(4)}}><div className="element-etat">{etatOpr === 4?"X":""}</div></td>
             <td className="piece-textarea-container"><textarea value={observationsOpr} onChange={handleChangeObservationsOpr}/></td>
             <td className="td-delete">
                 <button onClick={() => deleteElement(infosElement.id)}>

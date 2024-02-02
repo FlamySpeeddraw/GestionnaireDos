@@ -19,6 +19,7 @@ export const Edl = () => {
   const [verifModal,setVerifModal] = useState(true);
   const [residence,setResidence] = useState({nom:params.nomResidence,dossier:params.nomDossier,edls:[]});
   const [observationsGenerales,setObservationsGenerales] = useState("");
+  const [observationsGeneralesOpr,setObservationsGeneralesOpr] = useState("");
   const [idPage,setIdPage] = useState(uuid());
   const [idPageTemp,setIdPageTemp] = useState(uuid());
   const [pieces,setPieces] = useState([]);
@@ -50,6 +51,7 @@ export const Edl = () => {
         setBatiment("");
         setEtage("");
         setObservationsGenerales("");
+        setObservationsGeneralesOpr("");
         setPieces([]);
         setNewPage(false);
       }
@@ -64,6 +66,7 @@ export const Edl = () => {
         setBatiment(tempEdl.numeroBat);
         setEtage(tempEdl.numeroEtage);
         setObservationsGenerales(tempEdl.observationsGenerales);
+        setObservationsGeneralesOpr(tempEdl.observationsGeneralesOpr);
         setPieces(tempEdl.pieces);
         setVerif2(true);
       }
@@ -86,7 +89,8 @@ export const Edl = () => {
       numeroBat:batiment,
       numeroEtage:etage,
       pieces,
-      observationsGenerales:observationsGenerales
+      observationsGenerales:observationsGenerales,
+      observationsGeneralesOpr:observationsGeneralesOpr
     }).then(response => {
       navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/" + idPage);
       window.location.reload();
@@ -120,7 +124,7 @@ export const Edl = () => {
     setPieces((prevPieces) =>
       prevPieces.map((piece) =>
         piece.nom === nomPiece
-          ? { ...piece, elements: [...piece.elements, {id:uuid(),nomElement, etat: "", observations:"", observationsOpr:"", faire: "",etatOpr:""}] }
+          ? { ...piece, elements: [...piece.elements, {id:uuid(),nomElement, etat: 0, observations:"", observationsOpr:"", faire: "",etatOpr:0}] }
           : piece
       )
     );
@@ -175,6 +179,11 @@ export const Edl = () => {
     setNeedToSave(true);
   }
 
+  const changeObservationsGeneralesOpr = (observ) => {
+    setObservationsGeneralesOpr(observ);
+    setNeedToSave(true);
+  }
+
   const deleteFiche = () => {
     if (location.pathname !== "/edl/" + residence.nom.replaceAll(" ","%20") + "/" + residence.dossier.replaceAll(" ","%20") + "/edit/new") {
       const edlIndex = residence.edls.findIndex((edl) => edl.id === params.uid);
@@ -196,6 +205,7 @@ export const Edl = () => {
   const openEdl = () => {
     setVerif(true);
     navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/" + idPageTemp);
+    window.location.reload();
     if (idPageTemp === "new") {
       setNewPage(true);
       setVerifModal(true);
@@ -204,6 +214,22 @@ export const Edl = () => {
 
   const switchEdlOpr = () => {
     boolSwitch ? setBoolSwitch(false) : setBoolSwitch(true);
+  }
+
+  const toExcel = () => {
+    if (boolSwitch) {
+      axios.get('http://localhost:8080/EXCEL/' + residence.nom + '/' + residence.dossier + '/OPR').then(response => {
+        alert('Document excel créé !');
+      }).catch(error => {
+        alert('Erreur lors de la création du document...');
+      });
+    } else {
+      axios.get('http://localhost:8080/EXCEL/' + residence.nom + '/' + residence.dossier + '/EDL').then(response => {
+        alert('Document excel créé !');
+      }).catch(error => {
+        alert('Erreur lors de la création du document...');
+      });
+    }
   }
 
   return (
@@ -221,6 +247,7 @@ export const Edl = () => {
             <path fillRule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
           </svg>
         </button>
+        <img onClick={() => toExcel()} className="toExcel" src="/assets/excel.png" alt="Excel" />
         <Switch labelAvant={"EDL"} labelApres={"OPR"} clickSwitch={() => switchEdlOpr()} />
         <img className={`img-save ${needToSave ? 'toSave' : '' }`} alt="Enregistrer" src="assets/save.png" onClick={() => saveEdl()} />
         <button id="button-fiche-delete" onClick={() => deleteFiche()}>
@@ -231,7 +258,7 @@ export const Edl = () => {
         </button>
       </div>
       <FormEdl onDelete={handleDeletepiece} handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
-      <DecisionTravaux edlOpr={boolSwitch} handleChangeObservationsGenerales={changeObservationsGenerales} observationsGenerales={observationsGenerales} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
+      <DecisionTravaux edlOpr={boolSwitch} handleChangeObservationsGenerales={changeObservationsGenerales} handleChangeObservationsGeneralesOpr={changeObservationsGeneralesOpr} observationsGenerales={observationsGenerales} observationsGeneralesOpr={observationsGeneralesOpr} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
       <Modal isOpen={toggleModal} onValidate={() => onValidate()} onClose={() => closeModal()}>
         <h3>Détails du logement</h3>
         <div className="inner-content-modal">

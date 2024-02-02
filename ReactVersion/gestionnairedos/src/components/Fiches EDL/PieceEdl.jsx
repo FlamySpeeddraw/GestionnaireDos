@@ -24,7 +24,7 @@ export const PieceEdl = ({infosPiece,index,onUpdatedPiece,onDeleteElement}) => {
             {infosPiece.elements.map((element) => (
                 <ElementPiece observationsPiece={infosPiece.observations} key={element.id} infosElement={element} onUpdateElement={handleUpdateElement} deleteElement={handleDeleteElement} />
             ))}
-            <tr><td height={15} colSpan={6}></td></tr>
+            <tr><td className="separation" height={15} colSpan={6}></td></tr>
         </>
     );
 }
@@ -45,12 +45,12 @@ export const PieceOpr = ({infosPiece,onUpdatedOpr,onDeleteElement,index}) => {
         <>
             <tr className="nom-piece">
                 <td className="td-titre-piece" colSpan={6}>{infosPiece.nom}</td>
-                <td className="td-observations-piece">Observations en {infosPiece.nom.toLowerCase()} :</td>
+                <td className="td-observations-piece">Observations MOE en {infosPiece.nom.toLowerCase()} :</td>
             </tr>
             {infosPiece.elements.map((element,index) => (
                 <ElementOpr observationsPieceOpr={infosPiece.observationsOpr} key={element.id} infosElement={element} onUpdateOpr={handleUpdateOpr} deleteElement={handleDeleteElement} />
             ))}
-            <tr><td height={15} colSpan={7}></td></tr>
+            <tr><td className="separation" height={15} colSpan={7}></td></tr>
         </>
     )
 }
