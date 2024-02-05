@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const ElementPiece = ({infosElement,onUpdateElement,deleteElement}) => {
+export const ElementPiece = ({infosElement,onUpdateElement,deleteElement,deletePiece}) => {
     const [nom,setNom] = useState(infosElement.nomElement);
     const [etat,setEtat] = useState(infosElement.etat);
     const [faire,setFaire] = useState(infosElement.faire);
@@ -43,7 +43,7 @@ export const ElementPiece = ({infosElement,onUpdateElement,deleteElement}) => {
             onUpdateElement(infosElement, updatedElement);
             setVerif(false);
         }
-    }, [nom, etat, faire, observations, verif, infosElement, onUpdateElement]);
+    }, [nom, etat, faire, observations, verif, infosElement, onUpdateElement,deletePiece]);
 
     return (
         <tr className="element-container">
@@ -117,10 +117,12 @@ export const ElementOpr = ({infosElement,onUpdateOpr,deleteElement}) => {
             <td className="td-radio-faire">
                 <div className="radio-faire-container">
                     <label className="radio-faire">
-                        <input disabled type="radio" value={"oui"} checked={infosElement.faire === "oui"} />Oui
+                        <svg className={infosElement.faire === "oui" ? "" : "dontDisplay"} fill="#000000" width="13px" height="13px" viewBox="0 0 16.25 16.25" xmlns="http://www.w3.org/2000/svg"><path d="M8.109 4.729q-0.91 0 -1.69 0.455t-1.235 1.235 -0.455 1.69 0.455 1.69 1.235 1.235 1.69 0.455 1.69 -0.455 1.235 -1.235 0.455 -1.69 -0.455 -1.69 -1.235 -1.235 -1.69 -0.455zm0 -3.38q-1.836 0 -3.413 0.926 -1.528 0.894 -2.421 2.421 -0.926 1.576 -0.926 3.413t0.926 3.413q0.894 1.528 2.421 2.421 1.576 0.926 3.413 0.926t3.413 -0.926q1.528 -0.894 2.421 -2.421 0.926 -1.576 0.926 -3.413t-0.926 -3.413q-0.894 -1.528 -2.421 -2.421 -1.576 -0.926 -3.413 -0.926zm0 12.171q-1.463 0 -2.73 -0.748 -1.219 -0.715 -1.934 -1.934 -0.748 -1.268 -0.748 -2.73t0.748 -2.73q0.715 -1.219 1.934 -1.934 1.268 -0.748 2.73 -0.748t2.73 0.748q1.219 0.715 1.934 1.934 0.748 1.268 0.748 2.73t-0.748 2.73q-0.715 1.219 -1.934 1.934 -1.268 0.748 -2.73 0.748z"/></svg>
+                        <svg className={infosElement.faire === "oui" ? "dontDisplay" : ""} fill="#000000" width="13px" height="13px" viewBox="0 0 16.25 16.25" xmlns="http://www.w3.org/2000/svg"><path d="M8.109 1.349q-1.836 0 -3.413 0.926 -1.528 0.894 -2.421 2.421 -0.926 1.576 -0.926 3.413t0.926 3.413q0.894 1.528 2.421 2.421 1.576 0.926 3.413 0.926t3.413 -0.926q1.528 -0.894 2.421 -2.421 0.926 -1.576 0.926 -3.413t-0.926 -3.413q-0.894 -1.528 -2.421 -2.421 -1.576 -0.926 -3.413 -0.926zm0 12.171q-1.463 0 -2.73 -0.748 -1.219 -0.715 -1.934 -1.934 -0.748 -1.268 -0.748 -2.73t0.748 -2.73q0.715 -1.219 1.934 -1.934 1.268 -0.748 2.73 -0.748t2.73 0.748q1.219 0.715 1.934 1.934 0.748 1.268 0.748 2.73t-0.748 2.73q-0.715 1.219 -1.934 1.934 -1.268 0.748 -2.73 0.748z"/></svg>Oui
                     </label>
                     <label className="radio-faire">
-                        <input disabled type="radio" value={"non"} checked={infosElement.faire === "non"} />Non                    
+                        <svg className={infosElement.faire === "non" ? "" : "dontDisplay"} fill="#000000" width="13px" height="13px" viewBox="0 0 16.25 16.25" xmlns="http://www.w3.org/2000/svg"><path d="M8.109 4.729q-0.91 0 -1.69 0.455t-1.235 1.235 -0.455 1.69 0.455 1.69 1.235 1.235 1.69 0.455 1.69 -0.455 1.235 -1.235 0.455 -1.69 -0.455 -1.69 -1.235 -1.235 -1.69 -0.455zm0 -3.38q-1.836 0 -3.413 0.926 -1.528 0.894 -2.421 2.421 -0.926 1.576 -0.926 3.413t0.926 3.413q0.894 1.528 2.421 2.421 1.576 0.926 3.413 0.926t3.413 -0.926q1.528 -0.894 2.421 -2.421 0.926 -1.576 0.926 -3.413t-0.926 -3.413q-0.894 -1.528 -2.421 -2.421 -1.576 -0.926 -3.413 -0.926zm0 12.171q-1.463 0 -2.73 -0.748 -1.219 -0.715 -1.934 -1.934 -0.748 -1.268 -0.748 -2.73t0.748 -2.73q0.715 -1.219 1.934 -1.934 1.268 -0.748 2.73 -0.748t2.73 0.748q1.219 0.715 1.934 1.934 0.748 1.268 0.748 2.73t-0.748 2.73q-0.715 1.219 -1.934 1.934 -1.268 0.748 -2.73 0.748z"/></svg>
+                        <svg className={infosElement.faire === "non" ? "dontDisplay" : ""} fill="#000000" width="13px" height="13px" viewBox="0 0 16.25 16.25" xmlns="http://www.w3.org/2000/svg"><path d="M8.109 1.349q-1.836 0 -3.413 0.926 -1.528 0.894 -2.421 2.421 -0.926 1.576 -0.926 3.413t0.926 3.413q0.894 1.528 2.421 2.421 1.576 0.926 3.413 0.926t3.413 -0.926q1.528 -0.894 2.421 -2.421 0.926 -1.576 0.926 -3.413t-0.926 -3.413q-0.894 -1.528 -2.421 -2.421 -1.576 -0.926 -3.413 -0.926zm0 12.171q-1.463 0 -2.73 -0.748 -1.219 -0.715 -1.934 -1.934 -0.748 -1.268 -0.748 -2.73t0.748 -2.73q0.715 -1.219 1.934 -1.934 1.268 -0.748 2.73 -0.748t2.73 0.748q1.219 0.715 1.934 1.934 0.748 1.268 0.748 2.73t-0.748 2.73q-0.715 1.219 -1.934 1.934 -1.268 0.748 -2.73 0.748z"/></svg>Non                 
                     </label>
                 </div>
             </td>

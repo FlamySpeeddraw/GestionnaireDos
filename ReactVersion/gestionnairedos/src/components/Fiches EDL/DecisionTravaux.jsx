@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { PieceEdl, PieceOpr } from "./PieceEdl";
 import './../../styles/EDL/tableau.css';
 
-export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGeneralesOpr,observationsGenerales,handleChangeObservationsGeneralesOpr,handleChangeObservationsGenerales,edlOpr}) => {
+export const DecisionTravaux = ({deletePiece,listePieces,handleUpdatePieces,observationsGeneralesOpr,observationsGenerales,handleChangeObservationsGeneralesOpr,handleChangeObservationsGenerales,edlOpr}) => {
   const [observationsGenaralesArea,setObservationsGeneralesArea] = useState(observationsGenerales);
   const [observationsGenaralesAreaOpr,setObservationsGeneralesAreaOpr] = useState(observationsGeneralesOpr);
   const [verif,setVerif] = useState(false);
@@ -67,7 +67,7 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
         </thead>
         <tbody>
           {listePieces.map((piece) => (
-            <PieceOpr key={piece.id} infosPiece={piece} onUpdatedOpr={updateOpr} onDeleteElement={updateDeleteElement} index={piece.id} />
+            <PieceOpr onDeletePiece={deletePiece} key={piece.id} infosPiece={piece} onUpdatedOpr={updateOpr} onDeleteElement={updateDeleteElement} index={piece.id} />
           ))}
         </tbody>
         <tfoot>
@@ -92,7 +92,7 @@ export const DecisionTravaux = ({listePieces,handleUpdatePieces,observationsGene
         </thead>
         <tbody>
           {listePieces.map((piece) => (
-            <PieceEdl key={piece.id} infosPiece={piece} index={piece.id} onUpdatedPiece={updatePiece} onDeleteElement={updateDeleteElement} />
+            <PieceEdl onDeletePiece={deletePiece} key={piece.id} infosPiece={piece} index={piece.id} onUpdatedPiece={updatePiece} onDeleteElement={updateDeleteElement} />
           ))}
         </tbody>
         <tfoot>

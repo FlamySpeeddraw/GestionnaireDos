@@ -33,10 +33,10 @@ export const Edl = () => {
   const [previousEtage,setPreviousEtage] = useState("");
   const [validate,setValidate] = useState(false);
   const [newPage,setNewPage] = useState(false);
-  const [needToSave,setNeedToSave] = useState(false);
   const [boolSwitch,setBoolSwitch] = useState(false);
+  const [saved,setsaved] = useState(false);
 
-  needToSave ? document.title = "EDL n°" + numeroAppartement + " *" : document.title = "EDL n°" + numeroAppartement;
+  document.title = "EDL n°" + numeroAppartement;
 
   useEffect(() => {
     if(location.pathname === "/edl/" + residence.nom.replaceAll(" ","%20") + "/" + residence.dossier.replaceAll(" ","%20") + "/edit/new") {
@@ -53,9 +53,9 @@ export const Edl = () => {
         setObservationsGenerales("");
         setObservationsGeneralesOpr("");
         setPieces([]);
+        setsaved(false);
         setNewPage(false);
       }
-      needToSave ? document.title = "Nouveau logement *" : document.title = "Nouveau logement";
     } else {
       const tempEdl = {...residence.edls[residence.edls.findIndex((edl) => edl.id === params.uid)]};
       if (!verif2 && tempEdl.id !== undefined && tempEdl.numeroAppartement !== undefined && tempEdl.typeAppartement !== undefined && tempEdl.numeroBat !== undefined && tempEdl.numeroEtage !== undefined && tempEdl.pieces !== null && tempEdl.observationsGenerales !== undefined) {
@@ -69,6 +69,7 @@ export const Edl = () => {
         setObservationsGeneralesOpr(tempEdl.observationsGeneralesOpr);
         setPieces(tempEdl.pieces);
         setVerif2(true);
+        setsaved(true);
       }
     }
     if (!verif) {
@@ -79,16 +80,39 @@ export const Edl = () => {
         console.log(error);
       });
     }
-  },[location,residence,verif,toggleModal,verifModal,params,verif2,newPage,needToSave]);
+  },[location,residence,verif,toggleModal,verifModal,params,verif2,newPage]);
 
-  const saveEdl = () => {
+  useEffect(() => {
+    if (saved) {
+      const saveEdl = () => {
+        axios.post('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/save',{
+          id:idPage,
+          numeroAppartement:numeroAppartement,
+          typeAppartement:typeAppartement,
+          numeroBat:batiment,
+          numeroEtage:etage,
+          pieces:pieces,
+          observationsGenerales:observationsGenerales,
+          observationsGeneralesOpr:observationsGeneralesOpr
+        }).then(response => {
+        }).catch(error => {
+          console.log(error);
+        });
+      }
+      const interval = setInterval(() => saveEdl(),1000);
+
+      return () => clearInterval(interval);
+    }
+  },[saved,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales,observationsGeneralesOpr,residence]);
+
+  const manualSaveEdl = () => {
     axios.post('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/save',{
       id:idPage,
       numeroAppartement:numeroAppartement,
       typeAppartement:typeAppartement,
       numeroBat:batiment,
       numeroEtage:etage,
-      pieces,
+      pieces:pieces,
       observationsGenerales:observationsGenerales,
       observationsGeneralesOpr:observationsGeneralesOpr
     }).then(response => {
@@ -97,27 +121,20 @@ export const Edl = () => {
     }).catch(error => {
       console.log(error);
     });
-    setNeedToSave(false);
   }
 
   const handleDeletepiece = (nomPiece) => {
-    if (nomPiece !== "Choisir une pièce") {
-      const piecesCopy = [...pieces];
-      const piecesCopyFiltered = piecesCopy.filter(piece => piece.nom !== nomPiece);
-      setPieces(piecesCopyFiltered);
-      setNeedToSave(true);
-    }
-    setNeedToSave(true);
+    const piecesCopy = [...pieces];
+    const piecesCopyFiltered = piecesCopy.filter(piece => piece.nom !== nomPiece);
+    setPieces(piecesCopyFiltered);
   }
 
   const handleUpdatePieces = (updatedPieces) => {
     setPieces(updatedPieces);
-    setNeedToSave(true);
   }
 
   const handleAddPiece = (nomPiece) => {
     setPieces((prevPieces) => [...prevPieces,{id:uuid(),nom:nomPiece,elements:[]}]);
-    setNeedToSave(true);
   }
   
   const handleAddElement = (nomPiece, nomElement) => {
@@ -128,12 +145,10 @@ export const Edl = () => {
           : piece
       )
     );
-    setNeedToSave(true);
   };
 
   const onValidate = () => {
     setValidate(false);
-    setNeedToSave(true);  
     if (numeroAppartement === "" || etage === "" || batiment === "" || typeAppartement === "") {
       setToggleModalConfirmation(true);
     } else {
@@ -176,12 +191,10 @@ export const Edl = () => {
 
   const changeObservationsGenerales = (observ) => {
     setObservationsGenerales(observ);
-    setNeedToSave(true);
   }
 
   const changeObservationsGeneralesOpr = (observ) => {
     setObservationsGeneralesOpr(observ);
-    setNeedToSave(true);
   }
 
   const deleteFiche = () => {
@@ -247,9 +260,9 @@ export const Edl = () => {
             <path fillRule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
           </svg>
         </button>
-        <img onClick={() => toExcel()} className="toExcel" src="/assets/excel.png" alt="Excel" />
         <Switch labelAvant={"EDL"} labelApres={"OPR"} clickSwitch={() => switchEdlOpr()} />
-        <img className={`img-save ${needToSave ? 'toSave' : '' }`} alt="Enregistrer" src="assets/save.png" onClick={() => saveEdl()} />
+        <img onClick={() => toExcel()} className="toExcel" src="/assets/excel.png" alt="Excel" />
+        {saved ? null : <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => manualSaveEdl()} />}
         <button id="button-fiche-delete" onClick={() => deleteFiche()}>
           <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
             <path className="trash-lid" fillRule="evenodd" d="M6 15l4 0 0-3 8 0 0 3 4 0 0 2 -16 0zM12 14l4 0 0 1 -4 0z" />
@@ -257,8 +270,8 @@ export const Edl = () => {
           </svg>
         </button>
       </div>
-      <FormEdl onDelete={handleDeletepiece} handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
-      <DecisionTravaux edlOpr={boolSwitch} handleChangeObservationsGenerales={changeObservationsGenerales} handleChangeObservationsGeneralesOpr={changeObservationsGeneralesOpr} observationsGenerales={observationsGenerales} observationsGeneralesOpr={observationsGeneralesOpr} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
+      <FormEdl handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
+      <DecisionTravaux deletePiece={handleDeletepiece} edlOpr={boolSwitch} handleChangeObservationsGenerales={changeObservationsGenerales} handleChangeObservationsGeneralesOpr={changeObservationsGeneralesOpr} observationsGenerales={observationsGenerales} observationsGeneralesOpr={observationsGeneralesOpr} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
       <Modal isOpen={toggleModal} onValidate={() => onValidate()} onClose={() => closeModal()}>
         <h3>Détails du logement</h3>
         <div className="inner-content-modal">

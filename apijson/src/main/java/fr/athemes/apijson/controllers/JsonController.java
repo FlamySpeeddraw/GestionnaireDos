@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -88,12 +91,15 @@ public class JsonController {
 
     @PostMapping("/{residence}/{dossier}/save")
     public void saveEdl(@PathVariable String residence,@PathVariable String dossier,@RequestBody Edl edl) throws IOException {
+        long start = System.currentTimeMillis();
         File json = new File("EdlTemplates/" + residence + "/" + dossier + "/" + edl.id + ".json");
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(edl);
         BufferedWriter writer = new BufferedWriter(new FileWriter(json));
         writer.write(jsonString);
         writer.close();
+        long finish = System.currentTimeMillis();
+        System.out.println(LocalDate.now() + " " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + " " + dossier + " " + residence + " Réussi --- Exec " + Long.toString(finish - start) + "ms");
     }
 
     @GetMapping("/{residence}/{dossier}")

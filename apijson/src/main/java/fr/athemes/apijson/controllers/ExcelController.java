@@ -78,7 +78,7 @@ public class ExcelController {
             ws.setColumnWidth(13, 1800);
             ws.setColumnWidth(14, 15110);
 
-            createHeaderOpr(wb, ws, edl);
+            createHeaderOpr(wb, ws, edl, residence);
             int count = 10;
             for (Piece piece : edl.pieces) {
                 createPieceEdl(wb, ws, piece,count);
@@ -130,7 +130,7 @@ public class ExcelController {
             ws.setColumnWidth(8, 1200);
             ws.setColumnWidth(9, 15110);
 
-            createHeaderEdl(wb, ws, edl);
+            createHeaderEdl(wb, ws, edl, residence);
             int count = 10;
             for (Piece piece : edl.pieces) {
                 createPieceEdl(wb, ws, piece,count);
@@ -149,7 +149,7 @@ public class ExcelController {
         wb.close();
     }
 
-    public void createHeaderEdl(Workbook wb, Sheet ws,Edl edl) {
+    public void createHeaderEdl(Workbook wb, Sheet ws,Edl edl, String residence) {
         byte[] rgb = new byte[3];
         rgb[0] = (byte) 0;
         rgb[1] = (byte) 112;
@@ -201,7 +201,7 @@ public class ExcelController {
         coinGauche1.setCellValue("Titre");
         coinGauche2.setCellStyle(styleGauche2);
         coinDroite2.setCellStyle(styleDroite2);
-        coinGauche2.setCellValue("Nom de la résidence");
+        coinGauche2.setCellValue(residence);
 
         Row row3 = ws.createRow(3);
         Cell sepGauche = row3.createCell(1);
@@ -466,9 +466,9 @@ public class ExcelController {
 
     public void createPieceEdl(Workbook wb, Sheet ws, Piece piece, int startRow) {
         byte[] rgb = new byte[3];
-        rgb[0] = (byte) 216;
-        rgb[1] = (byte) 228;
-        rgb[2] = (byte) 188;
+        rgb[0] = (byte) 84;
+        rgb[1] = (byte) 202;
+        rgb[2] = (byte) 248;
         XSSFColor vert = new XSSFColor(rgb);
 
         Font fontTitre = wb.createFont();
@@ -524,6 +524,10 @@ public class ExcelController {
             plus.setCellValue("X");
         }
         CellStyle plusStyle = wb.createCellStyle();
+        if (element.etat == 0) {
+            plusStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            plusStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        }
         plusStyle.setBorderBottom(BorderStyle.THIN);
         plusStyle.setBorderRight(BorderStyle.THIN);
         plusStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -535,6 +539,10 @@ public class ExcelController {
             egal.setCellValue("X");
         }
         CellStyle egalStyle = wb.createCellStyle();
+        if (element.etat == 0) {
+            egalStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            egalStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        }
         egalStyle.setBorderBottom(BorderStyle.THIN);
         egalStyle.setBorderRight(BorderStyle.THIN);
         egalStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -546,6 +554,10 @@ public class ExcelController {
             moins.setCellValue("X");
         }
         CellStyle moinsStyle = wb.createCellStyle();
+        if (element.etat == 0) {
+            moinsStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            moinsStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        }
         moinsStyle.setBorderBottom(BorderStyle.THIN);
         moinsStyle.setAlignment(HorizontalAlignment.CENTER);
         moinsStyle.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -598,9 +610,9 @@ public class ExcelController {
 
     public void createObservationsGeneralesEdl(Workbook wb, Sheet ws, Edl edl, int startRow) {
         byte[] rgb = new byte[3];
-        rgb[0] = (byte) 216;
-        rgb[1] = (byte) 228;
-        rgb[2] = (byte) 188;
+        rgb[0] = (byte) 84;
+        rgb[1] = (byte) 202;
+        rgb[2] = (byte) 248;
         XSSFColor vert = new XSSFColor(rgb);
         Font font = wb.createFont();
         font.setBold(true);
@@ -664,7 +676,7 @@ public class ExcelController {
         row2.setHeightInPoints(75);
     }
 
-    public void createHeaderOpr(Workbook wb, Sheet ws,Edl edl) {
+    public void createHeaderOpr(Workbook wb, Sheet ws,Edl edl, String residence) {
         byte[] rgb = new byte[3];
         rgb[0] = (byte) 0;
         rgb[1] = (byte) 112;
@@ -716,7 +728,7 @@ public class ExcelController {
         coinGauche1.setCellValue("Titre");
         coinGauche2.setCellStyle(styleGauche2);
         coinDroite2.setCellStyle(styleDroite2);
-        coinGauche2.setCellValue("Nom de la résidence");
+        coinGauche2.setCellValue(residence);
 
         Row row3 = ws.createRow(3);
         Cell sepGauche = row3.createCell(1);
@@ -1072,9 +1084,9 @@ public class ExcelController {
 
     public void createPieceOpr(Workbook wb, Sheet ws, Piece piece, int startRow) {
         byte[] rgb = new byte[3];
-        rgb[0] = (byte) 216;
-        rgb[1] = (byte) 228;
-        rgb[2] = (byte) 188;
+        rgb[0] = (byte) 84;
+        rgb[1] = (byte) 202;
+        rgb[2] = (byte) 248;
         XSSFColor vert = new XSSFColor(rgb);
 
         Font fontTitre = wb.createFont();
@@ -1132,15 +1144,24 @@ public class ExcelController {
 
     public void createElementOpr(Workbook wb, Sheet ws, Element element, int startRow) {
         Row row = ws.getRow(startRow);
-
-        Cell reserve = row.createCell(10);
+        Font green = wb.createFont();
+        Font orange = wb.createFont();
+        Font red = wb.createFont();
+        green.setColor(IndexedColors.GREEN.getIndex());
+        orange.setColor(IndexedColors.ORANGE.getIndex());
+        red.setColor(IndexedColors.RED.getIndex());Cell reserve = row.createCell(10);
         CellStyle stylereserve = wb.createCellStyle();
         stylereserve.setBorderRight(BorderStyle.THIN);
         stylereserve.setBorderBottom(BorderStyle.THIN);
         stylereserve.setAlignment(HorizontalAlignment.CENTER);
         stylereserve.setVerticalAlignment(VerticalAlignment.CENTER);
+        stylereserve.setFont(green);
         if (element.etatOpr == 1) {
             reserve.setCellValue("X");
+        }
+        if (element.etatOpr == 0) {
+            stylereserve.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            stylereserve.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         }
         reserve.setCellStyle(stylereserve);
 
@@ -1150,8 +1171,13 @@ public class ExcelController {
         stylesans.setBorderBottom(BorderStyle.THIN);
         stylesans.setAlignment(HorizontalAlignment.CENTER);
         stylesans.setVerticalAlignment(VerticalAlignment.CENTER);
+        stylesans.setFont(orange);
         if (element.etatOpr == 2) {
             sans.setCellValue("X");
+        }
+        if (element.etatOpr == 0) {
+            stylesans.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            stylesans.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         }
         sans.setCellStyle(stylesans);
 
@@ -1161,8 +1187,13 @@ public class ExcelController {
         styleprestation.setBorderBottom(BorderStyle.THIN);
         styleprestation.setAlignment(HorizontalAlignment.CENTER);
         styleprestation.setVerticalAlignment(VerticalAlignment.CENTER);
+        styleprestation.setFont(red);
         if (element.etatOpr == 3) {
             prestation.setCellValue("X");
+        }
+        if (element.etatOpr == 0) {
+            styleprestation.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            styleprestation.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         }
         prestation.setCellStyle(styleprestation);
 
@@ -1173,6 +1204,10 @@ public class ExcelController {
         styleconcerne.setVerticalAlignment(VerticalAlignment.CENTER);
         if (element.etatOpr == 4) {
             concerne.setCellValue("X");
+        }
+        if (element.etatOpr == 0) {
+            styleconcerne.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            styleconcerne.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         }
         concerne.setCellStyle(styleconcerne);
 
@@ -1189,9 +1224,9 @@ public class ExcelController {
 
     public void createObservationsGeneralesOpr(Workbook wb, Sheet ws, Edl edl, int startRow) {
         byte[] rgb = new byte[3];
-        rgb[0] = (byte) 216;
-        rgb[1] = (byte) 228;
-        rgb[2] = (byte) 188;
+        rgb[0] = (byte) 84;
+        rgb[1] = (byte) 202;
+        rgb[2] = (byte) 248;
         XSSFColor vert = new XSSFColor(rgb);
         Font font = wb.createFont();
         font.setBold(true);
