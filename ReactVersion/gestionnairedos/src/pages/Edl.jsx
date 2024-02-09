@@ -35,7 +35,10 @@ export const Edl = () => {
   const [newPage,setNewPage] = useState(false);
   const [boolSwitch,setBoolSwitch] = useState(false);
   const [saved,setsaved] = useState(false);
+  const [pile,setPile] = useState([]);
+  const [pileReverse,setPileReverse] = useState([]);
 
+  console.log(pile);
   document.title = "EDL n°" + numeroAppartement;
 
   useEffect(() => {
@@ -98,8 +101,16 @@ export const Edl = () => {
         }).catch(error => {
           console.log(error);
         });
-      }
-      const interval = setInterval(() => saveEdl(),1000);
+        axios.get('http://localhost:8080/EXCEL/' + residence.nom + '/' + residence.dossier + '/OPR').then(response => {
+        }).catch(error => {
+          console.log(error);
+        });
+        axios.get('http://localhost:8080/EXCEL/' + residence.nom + '/' + residence.dossier + '/EDL').then(response => {
+        }).catch(error => {
+          console.log(error);
+        });
+        }
+      const interval = setInterval(() => saveEdl(),2500);
 
       return () => clearInterval(interval);
     }
@@ -127,6 +138,7 @@ export const Edl = () => {
     const piecesCopy = [...pieces];
     const piecesCopyFiltered = piecesCopy.filter(piece => piece.nom !== nomPiece);
     setPieces(piecesCopyFiltered);
+    setPile((previous) => [...previous,piecesCopy]);
   }
 
   const handleUpdatePieces = (updatedPieces) => {
@@ -134,6 +146,8 @@ export const Edl = () => {
   }
 
   const handleAddPiece = (nomPiece) => {
+    const piecesCopy = [...pieces];
+    setPile((previous) => [...previous,piecesCopy]);
     setPieces((prevPieces) => [...prevPieces,{id:uuid(),nom:nomPiece,elements:[]}]);
   }
   
@@ -229,20 +243,18 @@ export const Edl = () => {
     boolSwitch ? setBoolSwitch(false) : setBoolSwitch(true);
   }
 
-  const toExcel = () => {
-    if (boolSwitch) {
-      axios.get('http://localhost:8080/EXCEL/' + residence.nom + '/' + residence.dossier + '/OPR').then(response => {
-        alert('Document excel créé !');
-      }).catch(error => {
-        alert('Erreur lors de la création du document...');
-      });
-    } else {
-      axios.get('http://localhost:8080/EXCEL/' + residence.nom + '/' + residence.dossier + '/EDL').then(response => {
-        alert('Document excel créé !');
-      }).catch(error => {
-        alert('Erreur lors de la création du document...');
-      });
-    }
+  const retour = () => {
+    const piecesCopy = [...pieces];
+    const popped = pile.pop();
+    setPieces(popped);
+    setPileReverse((previous) => [...previous,piecesCopy]);
+  }
+
+  const avance = () => {
+    const piecesCopy = [...pieces];
+    const popped = pileReverse.pop();
+    setPieces(popped);
+    setPile((previous) => [...previous,piecesCopy]);
   }
 
   return (
@@ -260,8 +272,9 @@ export const Edl = () => {
             <path fillRule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
           </svg>
         </button>
+        <img onClick={() => retour()} className="fleches-gch" src="assets/retour.png" alt="retour" />
         <Switch labelAvant={"EDL"} labelApres={"OPR"} clickSwitch={() => switchEdlOpr()} />
-        <img onClick={() => toExcel()} className="toExcel" src="/assets/excel.png" alt="Excel" />
+        <img onClick={() => avance()} className="fleches-drt" src="assets/retour.png" alt="avant" />
         {saved ? null : <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => manualSaveEdl()} />}
         <button id="button-fiche-delete" onClick={() => deleteFiche()}>
           <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="40" height="40">

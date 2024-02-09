@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -46,17 +49,24 @@ public class ExcelController {
 
     @GetMapping("/{residence}/{dossier}/OPR")
     public void createOpr(@PathVariable String residence,@PathVariable String dossier) throws IOException {
+        long start = System.currentTimeMillis();
         List<Edl> edls = new ArrayList<>();
         Workbook wb = new XSSFWorkbook();
+        String prestation = "";
         OutputStream fileOut = new FileOutputStream(dossier + " OPR.xlsx");
         if (getAllFile("EdlTemplates/" + residence + "/" + dossier) != null) {
             for (File file : getAllFile("EdlTemplates/" + residence + "/" + dossier)) {
-                if(file.isFile()) {
+                if(file.isFile() && !file.getName().equals("data.data")) {
                     Scanner sc = new Scanner(file);
                     String json = sc.nextLine();
                     ObjectMapper objectMapper = new ObjectMapper();
                     Edl fiche = objectMapper.readValue(json, Edl.class);
                     edls.add(fiche);
+                    sc.close();
+                }
+                if (file.getName().equals("data.data")) {
+                    Scanner sc = new Scanner(file);
+                    prestation = sc.nextLine();
                     sc.close();
                 }
             }
@@ -78,7 +88,7 @@ public class ExcelController {
             ws.setColumnWidth(13, 1800);
             ws.setColumnWidth(14, 15110);
 
-            createHeaderOpr(wb, ws, edl, residence);
+            createHeaderOpr(wb, ws, edl, residence, prestation);
             int count = 10;
             for (Piece piece : edl.pieces) {
                 createPieceEdl(wb, ws, piece,count);
@@ -99,21 +109,30 @@ public class ExcelController {
         wb.write(fileOut);
         fileOut.close();
         wb.close();
+        long finish = System.currentTimeMillis();
+        System.out.println(LocalDate.now() + " " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + " " + dossier + " " + residence + " excel opr Réussi --- Exec " + Long.toString(finish - start) + "ms");
     }
     
     @GetMapping("/{residence}/{dossier}/EDL")
     public void createEdl(@PathVariable String residence,@PathVariable String dossier) throws IOException {
+        long start = System.currentTimeMillis();
         List<Edl> edls = new ArrayList<>();
         Workbook wb = new XSSFWorkbook();
+        String prestation = "";
         OutputStream fileOut = new FileOutputStream(dossier + " EDL.xlsx");
         if (getAllFile("EdlTemplates/" + residence + "/" + dossier) != null) {
             for (File file : getAllFile("EdlTemplates/" + residence + "/" + dossier)) {
-                if(file.isFile()) {
+                if(file.isFile() && !file.getName().equals("data.data")) {
                     Scanner sc = new Scanner(file);
                     String json = sc.nextLine();
                     ObjectMapper objectMapper = new ObjectMapper();
                     Edl fiche = objectMapper.readValue(json, Edl.class);
                     edls.add(fiche);
+                    sc.close();
+                }
+                if (file.getName().equals("data.data")) {
+                    Scanner sc = new Scanner(file);
+                    prestation = sc.nextLine();
                     sc.close();
                 }
             }
@@ -130,7 +149,7 @@ public class ExcelController {
             ws.setColumnWidth(8, 1200);
             ws.setColumnWidth(9, 15110);
 
-            createHeaderEdl(wb, ws, edl, residence);
+            createHeaderEdl(wb, ws, edl, residence, prestation);
             int count = 10;
             for (Piece piece : edl.pieces) {
                 createPieceEdl(wb, ws, piece,count);
@@ -147,9 +166,11 @@ public class ExcelController {
         wb.write(fileOut);
         fileOut.close();
         wb.close();
+        long finish = System.currentTimeMillis();
+        System.out.println(LocalDate.now() + " " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + " " + dossier + " " + residence + " excel edl Réussi --- Exec " + Long.toString(finish - start) + "ms");
     }
 
-    public void createHeaderEdl(Workbook wb, Sheet ws,Edl edl, String residence) {
+    public void createHeaderEdl(Workbook wb, Sheet ws,Edl edl, String residence, String prestation) {
         byte[] rgb = new byte[3];
         rgb[0] = (byte) 0;
         rgb[1] = (byte) 112;
@@ -198,7 +219,7 @@ public class ExcelController {
 
         coinGauche1.setCellStyle(styleGauche1);
         coinDroite1.setCellStyle(styleDroite1);
-        coinGauche1.setCellValue("Titre");
+        coinGauche1.setCellValue(prestation);
         coinGauche2.setCellStyle(styleGauche2);
         coinDroite2.setCellStyle(styleDroite2);
         coinGauche2.setCellValue(residence);
@@ -676,7 +697,7 @@ public class ExcelController {
         row2.setHeightInPoints(75);
     }
 
-    public void createHeaderOpr(Workbook wb, Sheet ws,Edl edl, String residence) {
+    public void createHeaderOpr(Workbook wb, Sheet ws,Edl edl, String residence, String prestation) {
         byte[] rgb = new byte[3];
         rgb[0] = (byte) 0;
         rgb[1] = (byte) 112;
@@ -725,7 +746,7 @@ public class ExcelController {
 
         coinGauche1.setCellStyle(styleGauche1);
         coinDroite1.setCellStyle(styleDroite1);
-        coinGauche1.setCellValue("Titre");
+        coinGauche1.setCellValue(prestation);
         coinGauche2.setCellStyle(styleGauche2);
         coinDroite2.setCellStyle(styleDroite2);
         coinGauche2.setCellValue(residence);

@@ -12,6 +12,7 @@ export const EdlListe = () => {
     const [isModalOpenModifer,setIsModalOpenModifer] = useState(false);
     const [nomResidence,setNomResidence] = useState("");
     const [nomDossier,setnomDossier] = useState("");
+    const [nomPrestation,setNomPrestation] = useState("");
     const [selectNom,setSelectNom] = useState("");
     const [selectDossier,setSelectDossier] = useState("");
     const [errorMessage,setErrorMessage] = useState(false);
@@ -37,7 +38,7 @@ export const EdlListe = () => {
     }
 
     const onValidate = () => {
-        if (nomResidence === "" || nomDossier === "") {
+        if (nomResidence === "" || nomDossier === "" || nomPrestation === "") {
             setMessage("Veuillez remplir tous les champs");
             setErrorMessage(true);
             setTimeout(() => {
@@ -52,7 +53,7 @@ export const EdlListe = () => {
                 setErrorMessage(false);
             },2000);
         } else {
-            axios.post('http://localhost:8080/JSON/residence/create',{nom:nomResidence,dossier:nomDossier,edls:[]});
+            axios.post('http://localhost:8080/JSON/residence/create',{nom:nomResidence,dossier:nomDossier,prestation:nomPrestation,edls:[]});
             setIsModalOpen(false);
             navigate("/edl/" + nomResidence + "/" + nomDossier + "/edit/new");
             setNomResidence("");
@@ -74,7 +75,7 @@ export const EdlListe = () => {
     }
 
     const onValidateModifier = () => {
-        if (nomResidence === "" || nomDossier === "") {
+        if (nomResidence === "" || nomDossier === "" || nomPrestation === "") {
             setMessage("Veuillez remplir tous les champs");
             setErrorMessage(true);
             setTimeout(() => {
@@ -95,7 +96,7 @@ export const EdlListe = () => {
             setNomResidence("");
             setIsModalOpenModifer(false);
         } else {
-            axios.post('http://localhost:8080/JSON/' + selectNom + '/' + selectDossier + '/' + nomResidence + '/' + nomDossier);
+            axios.post('http://localhost:8080/JSON/' + selectNom + '/' + selectDossier + '/' + nomResidence + '/' + nomDossier + '/' + nomPrestation);
             setResidences((previous) => previous.map((residence) => {
                 if (residence.nom + residence.dossier === selectNom + selectDossier) {
                     return {
@@ -130,6 +131,7 @@ export const EdlListe = () => {
                 <div className="inner-content-modal">
                     <input placeholder="Nom de la résidence" value={nomResidence} onChange={(e) => setNomResidence(e.target.value)} />
                     <input placeholder="Nom du dossier" value={nomDossier} onChange={(e) => setnomDossier(e.target.value)} />
+                    <input placeholder="Nom de la prestation" value={nomPrestation} onChange={(e) => setNomPrestation(e.target.value)} />
                     {errorMessage ? <p className="error-message error-container">{message}</p> : <p className="error-container"></p>}
                 </div>
             </Modal>
@@ -138,6 +140,7 @@ export const EdlListe = () => {
                 <div className="inner-content-modal">
                     <input placeholder="Nouveau nom de la résidence" value={nomResidence} onChange={(e) => setNomResidence(e.target.value)} />
                     <input placeholder="Nouveau nom du dossier" value={nomDossier} onChange={(e) => setnomDossier(e.target.value)} />
+                    <input placeholder="Nouveau nom de la prestation" value={nomPrestation} onChange={(e) => setNomPrestation(e.target.value)} />
                     {errorMessage ? <p className="error-message error-container">{message}</p> : <p className="error-container"></p>}
                 </div>
             </Modal>

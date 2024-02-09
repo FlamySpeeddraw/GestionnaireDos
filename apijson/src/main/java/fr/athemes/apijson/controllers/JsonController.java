@@ -42,11 +42,12 @@ public class JsonController {
     @GetMapping("/residences")
     public List<Residence> getAllResidences() throws FileNotFoundException, JsonMappingException, JsonProcessingException {
         List<Residence> residences = new ArrayList<>();
+        String prestation = "";
         for (File residence : getAllFile("EdlTemplates")) {
             for (File dossier : getAllFile("EdlTemplates/" + residence.getName())) {
                 List<Edl> fiches = new ArrayList<>();
                 for (File file : getAllFile("EdlTemplates/" + residence.getName() + "/" + dossier.getName())) {
-                    if(file.isFile()) {
+                    if(file.isFile() && !file.getName().equals("data.data")) {
                         Scanner sc = new Scanner(file);
                         String json = sc.nextLine();
                         ObjectMapper objectMapper = new ObjectMapper();
@@ -54,8 +55,13 @@ public class JsonController {
                         fiches.add(fiche);
                         sc.close();
                     }
+                    if (file.getName().equals("data.data")) {
+                        Scanner sc = new Scanner(file);
+                        prestation = sc.nextLine();
+                        sc.close();
+                    }
                 }
-                residences.add(new Residence(residence.getName(), dossier.getName(),fiches));
+                residences.add(new Residence(residence.getName(), dossier.getName(),fiches, prestation));
             }
         }
         return residences;
@@ -76,16 +82,25 @@ public class JsonController {
     }
 
     @PostMapping("/residence/create")
-    public boolean createResidence(@RequestBody Residence residence) {
+    public boolean createResidence(@RequestBody Residence residence) throws IOException {
         File folder = new File("EdlTemplates/" + residence.nom + "/" + residence.dossier);
-        return folder.mkdirs();
+        folder.mkdirs();
+        File data = new File("EdlTemplates/" + residence.nom + "/" + residence.dossier + "/data.data");
+        FileWriter writer = new FileWriter(data);
+        writer.write(residence.prestation);
+        writer.close();
+        return data.createNewFile();
     }
 
-    @PostMapping("/{residence}/{dossier}/{newResidence}/{newDossier}")
-    public boolean updateNoms(@PathVariable String residence, @PathVariable String dossier, @PathVariable String newResidence, @PathVariable String newDossier) throws IOException {
+    @PostMapping("/{residence}/{dossier}/{newResidence}/{newDossier}/{newPrestation}")
+    public boolean updateNoms(@PathVariable String residence, @PathVariable String dossier, @PathVariable String newResidence, @PathVariable String newDossier, @PathVariable String newPrestation) throws IOException {
         File copy = new File("EdlTemplates/" + residence + "/" + dossier);
         File newFile = new File("EdlTemplates/" + newResidence + "/" + newDossier);
         FileUtils.copyDirectory(copy, newFile);
+        File data = new File("EdlTemplates/" + newResidence + "/" + newDossier + "/data.data");
+        FileWriter writer = new FileWriter(data);
+        writer.write(newPrestation);
+        writer.close();
         return deleteResidence(residence, dossier);
     }
 
@@ -99,15 +114,16 @@ public class JsonController {
         writer.write(jsonString);
         writer.close();
         long finish = System.currentTimeMillis();
-        System.out.println(LocalDate.now() + " " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + " " + dossier + " " + residence + " Réussi --- Exec " + Long.toString(finish - start) + "ms");
+        System.out.println(LocalDate.now() + " " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + " " + dossier + " " + residence + " sauvegarde Réussi --- Exec " + Long.toString(finish - start) + "ms");
     }
 
     @GetMapping("/{residence}/{dossier}")
     public Residence getResidence(@PathVariable String residence, @PathVariable String dossier) throws JsonMappingException, JsonProcessingException, FileNotFoundException {
         List<Edl> edls = new ArrayList<>();
+        String prestation = "";
         if (getAllFile("EdlTemplates/" + residence + "/" + dossier) != null) {
             for (File file : getAllFile("EdlTemplates/" + residence + "/" + dossier)) {
-                if(file.isFile()) {
+                if(file.isFile() && !file.getName().equals("data.data")) {
                     Scanner sc = new Scanner(file);
                     String json = sc.nextLine();
                     ObjectMapper objectMapper = new ObjectMapper();
@@ -115,9 +131,14 @@ public class JsonController {
                     edls.add(fiche);
                     sc.close();
                 }
+                if (file.getName().equals("data.data")) {
+                    Scanner sc = new Scanner(file);
+                    prestation = sc.nextLine();
+                    sc.close();
+                }
             }
         }
-        return new Residence(residence, dossier, edls);
+        return new Residence(residence, dossier, edls, prestation);
     }
 
     @DeleteMapping("/{residence}/{dossier}/{idPage}/delete")
