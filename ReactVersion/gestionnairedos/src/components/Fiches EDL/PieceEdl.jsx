@@ -56,7 +56,7 @@ export const PieceOpr = ({onDeletePiece,infosPiece,onUpdatedOpr,onDeleteElement,
                 <td className="td-observations-piece">Observations MOE en {infosPiece.nom.toLowerCase()} :</td>
                 <td className="delete-piece">
                     <button onClick={() => onDeletePiece(infosPiece.nom)}>
-                        <svg id="delete-piece" className="icon-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 40" width="40" height="40">
+                        <svg id="delete-piece" className="icon-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 20" width="20" height="20">
                             <path fill="rgb(36, 159, 207)" className="trash-lid" fillRule="evenodd" d="M6 15l4 0 0-3 8 0 0 3 4 0 0 2 -16 0zM12 14l4 0 0 1 -4 0z" />
                             <path fill="rgb(36, 159, 207)" className="trash-can" d="M8 17h2v9h8v-9h2v9a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z" />
                         </svg>

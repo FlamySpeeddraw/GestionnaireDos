@@ -132,7 +132,7 @@ export const EdlListe = () => {
                     <input placeholder="Nom de la résidence" value={nomResidence} onChange={(e) => setNomResidence(e.target.value)} />
                     <input placeholder="Nom du dossier" value={nomDossier} onChange={(e) => setnomDossier(e.target.value)} />
                     <input placeholder="Nom de la prestation" value={nomPrestation} onChange={(e) => setNomPrestation(e.target.value)} />
-                    {errorMessage ? <p className="error-message error-container">{message}</p> : <p className="error-container"></p>}
+                    {errorMessage ? <p style={{color:'red'}} className="error-message error-container">{message}</p> : <p className="error-container"></p>}
                 </div>
             </Modal>
             <Modal isOpen={isModalOpenModifer} onValidate={() => onValidateModifier()} onClose={() => setIsModalOpenModifer(false)}>
@@ -141,7 +141,7 @@ export const EdlListe = () => {
                     <input placeholder="Nouveau nom de la résidence" value={nomResidence} onChange={(e) => setNomResidence(e.target.value)} />
                     <input placeholder="Nouveau nom du dossier" value={nomDossier} onChange={(e) => setnomDossier(e.target.value)} />
                     <input placeholder="Nouveau nom de la prestation" value={nomPrestation} onChange={(e) => setNomPrestation(e.target.value)} />
-                    {errorMessage ? <p className="error-message error-container">{message}</p> : <p className="error-container"></p>}
+                    {errorMessage ? <p style={{color:'red'}} className="error-message error-container">{message}</p> : <p className="error-container"></p>}
                 </div>
             </Modal>
         </div>

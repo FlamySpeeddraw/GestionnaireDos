@@ -149,6 +149,19 @@
     background-color: transparent;
 }
 
+.delete-piece button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+#delete-piece {
+    height: 30px;
+    width: 30px;
+}
+
 .fleches-gch {
     margin-left: auto;
     cursor: pointer;
@@ -166,6 +179,16 @@
     height: 20px;
     margin-left: 20px;
     cursor: pointer;
+}
+
+.info-url {
+    font-size: small;
+}
+
+.remember {
+    margin-top: 50px;
+    width: 100%;
+    text-align: center;
 }
 
 @keyframes info {

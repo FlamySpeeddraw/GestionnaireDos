@@ -71,7 +71,10 @@ public class JsonController {
     public boolean deleteResidence(@PathVariable String residence,@PathVariable String dossier) {
         File[] listOfFolders = getAllFile("EdlTemplates/" + residence + "/" + dossier);
         for (File file : listOfFolders) {
-            file.delete();
+            for (File file2 : getAllFile(file.getPath())) {
+                System.out.println(file2.delete());
+            }
+            System.out.println(file.delete());
         }
         new File("EdlTemplates/" + residence + "/" + dossier).delete();
         File residenceFolder = new File("EdlTemplates/" + residence);
@@ -83,7 +86,9 @@ public class JsonController {
 
     @PostMapping("/residence/create")
     public boolean createResidence(@RequestBody Residence residence) throws IOException {
-        File folder = new File("EdlTemplates/" + residence.nom + "/" + residence.dossier);
+        File folder = new File("EdlTemplates/" + residence.nom + "/" + residence.dossier + "/OPR");
+        folder.mkdirs();
+        folder = new File("EdlTemplates/" + residence.nom + "/" + residence.dossier + "/EDL");
         folder.mkdirs();
         File data = new File("EdlTemplates/" + residence.nom + "/" + residence.dossier + "/data.data");
         FileWriter writer = new FileWriter(data);

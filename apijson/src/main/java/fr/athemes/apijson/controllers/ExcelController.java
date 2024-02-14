@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -28,6 +29,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +39,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.athemes.apijson.Edl;
 import fr.athemes.apijson.Element;
 import fr.athemes.apijson.Piece;
+import fr.athemes.apijson.Url;
 
 @RestController
 @CrossOrigin
@@ -47,13 +51,23 @@ public class ExcelController {
         return listOfFolders;
     }
 
+    @PostMapping("/{residence}/{dossier}/download")
+    public void createResidence(@RequestBody Url obj,@PathVariable String residence,@PathVariable String dossier) throws IOException {
+        obj.url = obj.url.replace("\"", "");
+        obj.url = obj.url.replace('\\', '/');
+        File edl = new File("EdlTemplates/" + residence + "/" + dossier + "/EDL/" + dossier + " EDL.xlsx");
+        File opr = new File("EdlTemplates/" + residence + "/" + dossier + "/OPR/" + dossier + " OPR.xlsx");
+        FileUtils.copyFile(edl, new File(obj.url + "/" + dossier + " EDL.xlsx"));
+        FileUtils.copyFile(opr, new File(obj.url + "/" + dossier + " OPR.xlsx"));
+    }
+
     @GetMapping("/{residence}/{dossier}/OPR")
     public void createOpr(@PathVariable String residence,@PathVariable String dossier) throws IOException {
         long start = System.currentTimeMillis();
         List<Edl> edls = new ArrayList<>();
         Workbook wb = new XSSFWorkbook();
         String prestation = "";
-        OutputStream fileOut = new FileOutputStream(dossier + " OPR.xlsx");
+        OutputStream fileOut = new FileOutputStream("EdlTemplates/" + residence + "/" + dossier + "/OPR/" + dossier + " OPR.xlsx");
         if (getAllFile("EdlTemplates/" + residence + "/" + dossier) != null) {
             for (File file : getAllFile("EdlTemplates/" + residence + "/" + dossier)) {
                 if(file.isFile() && !file.getName().equals("data.data")) {
@@ -119,7 +133,7 @@ public class ExcelController {
         List<Edl> edls = new ArrayList<>();
         Workbook wb = new XSSFWorkbook();
         String prestation = "";
-        OutputStream fileOut = new FileOutputStream(dossier + " EDL.xlsx");
+        OutputStream fileOut = new FileOutputStream("EdlTemplates/" + residence + "/" + dossier + "/EDL/" + dossier + " EDL.xlsx");
         if (getAllFile("EdlTemplates/" + residence + "/" + dossier) != null) {
             for (File file : getAllFile("EdlTemplates/" + residence + "/" + dossier)) {
                 if(file.isFile() && !file.getName().equals("data.data")) {

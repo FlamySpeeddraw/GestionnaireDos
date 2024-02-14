@@ -7,13 +7,18 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Modal } from "../components/Modal";
 import "./../styles/EDL/style.css"
 import { Switch } from "../components/Switch";
+import t1 from "../typologie/t1.json";
+import t2 from "../typologie/t2.json";
+import t3 from "../typologie/t3.json";
+import t4 from "../typologie/t4.json";
+import t5 from "../typologie/t5.json";
+import t6 from "../typologie/t6.json";
 
 export const Edl = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
   const [toggleModal,setToggleModal] = useState(false);
-  const [toggleModalConfirmation,setToggleModalConfirmation] = useState(false);
   const [verif,setVerif] = useState(false);
   const [verif2,setVerif2] = useState(false);
   const [verifModal,setVerifModal] = useState(true);
@@ -22,23 +27,26 @@ export const Edl = () => {
   const [observationsGeneralesOpr,setObservationsGeneralesOpr] = useState("");
   const [idPage,setIdPage] = useState(uuid());
   const [idPageTemp,setIdPageTemp] = useState(uuid());
-  const [pieces,setPieces] = useState([]);
+  const [pieces,setPieces] = useState(t1.pieces);
   const [numeroAppartement,setNumeroAppartement] = useState("");
-  const [typeAppartement,setTypeAppartement] = useState("");
+  const [typeAppartement,setTypeAppartement] = useState("T1");
   const [batiment,setBatiment] = useState("");
   const [etage,setEtage] = useState("");
   const [previousNumeroAppartement,setPreviousNumeroAppartement] = useState("");
   const [previousTypeAppartement,setPreviousTypeAppartement] = useState("");
   const [previousBatiment,setPreviousBatiment] = useState("");
   const [previousEtage,setPreviousEtage] = useState("");
-  const [validate,setValidate] = useState(false);
   const [newPage,setNewPage] = useState(false);
   const [boolSwitch,setBoolSwitch] = useState(false);
   const [saved,setsaved] = useState(false);
   const [pile,setPile] = useState([]);
   const [pileReverse,setPileReverse] = useState([]);
+  const [ConfirmerSupprimer,setConfimerSupprimer] = useState(false);
+  const [errorMessage,setErrorMessage] = useState(false);
+  const [message,setMessage] = useState("");
 
-  console.log(pile);
+  const typologie = ["T1","T2","T3","T4","T5","T6"];
+
   document.title = "EDL n°" + numeroAppartement;
 
   useEffect(() => {
@@ -139,19 +147,27 @@ export const Edl = () => {
     const piecesCopyFiltered = piecesCopy.filter(piece => piece.nom !== nomPiece);
     setPieces(piecesCopyFiltered);
     setPile((previous) => [...previous,piecesCopy]);
+    setPileReverse([]);
   }
 
   const handleUpdatePieces = (updatedPieces) => {
+    const piecesCopy = [...pieces];
+    setPile((previous) => [...previous,piecesCopy]);
+    setPileReverse([]);
     setPieces(updatedPieces);
   }
 
   const handleAddPiece = (nomPiece) => {
     const piecesCopy = [...pieces];
     setPile((previous) => [...previous,piecesCopy]);
+    setPileReverse([]);
     setPieces((prevPieces) => [...prevPieces,{id:uuid(),nom:nomPiece,elements:[]}]);
   }
   
   const handleAddElement = (nomPiece, nomElement) => {
+    const piecesCopy = [...pieces];
+    setPile((previous) => [...previous,piecesCopy]);
+    setPileReverse([]);
     setPieces((prevPieces) =>
       prevPieces.map((piece) =>
         piece.nom === nomPiece
@@ -162,18 +178,21 @@ export const Edl = () => {
   };
 
   const onValidate = () => {
-    setValidate(false);
     if (numeroAppartement === "" || etage === "" || batiment === "" || typeAppartement === "") {
-      setToggleModalConfirmation(true);
+      setMessage("Veuillez remplir tous les champs");
+      setErrorMessage(true);
+      setTimeout(() => {
+        setMessage("");
+        setErrorMessage(false);
+      },2000);
     } else {
       setToggleModal(false);
     }
   }
 
   const closeModal = () => {
-    setValidate(true);
     if (previousNumeroAppartement === "" || previousEtage === "" || previousBatiment === "" || previousTypeAppartement === "") {
-      setToggleModalConfirmation(true);
+      navigate("/edl");
     } else {
       setToggleModal(false);
       setBatiment(previousBatiment);
@@ -181,18 +200,6 @@ export const Edl = () => {
       setNumeroAppartement(previousNumeroAppartement);
       setTypeAppartement(previousTypeAppartement);
     }
-  }
-
-  const onValidateConfirmation = () => {
-    if (validate) {
-      setBatiment(previousBatiment);
-      setEtage(previousEtage);
-      setNumeroAppartement(previousNumeroAppartement);
-      setTypeAppartement(previousTypeAppartement);
-    }
-    setToggleModalConfirmation(false);
-    setToggleModal(false);
-    setValidate(false);
   }
 
   const openModalForm = () => {
@@ -244,17 +251,49 @@ export const Edl = () => {
   }
 
   const retour = () => {
-    const piecesCopy = [...pieces];
-    const popped = pile.pop();
-    setPieces(popped);
-    setPileReverse((previous) => [...previous,piecesCopy]);
+    if (pile.length > 0) {
+      const piecesCopy = [...pieces];
+      const popped = pile.pop();
+      setPieces(popped);
+      setPileReverse((previous) => [...previous,piecesCopy]);
+    }
   }
 
   const avance = () => {
+    if (pileReverse.length > 0) {
+      const piecesCopy = [...pieces];
+      const popped = pileReverse.pop();
+      setPieces(popped);
+      setPile((previous) => [...previous,piecesCopy]);
+    }
+  }
+
+  const changeType = (val) => {
     const piecesCopy = [...pieces];
-    const popped = pileReverse.pop();
-    setPieces(popped);
     setPile((previous) => [...previous,piecesCopy]);
+    setTypeAppartement(val);
+    switch (val.toLowerCase()) {
+      case "t1":
+        setPieces(t1.pieces);
+        break;
+      case "t2":
+        setPieces(t2.pieces);        
+        break;
+      case "t3":
+        setPieces(t3.pieces);
+        break;
+      case "t4":
+        setPieces(t4.pieces);
+        break;
+      case "t5":
+        setPieces(t5.pieces);
+        break;
+      case "t6":
+        setPieces(t6.pieces);
+        break;
+      default:
+        break;
+    }
   }
 
   return (
@@ -276,28 +315,34 @@ export const Edl = () => {
         <Switch labelAvant={"EDL"} labelApres={"OPR"} clickSwitch={() => switchEdlOpr()} />
         <img onClick={() => avance()} className="fleches-drt" src="assets/retour.png" alt="avant" />
         {saved ? null : <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => manualSaveEdl()} />}
-        <button id="button-fiche-delete" onClick={() => deleteFiche()}>
+        <button id="button-fiche-delete" onClick={() => setConfimerSupprimer(true)}>
           <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
             <path className="trash-lid" fillRule="evenodd" d="M6 15l4 0 0-3 8 0 0 3 4 0 0 2 -16 0zM12 14l4 0 0 1 -4 0z" />
             <path className="trash-can" d="M8 17h2v9h8v-9h2v9a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z" />
           </svg>
         </button>
       </div>
+      {saved ? null : <h1 className="remember">N'oubliez pas de sauvegarder ce fichier !</h1>}
       <FormEdl handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
       <DecisionTravaux deletePiece={handleDeletepiece} edlOpr={boolSwitch} handleChangeObservationsGenerales={changeObservationsGenerales} handleChangeObservationsGeneralesOpr={changeObservationsGeneralesOpr} observationsGenerales={observationsGenerales} observationsGeneralesOpr={observationsGeneralesOpr} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
       <Modal isOpen={toggleModal} onValidate={() => onValidate()} onClose={() => closeModal()}>
         <h3>Détails du logement</h3>
         <div className="inner-content-modal">
           <input placeholder="Appartement N°" type="text" value={numeroAppartement} onChange={(e) => setNumeroAppartement(e.target.value)}/>
-          <input placeholder="Type" type="text" value={typeAppartement} onChange={(e) => setTypeAppartement(e.target.value)}/>
+          <select className="select-type" value={typeAppartement} onChange={(e) => {changeType(e.target.value)}}>
+                    {typologie.map((type) => (
+                        <option key={type} value={type}>{type}</option>
+                    ))}
+          </select>
           <input placeholder="Bâtiment" type="text" value={batiment} onChange={(e) => setBatiment(e.target.value)}/>
           <input placeholder="Etage" type="text" value={etage} onChange={(e) => setEtage(e.target.value)}/>
+          {errorMessage ? <p style={{color:'red'}} className="error-message error-container">{message}</p> : <p className="error-container"></p>}
         </div>
       </Modal>
-      <Modal isOpen={toggleModalConfirmation} onValidate={() => onValidateConfirmation()} onClose={() => setToggleModalConfirmation(false)}>
-        <h3>Etes-vous sûr(e) de vouloir laisser des champs vident ?</h3>
+      <Modal isOpen={ConfirmerSupprimer} onValidate={() => deleteFiche()} onClose={() => setConfimerSupprimer(false)}>
+        <h3>Êtes-vous sûr(e) de vouloir supprimer cette fiche ?</h3>
         <div className="inner-content-modal">
-          <p>Laisser des champs vide pourrait amener à une confusion lors du choix de la fiche parmi toutes les autres fiches.</p>
+          <p>Il vous sera impossible de récupérer cette fiche...</p>
         </div>
       </Modal>
     </div>

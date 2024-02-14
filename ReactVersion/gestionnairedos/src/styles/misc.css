@@ -31,3 +31,25 @@ td input {
     border: 0;
     width: 100%;
 }
+
+.bulle-container {
+    display: flex;
+}
+
+.info-icon {
+    height: 20px;
+}
+
+.not-display {
+    display: none;
+}
+
+.message-bulle {
+    position: relative;
+    top: -25px;
+    left: 10px;
+    border: 1px solid rgb(36, 159, 207);
+    width: fit-content;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
