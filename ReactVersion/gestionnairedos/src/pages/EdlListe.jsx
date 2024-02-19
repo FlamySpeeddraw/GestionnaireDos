@@ -20,6 +20,14 @@ export const EdlListe = () => {
 
     document.title = "Liste des résidences";
 
+    /*useEffect(() => {
+        axios.get('http://localhost:8080/JSON/residences').then((response) => {
+            setResidences(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    },[]);*/
+    
     useEffect(() => {
         axios.get('http://localhost:8080/JSON/residences').then((response) => {
             setResidences(response.data);
