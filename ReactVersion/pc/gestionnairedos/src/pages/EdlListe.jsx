@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { EdlListeChild } from "../components/EdlListeChild";
+import axios from "axios";
 import "./../styles/EDL/liste.css"
 import { Modal } from "../components/Modal";
 import { useNavigate } from "react-router-dom";
-import { createClasseur, deleteClasseur, getAllClasseurs, updateNomsClasseurs } from "../DataManager";
-import { v4 as uuid } from 'uuid';
 
 export const EdlListe = () => {
     const navigate = useNavigate();
@@ -14,25 +13,24 @@ export const EdlListe = () => {
     const [nomResidence,setNomResidence] = useState("");
     const [nomDossier,setnomDossier] = useState("");
     const [nomPrestation,setNomPrestation] = useState("");
-    const [selectClasseur,setSelectClasseur] = useState("");
+    const [selectNom,setSelectNom] = useState("");
+    const [selectDossier,setSelectDossier] = useState("");
     const [errorMessage,setErrorMessage] = useState(false);
     const [message,setMessage] = useState("");
 
     document.title = "Liste des résidences";
-    console.log(residences)
     
     useEffect(() => {
-        const fetchData = async () => {
-          const result = await getAllClasseurs();
-          setResidences(result);
-        };
-    
-        fetchData();
+        axios.get('http://localhost:8080/JSON/residences').then((response) => {
+            setResidences(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
     },[]);
 
     const checkIfExist = (nomResidenceF,nomDossierF) => {
         for (var i = 0;i < residences.length;i++) {
-            if (residences[i].residence.toLowerCase() === nomResidenceF && residences[i].dossier.toLowerCase() === nomDossierF) {
+            if (residences[i].nom.toLowerCase() === nomResidenceF && residences[i].dossier.toLowerCase() === nomDossierF) {
                 return true;
             }
         }
@@ -55,30 +53,28 @@ export const EdlListe = () => {
                 setErrorMessage(false);
             },2000);
         } else {
-            const id = uuid();
-            createClasseur(id,nomResidence,nomDossier,nomPrestation,[]);
+            axios.post('http://localhost:8080/JSON/residence/create',{nom:nomResidence,dossier:nomDossier,prestation:nomPrestation,edls:[]});
             setIsModalOpen(false);
-            navigate("/edl/" + id + "/edit/new");
+            navigate("/edl/" + nomResidence + "/" + nomDossier + "/edit/new");
             setNomResidence("");
             setnomDossier("");
         }
     }
 
-    const deleteResidence = async (id) => {
-        await deleteClasseur(id);
-        const updatedData = await getAllClasseurs();
-        setResidences(updatedData);
+    const deleteResidence = (nom,dossier) => {
+        axios.delete('http://localhost:8080/JSON/' + nom + '/' + dossier + '/delete');
+        setResidences((previous) => previous.filter(residence => residence.nom + residence.dossier !== nom + dossier));
     }
 
-    const openModalModifier = (id,nom,dossier,prestation) => {
-        setSelectClasseur(id);
+    const openModalModifier = (nom,dossier) => {
+        setSelectNom(nom);
+        setSelectDossier(dossier);
         setNomResidence(nom);
         setnomDossier(dossier);
-        setNomPrestation(prestation)
         setIsModalOpenModifer(true);
     }
 
-    const onValidateModifier = async () => {
+    const onValidateModifier = () => {
         if (nomResidence === "" || nomDossier === "" || nomPrestation === "") {
             setMessage("Veuillez remplir tous les champs");
             setErrorMessage(true);
@@ -93,14 +89,31 @@ export const EdlListe = () => {
                 setMessage("");
                 setErrorMessage(false);
             },2000);
-        } else {
-            updateNomsClasseurs(selectClasseur,nomResidence,nomDossier,nomPrestation);
-            const updatedData = await getAllClasseurs();
-            setResidences(updatedData);            
-            setSelectClasseur("");
+        } else if (nomResidence === selectNom && nomDossier === selectDossier) {
+            setSelectDossier("");
+            setSelectNom("");
             setnomDossier("");
             setNomResidence("");
-            setNomPrestation("");
+            setIsModalOpenModifer(false);
+        } else {
+            axios.post('http://localhost:8080/JSON/' + selectNom + '/' + selectDossier + '/' + nomResidence + '/' + nomDossier + '/' + nomPrestation);
+            setResidences((previous) => previous.map((residence) => {
+                if (residence.nom + residence.dossier === selectNom + selectDossier) {
+                    return {
+                        ...residence,
+                        nom:nomResidence,
+                        dossier:nomDossier
+                    }
+                } else {
+                    return {
+                        ...residence
+                    }
+                }
+            }));
+            setSelectDossier("");
+            setSelectNom("");
+            setnomDossier("");
+            setNomResidence("");
             setIsModalOpenModifer(false);
         }
     }

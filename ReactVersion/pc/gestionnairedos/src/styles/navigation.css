@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    padding: 4px;
+    display: flex;
+    background-color: rgb(46, 46, 46);
+}
+
+.navbar-element:first-child {
+    margin-left: 30px;
+}
+
+.navbar-element {
+    display: flex;
+}
+
+.navbar-element:hover * {
+    color: rgb(36, 159, 207);
+    transition: all 0.5s ease-out 0s;
+}
+
+.navbar-element * {
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: large;
+    padding: 15px 20px;
+}
+
+.td-state {
+    user-select: none;
+}

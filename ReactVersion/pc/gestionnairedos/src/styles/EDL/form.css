@@ -1,0 +1,97 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.form-container #form-margin-div {
+    margin: 15px 30px;
+    display: flex;
+    align-items: center;
+}
+
+.form-container form {
+    margin: 30px;
+}
+
+.form-container select {
+    margin: 30px 0;
+    width: 150px;
+    height: 43px;
+    border: 2px solid rgb(46, 46, 46);
+    border-radius: 7px;
+}
+
+.save-edl {
+    border-radius: 15px;
+    border: 2px solid rgb(46, 46, 46);
+    transition: all 0.3s ease;
+    font-size: medium;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    margin: auto 0;
+    cursor: pointer;
+}
+
+.save-edl:hover {
+    background-color: black;
+    color: white;
+}
+
+.details-edl {
+    border-radius: 15px;
+    border: 2px solid rgb(46, 46, 46);
+    transition: all 0.3s ease;
+    font-size: medium;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    margin: auto 0;
+    cursor: pointer;
+}
+
+.details-edl:hover {
+    background-color: black;
+    color: white;
+}
+
+.td-delete {
+    border: 0;
+}
+
+.trash-lid {
+    transform-origin: right bottom;
+    transition: transform 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+  
+.icon-trash:hover .trash-lid {
+    transform: translateY(-2px) rotate(30deg);
+}
+
+label {
+    font-size: 70%;
+}
+
+label input {
+    border: 0;
+    border-bottom: 1px solid black;
+    background-color: rgba(0, 0, 0, 0.082);
+    border-radius: 0;
+    height: 20px;
+}
+
+button {
+    padding: 2px;
+    font-size: larger;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+td input {
+    border: 0;
+    width: 100%;
+}

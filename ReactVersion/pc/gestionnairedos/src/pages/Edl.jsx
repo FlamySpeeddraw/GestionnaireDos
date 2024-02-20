@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { DecisionTravaux } from "../components/Fiches EDL/DecisionTravaux";
 import { FormEdl } from "../components/Fiches EDL/FormEdl";
 import { v4 as uuid } from 'uuid';
+import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Modal } from "../components/Modal";
 import "./../styles/EDL/style.css"
@@ -12,7 +13,6 @@ import t3 from "../typologie/t3.json";
 import t4 from "../typologie/t4.json";
 import t5 from "../typologie/t5.json";
 import t6 from "../typologie/t6.json";
-import { deleteEdl, getClasseur, updateEdl } from "../DataManager";
 
 export const Edl = () => {
   const location = useLocation();
@@ -22,7 +22,7 @@ export const Edl = () => {
   const [verif,setVerif] = useState(false);
   const [verif2,setVerif2] = useState(false);
   const [verifModal,setVerifModal] = useState(true);
-  const [residence,setResidence] = useState({id:params.id,nom:"",dossier:"",prestation:"",edls:[]});
+  const [residence,setResidence] = useState({nom:params.nomResidence,dossier:params.nomDossier,edls:[]});
   const [observationsGenerales,setObservationsGenerales] = useState("");
   const [observationsGeneralesOpr,setObservationsGeneralesOpr] = useState("");
   const [idPage,setIdPage] = useState(uuid());
@@ -50,13 +50,7 @@ export const Edl = () => {
   document.title = "EDL n°" + numeroAppartement;
 
   useEffect(() => {
-    const fetchData = async (id) => {
-      const result = await getClasseur(id);
-      setResidence(result);
-      setVerif(true);
-    };
-
-    if(location.pathname === "/edl/" + residence.id + "/edit/new") {
+    if(location.pathname === "/edl/" + residence.nom.replaceAll(" ","%20") + "/" + residence.dossier.replaceAll(" ","%20") + "/edit/new") {
       if (verifModal) {
         setToggleModal(true);
         setVerifModal(false);
@@ -90,15 +84,40 @@ export const Edl = () => {
       }
     }
     if (!verif) {
-      fetchData(residence.id);
+      axios.get('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier).then(response => {
+        setResidence(response.data);
+        setVerif(true);
+      }).catch(error => {
+        console.log(error);
+      });
     }
   },[location,residence,verif,toggleModal,verifModal,params,verif2,newPage]);
 
   useEffect(() => {
     if (saved) {
       const saveEdl = () => {
-        updateEdl(residence.id,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales,observationsGeneralesOpr);
-      }
+        axios.post('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/save',{
+          id:idPage,
+          numeroAppartement:numeroAppartement,
+          typeAppartement:typeAppartement,
+          numeroBat:batiment,
+          numeroEtage:etage,
+          pieces:pieces,
+          observationsGenerales:observationsGenerales,
+          observationsGeneralesOpr:observationsGeneralesOpr
+        }).then(response => {
+        }).catch(error => {
+          console.log(error);
+        });
+        axios.get('http://localhost:8080/EXCEL/' + residence.nom + '/' + residence.dossier + '/OPR').then(response => {
+        }).catch(error => {
+          console.log(error);
+        });
+        axios.get('http://localhost:8080/EXCEL/' + residence.nom + '/' + residence.dossier + '/EDL').then(response => {
+        }).catch(error => {
+          console.log(error);
+        });
+        }
       const interval = setInterval(() => saveEdl(),2500);
 
       return () => clearInterval(interval);
@@ -106,9 +125,20 @@ export const Edl = () => {
   },[saved,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales,observationsGeneralesOpr,residence]);
 
   const manualSaveEdl = () => {
-    updateEdl(residence.id,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales,observationsGeneralesOpr).then(response => {
-      navigate("/edl/" + residence.id + "/edit/" + idPage);
+    axios.post('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/save',{
+      id:idPage,
+      numeroAppartement:numeroAppartement,
+      typeAppartement:typeAppartement,
+      numeroBat:batiment,
+      numeroEtage:etage,
+      pieces:pieces,
+      observationsGenerales:observationsGenerales,
+      observationsGeneralesOpr:observationsGeneralesOpr
+    }).then(response => {
+      navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/" + idPage);
       window.location.reload();
+    }).catch(error => {
+      console.log(error);
     });
   }
 
@@ -189,11 +219,13 @@ export const Edl = () => {
   }
 
   const deleteFiche = () => {
-    if (location.pathname !== "/edl/" + residence.id + "/edit/new") {
+    if (location.pathname !== "/edl/" + residence.nom.replaceAll(" ","%20") + "/" + residence.dossier.replaceAll(" ","%20") + "/edit/new") {
       const edlIndex = residence.edls.findIndex((edl) => edl.id === params.uid);
       residence.edls.splice(edlIndex,1);
-      deleteEdl(residence.id,idPage).then(response => {
-        navigate("/edl/" + residence.id + "/edit/new");
+      axios.delete('http://localhost:8080/JSON/' + residence.nom + '/' + residence.dossier + '/' + idPage + '/delete').then(response => {
+        navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/new");
+      }).catch(error => {
+        console.log(error);
       });
       setBatiment("");
       setEtage("");
@@ -206,7 +238,7 @@ export const Edl = () => {
 
   const openEdl = () => {
     setVerif(true);
-    navigate("/edl/" + residence.id + "/edit/" + idPageTemp);
+    navigate("/edl/" + residence.nom + "/" + residence.dossier + "/edit/" + idPageTemp);
     window.location.reload();
     if (idPageTemp === "new") {
       setNewPage(true);
@@ -263,7 +295,6 @@ export const Edl = () => {
         break;
     }
   }
-  console.log(residence)
 
   return (
     <div className="main-container">

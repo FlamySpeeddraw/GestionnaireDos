@@ -1,0 +1,185 @@
+.table-travaux {
+    border-collapse: collapse;
+    align-self: center;
+    width: 80%;
+}
+
+.table-travaux * {
+    transition: all 0.5s;
+    box-sizing: border-box;
+}
+
+.td-designation {
+    border: 2px solid black;
+    width: 300px;
+}
+
+.decision-head {
+    text-align: center;
+    font-size: small;
+}
+
+.td-etat {
+    border: 2px solid black;
+}
+
+.tr-etat {
+    text-align: center;
+}
+
+.td-faire {
+    border: 2px solid black;
+    width: 200px;
+}
+
+.tr-etat td {
+    border-bottom: 2px solid black;
+    width: 50px;
+}
+
+.tr-etat td:nth-child(2) {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.td-observations {
+    border: 2px solid black;
+}
+
+.footer-textarea-container {
+    border: 2px solid black;
+}
+
+.footer-textarea-container textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    resize: vertical;
+    border: 0;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    outline: none;
+
+}
+
+/* EDL - pièce */
+.td-observations-gene {
+    border: 2px solid black;
+    background-color: rgb(84, 202, 248);
+}
+
+.td-titre-piece {
+    background-color: rgb(84, 202, 248);
+    border-right: 0;
+    border-bottom: 2px solid black;
+    border-left: 2px solid black;
+}
+
+.td-observations-piece {
+    background-color: rgb(84, 202, 248);
+    border-left: 0;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+}
+
+/* EDL - élèment */
+
+.element-input {
+    outline: none;
+}
+
+.element-input-container {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.element-container td {
+    height: 45px;
+}
+
+.radio-faire-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.radio-faire-container label {
+    display: flex;
+ }
+
+ .radio-faire-container input {
+    margin-right: 10px;
+  }
+
+.element-etat-container {
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.td-radio-faire {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.element-etat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.piece-textarea-container {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.separation {
+    border: 2px solid black;
+}
+
+.piece-textarea-container textarea {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    border: 0;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+.opr-head {
+    height: 42.4px;
+    text-align: center;
+    font-size: small;
+}
+
+.opr-observations {
+    border: 2px solid black;
+}
+
+.td-prestation {
+    width: 50px;
+    font-size: x-small;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+#effectuee {
+    color: red;
+}
+
+#reserve {
+    color: orange;
+}
+
+#sans-reserve {
+    color: green;
+}
