@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
-import { DecisionTravaux } from "../components/Fiches EDL/DecisionTravaux";
-import { FormEdl } from "../components/Fiches EDL/FormEdl";
+import { DecisionTravaux } from "../components/Fiches Diag/DecisionTravaux";
+import { FormDiag } from "../components/Fiches Diag/FormDiag";
 import { v4 as uuid } from 'uuid';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Modal } from "../components/Modal";
-import "./../styles/EDL/style.css"
-import { Switch } from "../components/Switch";
-import t1 from "../typologie/edl/t1.json";
-import t2 from "../typologie/edl/t2.json";
-import t3 from "../typologie/edl/t3.json";
-import t4 from "../typologie/edl/t4.json";
-import t5 from "../typologie/edl/t5.json";
-import t6 from "../typologie/edl/t6.json";
-import { deleteEdl, getClasseurEdl, updateEdl } from "../DataManager";
+import "./../styles/EDL/style.css";
+import t1 from "../typologie/diag/t1.json";
+import t2 from "../typologie/diag/t2.json";
+import t3 from "../typologie/diag/t3.json";
+import t4 from "../typologie/diag/t4.json";
+import t5 from "../typologie/diag/t5.json";
+import t6 from "../typologie/diag/t6.json";
+import { deleteDiag, getClasseurDiag, updateDiag } from "../DataManager";
 
-export const Edl = () => {
+export const Diag = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
@@ -22,9 +21,8 @@ export const Edl = () => {
   const [verif,setVerif] = useState(false);
   const [verif2,setVerif2] = useState(false);
   const [verifModal,setVerifModal] = useState(true);
-  const [residence,setResidence] = useState({id:params.id,nom:"",dossier:"",prestation:"",edls:[]});
+  const [residence,setResidence] = useState({id:params.id,nom:"",dossier:"",prestation:"",diags:[]});
   const [observationsGenerales,setObservationsGenerales] = useState("");
-  const [observationsGeneralesOpr,setObservationsGeneralesOpr] = useState("");
   const [idPage,setIdPage] = useState(uuid());
   const [idPageTemp,setIdPageTemp] = useState(uuid());
   const [pieces,setPieces] = useState(t1.pieces);
@@ -37,7 +35,6 @@ export const Edl = () => {
   const [previousBatiment,setPreviousBatiment] = useState("");
   const [previousEtage,setPreviousEtage] = useState("");
   const [newPage,setNewPage] = useState(false);
-  const [boolSwitch,setBoolSwitch] = useState(false);
   const [saved,setsaved] = useState(false);
   const [pile,setPile] = useState([]);
   const [pileReverse,setPileReverse] = useState([]);
@@ -47,16 +44,16 @@ export const Edl = () => {
 
   const typologie = ["T1","T2","T3","T4","T5","T6"];
 
-  document.title = "EDL n°" + numeroAppartement;
+  document.title = "Diag n°" + numeroAppartement;
 
   useEffect(() => {
     const fetchData = async (id) => {
-      const result = await getClasseurEdl(id);
+      const result = await getClasseurDiag(id);
       setResidence(result);
       setVerif(true);
     };
 
-    if(location.pathname === "/edl/" + residence.id + "/edit/new") {
+    if(location.pathname === "/diag/" + residence.id + "/edit/new") {
       if (verifModal) {
         setToggleModal(true);
         setVerifModal(false);
@@ -68,13 +65,12 @@ export const Edl = () => {
         setBatiment("");
         setEtage("");
         setObservationsGenerales("");
-        setObservationsGeneralesOpr("");
         setPieces([]);
         setsaved(false);
         setNewPage(false);
       }
     } else {
-      const tempEdl = {...residence.edls[residence.edls.findIndex((edl) => edl.id === params.uid)]};
+      const tempEdl = {...residence.diags[residence.diags.findIndex((diag) => diag.id === params.uid)]};
       if (!verif2 && tempEdl.id !== undefined && tempEdl.numeroAppartement !== undefined && tempEdl.typeAppartement !== undefined && tempEdl.numeroBat !== undefined && tempEdl.numeroEtage !== undefined && tempEdl.pieces !== null && tempEdl.observationsGenerales !== undefined) {
         setIdPage(tempEdl.id);
         setIdPageTemp(tempEdl.id);
@@ -83,7 +79,6 @@ export const Edl = () => {
         setBatiment(tempEdl.numeroBat);
         setEtage(tempEdl.numeroEtage);
         setObservationsGenerales(tempEdl.observationsGenerales);
-        setObservationsGeneralesOpr(tempEdl.observationsGeneralesOpr);
         setPieces(tempEdl.pieces);
         setVerif2(true);
         setsaved(true);
@@ -96,18 +91,18 @@ export const Edl = () => {
 
   useEffect(() => {
     if (saved) {
-      const saveEdl = () => {
-        updateEdl(residence.id,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales,observationsGeneralesOpr);
+      const saveDiag = () => {
+        updateDiag(residence.id,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales);
       }
-      const interval = setInterval(() => saveEdl(),2500);
+      const interval = setInterval(() => saveDiag(),2500);
 
       return () => clearInterval(interval);
     }
-  },[saved,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales,observationsGeneralesOpr,residence]);
+  },[saved,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales,residence]);
 
-  const manualSaveEdl = () => {
-    updateEdl(residence.id,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales,observationsGeneralesOpr).then(response => {
-      navigate("/edl/" + residence.id + "/edit/" + idPage);
+  const manualSaveDiag = () => {
+    updateDiag(residence.id,idPage,numeroAppartement,typeAppartement,batiment,etage,pieces,observationsGenerales).then(response => {
+      navigate("/diag/" + residence.id + "/edit/" + idPage);
       window.location.reload();
     });
   }
@@ -141,7 +136,7 @@ export const Edl = () => {
     setPieces((prevPieces) =>
       prevPieces.map((piece) =>
         piece.nom === nomPiece
-          ? { ...piece, elements: [...piece.elements, {id:uuid(),nomElement, etat: 0, observations:"", observationsOpr:"", faire: "",etatOpr:0}] }
+          ? { ...piece, elements: [...piece.elements, {id:uuid(),nomElement, dimensions:"", type:"", etat:0, observations:"", photos: ""}] }
           : piece
       )
     );
@@ -162,7 +157,7 @@ export const Edl = () => {
 
   const closeModal = () => {
     if (previousNumeroAppartement === "" || previousEtage === "" || previousBatiment === "" || previousTypeAppartement === "") {
-      navigate("/edl");
+      navigate("/diag");
     } else {
       setToggleModal(false);
       setBatiment(previousBatiment);
@@ -184,16 +179,12 @@ export const Edl = () => {
     setObservationsGenerales(observ);
   }
 
-  const changeObservationsGeneralesOpr = (observ) => {
-    setObservationsGeneralesOpr(observ);
-  }
-
   const deleteFiche = () => {
-    if (location.pathname !== "/edl/" + residence.id + "/edit/new") {
-      const edlIndex = residence.edls.findIndex((edl) => edl.id === params.uid);
-      residence.edls.splice(edlIndex,1);
-      deleteEdl(residence.id,idPage).then(response => {
-        navigate("/edl/" + residence.id + "/edit/new");
+    if (location.pathname !== "/diag/" + residence.id + "/edit/new") {
+      const diagIndex = residence.diags.findIndex((diag) => diag.id === params.uid);
+      residence.diags.splice(diagIndex,1);
+      deleteDiag(residence.id,idPage).then(response => {
+        navigate("/diag/" + residence.id + "/edit/new");
       });
       setBatiment("");
       setEtage("");
@@ -204,18 +195,14 @@ export const Edl = () => {
     }
   }
 
-  const openEdl = () => {
+  const openDiag = () => {
     setVerif(true);
-    navigate("/edl/" + residence.id + "/edit/" + idPageTemp);
+    navigate("/diag/" + residence.id + "/edit/" + idPageTemp);
     window.location.reload();
     if (idPageTemp === "new") {
       setNewPage(true);
       setVerifModal(true);
     }
-  }
-
-  const switchEdlOpr = () => {
-    boolSwitch ? setBoolSwitch(false) : setBoolSwitch(true);
   }
 
   const retour = () => {
@@ -269,20 +256,19 @@ export const Edl = () => {
       <div className="menu-container">
         <img className="img-info" alt="Détails du logement" src="assets/info.png" onClick={() => openModalForm()} />
         <select className="select-fiche" value={idPageTemp} onChange={(e) => setIdPageTemp(e.target.value)}>
-            <option value={"new"}>Nouvelle fiche d'état des lieux</option>
-          {residence.edls.map((edl) => (
-            <option key={edl.id} value={edl.id}>Bât {edl.numeroBat}, étage {edl.numeroEtage} N°{edl.numeroAppartement}, {edl.typeAppartement}</option>
+            <option value={"new"}>Nouvelle fiche de diagnostique</option>
+          {residence.diags.map((diag) => (
+            <option key={diag.id} value={diag.id}>Bât {diag.numeroBat}, étage {diag.numeroEtage} N°{diag.numeroAppartement}, {diag.typeAppartement}</option>
           ))}
         </select>
-        <button onClick={() => openEdl()} className="right-arrow-select">
+        <button onClick={() => openDiag()} className="right-arrow-select">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
           </svg>
         </button>
         <img onClick={() => retour()} className="fleches-gch" src="assets/retour.png" alt="retour" />
-        <Switch labelAvant={"EDL"} labelApres={"OPR"} clickSwitch={() => switchEdlOpr()} />
         <img onClick={() => avance()} className="fleches-drt" src="assets/retour.png" alt="avant" />
-        {saved ? null : <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => manualSaveEdl()} />}
+        {saved ? null : <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => manualSaveDiag()} />}
         <button id="button-fiche-delete" onClick={() => setConfimerSupprimer(true)}>
           <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
             <path className="trash-lid" fillRule="evenodd" d="M6 15l4 0 0-3 8 0 0 3 4 0 0 2 -16 0zM12 14l4 0 0 1 -4 0z" />
@@ -291,8 +277,8 @@ export const Edl = () => {
         </button>
       </div>
       {saved ? null : <h1 className="remember">N'oubliez pas de sauvegarder ce fichier !</h1>}
-      <FormEdl handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
-      <DecisionTravaux deletePiece={handleDeletepiece} edlOpr={boolSwitch} handleChangeObservationsGenerales={changeObservationsGenerales} handleChangeObservationsGeneralesOpr={changeObservationsGeneralesOpr} observationsGenerales={observationsGenerales} observationsGeneralesOpr={observationsGeneralesOpr} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
+      <FormDiag handleAddPiece={handleAddPiece} pieces={pieces} handleAddNomElement={handleAddElement}/>
+      <DecisionTravaux deletePiece={handleDeletepiece} handleChangeObservationsGenerales={changeObservationsGenerales} observationsGenerales={observationsGenerales} listePieces={pieces} handleUpdatePieces={handleUpdatePieces} />
       <Modal isOpen={toggleModal} onValidate={() => onValidate()} onClose={() => closeModal()}>
         <h3>Détails du logement</h3>
         <div className="inner-content-modal">

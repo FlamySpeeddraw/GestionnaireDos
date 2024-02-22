@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { EdlListeChild } from "../components/EdlListeChild";
 import "./../styles/EDL/liste.css"
 import { Modal } from "../components/Modal";
 import { useNavigate } from "react-router-dom";
-import { createClasseurEdl, deleteClasseurEdl, getAllClasseursEdl, updateNomsClasseursEdl } from "../DataManager";
+import { createClasseurDiag, deleteClasseurDiag, getAllClasseursDiag, updateNomsClasseursDiag } from "../DataManager";
 import { v4 as uuid } from 'uuid';
+import { DiagListeChild } from "../components/DiagListeChild";
 
-export const EdlListe = () => {
+export const DiagListe = () => {
     const navigate = useNavigate();
     const [residences,setResidences] = useState([]);
     const [isModalOpen,setIsModalOpen] = useState(false);
@@ -22,7 +22,7 @@ export const EdlListe = () => {
     
     useEffect(() => {
         const fetchData = async () => {
-          const result = await getAllClasseursEdl();
+          const result = await getAllClasseursDiag();
           setResidences(result);
         };
     
@@ -55,17 +55,17 @@ export const EdlListe = () => {
             },2000);
         } else {
             const id = uuid();
-            createClasseurEdl(id,nomResidence,nomDossier,nomPrestation,[]);
+            createClasseurDiag(id,nomResidence,nomDossier,nomPrestation,[]);
             setIsModalOpen(false);
-            navigate("/edl/" + id + "/edit/new");
+            navigate("/diag/" + id + "/edit/new");
             setNomResidence("");
             setnomDossier("");
         }
     }
 
     const deleteResidence = async (id) => {
-        await deleteClasseurEdl(id);
-        const updatedData = await getAllClasseursEdl();
+        await deleteClasseurDiag(id);
+        const updatedData = await getAllClasseursDiag();
         setResidences(updatedData);
     }
 
@@ -93,8 +93,8 @@ export const EdlListe = () => {
                 setErrorMessage(false);
             },2000);
         } else {
-            updateNomsClasseursEdl(selectClasseur,nomResidence,nomDossier,nomPrestation);
-            const updatedData = await getAllClasseursEdl();
+            updateNomsClasseursDiag(selectClasseur,nomResidence,nomDossier,nomPrestation);
+            const updatedData = await getAllClasseursDiag();
             setResidences(updatedData);            
             setSelectClasseur("");
             setnomDossier("");
@@ -109,7 +109,7 @@ export const EdlListe = () => {
             <ul>
                 <li id="li-ajouter-residence" onClick={() => {setNomResidence("");setnomDossier("");setIsModalOpen(true);}}><p>Ajouter une nouvelle résidence</p></li>
                 {residences.map((residence) => (
-                    <EdlListeChild key={residence.id} residenceInfos={residence} handleDeleteResidence={deleteResidence} handleModifierNom={openModalModifier} />
+                    <DiagListeChild key={residence.id} residenceInfos={residence} handleDeleteResidence={deleteResidence} handleModifierNom={openModalModifier} />
                 ))}
             </ul>
             <Modal isOpen={isModalOpen} onValidate={() => onValidate()} onClose={() => setIsModalOpen(false)}>

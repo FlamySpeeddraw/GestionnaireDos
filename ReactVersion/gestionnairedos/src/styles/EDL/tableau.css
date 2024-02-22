@@ -63,6 +63,15 @@
 
 }
 
+.td-dimensions {
+    border: 2px solid black;
+    width: 150px;
+}
+
+.td-type {
+    border: 2px solid black;
+}
+
 /* EDL - pièce */
 .td-observations-gene {
     border: 2px solid black;
