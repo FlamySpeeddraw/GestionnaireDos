@@ -12,6 +12,9 @@ import t4 from "../typologie/diag/t4.json";
 import t5 from "../typologie/diag/t5.json";
 import t6 from "../typologie/diag/t6.json";
 import { deleteDiag, getClasseurDiag, updateDiag } from "../DataManager";
+import { firebaseConfig } from "../firebase";
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set } from "firebase/database";
 
 export const Diag = () => {
   const location = useLocation();
@@ -43,6 +46,8 @@ export const Diag = () => {
   const [message,setMessage] = useState("");
 
   const typologie = ["T1","T2","T3","T4","T5","T6"];
+  initializeApp(firebaseConfig);
+  const dbFirebase = getDatabase();
 
   document.title = "Diag n°" + numeroAppartement;
 
@@ -181,15 +186,13 @@ export const Diag = () => {
 
   const deleteFiche = () => {
     if (location.pathname !== "/diag/" + residence.id + "/edit/new") {
-      const diagIndex = residence.diags.findIndex((diag) => diag.id === params.uid);
-      residence.diags.splice(diagIndex,1);
-      deleteDiag(residence.id,idPage).then(response => {
-        navigate("/diag/" + residence.id + "/edit/new");
-      });
+      navigate("/diag/" + residence.id + "/edit/new");
+      deleteDiag(residence.id,idPage);
       setBatiment("");
       setEtage("");
       setNumeroAppartement("");
       setTypeAppartement("");
+      setConfimerSupprimer(false);
     } else {
       window.location.reload();
     }
@@ -251,6 +254,10 @@ export const Diag = () => {
     }
   }
 
+  const synchroniser = () => {
+    set(ref(dbFirebase,'fiches diag/' + residence.id), {residence});
+  }
+
   return (
     <div className="main-container">
       <div className="menu-container">
@@ -268,7 +275,7 @@ export const Diag = () => {
         </button>
         <img onClick={() => retour()} className="fleches-gch" src="assets/retour.png" alt="retour" />
         <img onClick={() => avance()} className="fleches-drt" src="assets/retour.png" alt="avant" />
-        {saved ? null : <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => manualSaveDiag()} />}
+        {saved ? <img onClick={() => synchroniser()} className="internet" src="assets/internet.png" alt="synchronisation" /> : <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => manualSaveDiag()} />}
         <button id="button-fiche-delete" onClick={() => setConfimerSupprimer(true)}>
           <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
             <path className="trash-lid" fillRule="evenodd" d="M6 15l4 0 0-3 8 0 0 3 4 0 0 2 -16 0zM12 14l4 0 0 1 -4 0z" />

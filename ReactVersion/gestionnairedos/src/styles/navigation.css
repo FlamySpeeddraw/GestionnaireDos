@@ -33,3 +33,9 @@
 .td-state {
     user-select: none;
 }
+
+.internet {
+    height: 25px;
+    margin-right: 40px;
+    cursor: pointer;
+}

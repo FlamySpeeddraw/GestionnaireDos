@@ -13,6 +13,9 @@ import t4 from "../typologie/edl/t4.json";
 import t5 from "../typologie/edl/t5.json";
 import t6 from "../typologie/edl/t6.json";
 import { deleteEdl, getClasseurEdl, updateEdl } from "../DataManager";
+import { firebaseConfig } from "../firebase";
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set } from "firebase/database";
 
 export const Edl = () => {
   const location = useLocation();
@@ -46,6 +49,8 @@ export const Edl = () => {
   const [message,setMessage] = useState("");
 
   const typologie = ["T1","T2","T3","T4","T5","T6"];
+  initializeApp(firebaseConfig);
+  const dbFirebase = getDatabase();
 
   document.title = "EDL n°" + numeroAppartement;
 
@@ -190,15 +195,13 @@ export const Edl = () => {
 
   const deleteFiche = () => {
     if (location.pathname !== "/edl/" + residence.id + "/edit/new") {
-      const edlIndex = residence.edls.findIndex((edl) => edl.id === params.uid);
-      residence.edls.splice(edlIndex,1);
-      deleteEdl(residence.id,idPage).then(response => {
-        navigate("/edl/" + residence.id + "/edit/new");
-      });
+      navigate("/edl/" + residence.id + "/edit/new");
+      deleteEdl(residence.id,idPage);
       setBatiment("");
       setEtage("");
       setNumeroAppartement("");
       setTypeAppartement("");
+      setConfimerSupprimer(false);
     } else {
       window.location.reload();
     }
@@ -264,6 +267,10 @@ export const Edl = () => {
     }
   }
 
+  const synchroniser = () => {
+    set(ref(dbFirebase,'fiches edl/' + residence.id), {residence});
+  }
+
   return (
     <div className="main-container">
       <div className="menu-container">
@@ -282,7 +289,7 @@ export const Edl = () => {
         <img onClick={() => retour()} className="fleches-gch" src="assets/retour.png" alt="retour" />
         <Switch labelAvant={"EDL"} labelApres={"OPR"} clickSwitch={() => switchEdlOpr()} />
         <img onClick={() => avance()} className="fleches-drt" src="assets/retour.png" alt="avant" />
-        {saved ? null : <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => manualSaveEdl()} />}
+        {saved ? <img onClick={() => synchroniser()} className="internet" src="assets/internet.png" alt="synchronisation" /> : <img className="img-save" alt="Enregistrer" src="assets/save.png" onClick={() => manualSaveEdl()} />}
         <button id="button-fiche-delete" onClick={() => setConfimerSupprimer(true)}>
           <svg className="icon-trash" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
             <path className="trash-lid" fillRule="evenodd" d="M6 15l4 0 0-3 8 0 0 3 4 0 0 2 -16 0zM12 14l4 0 0 1 -4 0z" />

@@ -5,6 +5,7 @@ import { NavBar } from "./NavBar";
 import { Accueil } from "../../pages/Accueil";
 import { DiagListe } from "../../pages/DiagListe";
 import { Diag } from "../../pages/Diag";
+import { Excel } from "../../pages/Excel";
 
 export const NavigationRoutes = () => {
     return (
@@ -17,6 +18,7 @@ export const NavigationRoutes = () => {
                     <Route path="/edl/:id/edit/:uid" element={<Edl />} />
                     <Route path="/diag" element={<DiagListe />} />
                     <Route path="/diag/:id/edit/:uid" element={<Diag />} />
+                    <Route path="/excel" element={<Excel />} />
                 </Routes>
             </Router>
         </>

@@ -1,1 +1,518 @@
-{"id":"8552c4d6-2328-4c54-9cc1-3cc44906afde","numeroAppartement":"105","typeAppartement":"T1","numeroBat":"1","numeroEtage":"1","observationsGenerales":"","observationsGeneralesOpr":"","pieces":[{"id":"ebe75cad-f775-4aa9-8ff5-698123e12f22","nom":"Entrée","elements":[{"id":"2e03cfcc-7650-4695-a49e-b6ff1f4520e2","nomElement":"Porte palière","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0}]},{"id":"d1adcfae-29e1-4162-a0cf-9a3a60b9e1e2","nom":"Cuisine","elements":[{"id":"9f55cb9e-3433-4c15-875f-2f6d358af7c3","nomElement":"Evier","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"cf1aeb91-36f2-45b0-be4e-b4b8a7cbe71a","nomElement":"Meuble évier","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"0a5fb6d1-96e4-4072-b081-05ff5f9f8d36","nomElement":"Robinetterie","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"47b4d739-8642-44d9-8336-c08af45a6a08","nomElement":"Faience","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"7d09a9c0-0f56-4adf-92ce-8434b97402d5","nomElement":"Sol","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"b7866ccc-04f0-47ea-8e1a-98ca82ed678d","nomElement":"Mur","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"1322ce15-1777-4cd8-a821-ce77b14d367a","nomElement":"Plafond","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"f9bf380a-2bb7-43b0-ad41-82d9ad96d2c3","nomElement":"Electricité","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"57e91eaf-e2ee-4289-9be2-1caf04c3a116","nomElement":"Menuiserie extérieure","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0}]},{"id":"74ac5664-4e35-463c-a795-71773ad30ebb","nom":"Salle de bain / WC","elements":[{"id":"76a099e5-e262-43f8-b7eb-c67c034f389a","nomElement":"Baignoire","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"10481ab1-3b70-41b2-802c-2dfde7d358d1","nomElement":"Robinetterie baignoire","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"133eb74c-cfac-4ded-b722-e0ed25ba9091","nomElement":"Faience baignoire","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"8af6b0d4-d529-4eff-a1bb-ee9d76329b1a","nomElement":"Douche","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"337450ae-04b4-42b9-a4f3-d7b4f2768657","nomElement":"Robinetterie douche","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"6a1905f1-b6f1-40bf-8590-37d431f1675e","nomElement":"Faience douche","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"4f978f39-0d98-4636-8f48-811a8f199bea","nomElement":"Lavabo","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"ac0ce27e-52c4-4776-aa3a-1e9c1166ed80","nomElement":"Robinetterie lavabo","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"ded1fb50-a1d5-4568-9c56-5b16b4643474","nomElement":"Faience lavabo","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"74439da9-22e9-44d3-81d9-9a1ef105b4e6","nomElement":"WC","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"184b4842-1238-4905-babe-c3e273c7739e","nomElement":"Sol","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"835b64e7-a1d1-4cef-bdf7-262b20a4533e","nomElement":"Mur","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"16462f31-a4bc-4cad-b6dd-4681a3661727","nomElement":"Plafond","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"6df25784-d1b6-4fd5-8f77-e702d2f29022","nomElement":"Electricité","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"ea039206-4f02-46d9-8380-8da25c09a706","nomElement":"Menuiserie extérieure","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0}]},{"id":"630fd343-0c35-44c4-88e3-faf0e4d199d1","nom":"Séjour","elements":[{"id":"ca2b88db-2cca-4e02-9933-fdaa819aaebe","nomElement":"Sol","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"ebf79912-4273-4581-a7fc-c66c6fbe3546","nomElement":"Mur","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"4b2c7527-b5e4-43b0-bf40-473b255325cf","nomElement":"Plafond","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"0b5faa9a-3046-4832-b4ea-a8e5d3b43c17","nomElement":"Electricité","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0},{"id":"f8640f65-7750-4f7f-be87-b1407371d5e9","nomElement":"Menuiserie extérieure","faire":"","observations":"","observationsOpr":"","etat":0,"etatOpr":0}]}]}
+{"id":"8552c4d6-2328-4c54-9cc1-3cc44906afde","numeroAppartement":"105","typeAppartement":"T1","numeroBat":"1","numeroEtage":"1","observationsGenerales":"","observationsGeneralesOpr":"","pieces":[
+    {
+        "id": "027fc078-d441-4271-bc73-c3a503b113ec",
+        "nom": "Entrée",
+        "elements": [
+            {
+                "id": "eea9be9f-c557-444d-9ec0-1da0a458a826",
+                "nomElement": "Porte palière",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "303f7d05-14d6-44cc-8fa9-64dab6a3eb83",
+                "nomElement": "Revêtement de sol",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "fe14050f-c395-437b-b546-bfa881bb8740",
+                "nomElement": "Mur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "dce82b02-eeb0-431d-af1a-e328ad13276f",
+                "nomElement": "Plafond (peinture)",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "7068fe05-edd3-4fad-b367-ace07259eed5",
+                "nomElement": "Radiateur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "179aa03b-4315-4183-a3f0-26a6e7459e67",
+                "nomElement": "Divers",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            }
+        ]
+    },
+    {
+        "id": "40b5e395-7a5f-4c70-8af2-3e32927a8311",
+        "nom": "Cuisine",
+        "elements": [
+            {
+                "id": "8e25da6d-9aa3-40ba-a30d-9b2fc6f1056f",
+                "nomElement": "Porte de distribution",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "c92b37dd-35c5-40e0-aff3-42812dfaf313",
+                "nomElement": "Evier",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "51afff3c-f02a-4f08-bda8-29ec9bbdb5c3",
+                "nomElement": "Meuble évier",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "e5fc8056-2acb-4d59-8a8d-b9d0939d1377",
+                "nomElement": "Robinetterie",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "d1972ca7-08da-4eb2-95da-eae3be85d70c",
+                "nomElement": "Faïence",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "6f7eee6b-a4d6-4e83-9f89-f7c1db69d0ea",
+                "nomElement": "Sol",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "b28506ee-3985-4b66-9c57-b64c5bb7017b",
+                "nomElement": "Mur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "ba74f783-673f-4fed-8ba1-20e26d7f0fe8",
+                "nomElement": "Plafond",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "fb32d043-145c-4550-ad7d-84685aec11b2",
+                "nomElement": "Electricité",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "43446272-e07f-4c05-ae88-778c04babeaa",
+                "nomElement": "Menuiserie extérieur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "1e49d481-be88-4664-8107-5b84756c1a5e",
+                "nomElement": "Radiateur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "10799426-74e5-4ef8-9b35-5ef9028ee9f7",
+                "nomElement": "VMC",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "fdf079dd-57a4-4f19-b5b2-86d4a125219d",
+                "nomElement": "Divers",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            }
+        ]
+    },
+    {
+        "id": "96923c3b-12f6-4451-8810-1a5cc7ec4084",
+        "nom": "Salle de bain / WC",
+        "elements": [
+            {
+                "id": "76f8d856-d846-4f12-bf59-f1e5cdb478c8",
+                "nomElement": "Porte de distribution",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "29f8339e-d8bd-4a69-b862-78969720112a",
+                "nomElement": "Baignoire",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "bac6837b-9a91-4bb2-8830-9b2039fce7b4",
+                "nomElement": "Robinetterie baignoire",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "5cc8a38b-ec9a-4cce-a919-a39f81bbd15a",
+                "nomElement": "Faïence baignoire",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "140897ff-ae50-43b3-8894-d334ebc2118c",
+                "nomElement": "Douche",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "7d0f676d-fe59-42e5-8a0a-7c7d31f01df7",
+                "nomElement": "Robinetterie douche",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "1bdc4f40-9856-4b2b-9bba-c465495532b5",
+                "nomElement": "Faïence douche",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "cedfbd87-115a-4b4d-b811-d9749a9c6f1e",
+                "nomElement": "Lavabo",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "8067ea06-beee-40d6-8ec9-a6dcd4eaaf90",
+                "nomElement": "Robinetterie lavabo",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "04158505-dfd2-4721-8803-614fbfff3236",
+                "nomElement": "Faïence lavabo",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "9aea5403-9b64-4cc7-9004-47f97b67afb3",
+                "nomElement": "Sol",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "f4b004cd-8c45-447b-813d-14fbcee27c2e",
+                "nomElement": "Mur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "bcda677e-b9d7-4960-9802-6b4f723745f9",
+                "nomElement": "Plafond",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "e2f9155b-7e7a-4cb9-b7ce-dbc2fbddac4e",
+                "nomElement": "Electricité",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "e9146d9a-0593-4d51-95b1-49cc74ec845e",
+                "nomElement": "Menuiserie extérieure",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "893fff9f-ac6c-4a3f-9ba4-9c26b76338ea",
+                "nomElement": "Radiateur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "45e1d96d-91b7-4e25-ad18-2af967c003b7",
+                "nomElement": "VMC",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "4009982a-5a40-4fa8-8a5c-e49f67555bbe",
+                "nomElement": "WC",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "dd4ad43b-a482-412e-a814-97f63aabeac1",
+                "nomElement": "Divers",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            }
+        ]
+    },
+    {
+        "id": "d116c60f-109c-4fd9-a124-9bd12a856253",
+        "nom": "Séjour",
+        "elements": [
+            {
+                "id": "a097afd4-26f6-4b8c-9045-249a2698b662",
+                "nomElement": "Porte de distribution",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "1bcbff1f-14c6-41f6-af50-13566907c93f",
+                "nomElement": "Sol",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "c198ece1-983f-4b00-b383-99a19f285eb5",
+                "nomElement": "Mur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "17057611-2cbb-434f-a888-7cb2c22a7a57",
+                "nomElement": "Plafond",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "b78336cc-67fa-462b-9868-e1e044078aef",
+                "nomElement": "Electricité",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "dcfe437d-1cd9-4f4c-ad3d-5cb0cd6adf72",
+                "nomElement": "Menuiserie extérieure",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "628ba37e-be35-4e22-ada4-04b83168941d",
+                "nomElement": "Radiateur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "51c4782b-b96e-42c3-9843-92a429f61b3f",
+                "nomElement": "Divers",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            }
+        ]
+    },
+    {
+        "id": "5b7182ce-37a3-4724-add5-57746f0edf7e",
+        "nom": "Chambre 1",
+        "elements": [
+            {
+                "id": "49563f7a-e843-44e8-9d3b-fedf683a3d74",
+                "nomElement": "Porte de distribution",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "d09f6d9d-72ed-41f1-8b2e-e5b4015e7684",
+                "nomElement": "Sol",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "a1bd1f5f-8ace-47b6-9d28-00a91f2ee130",
+                "nomElement": "Mur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "75373768-9d68-42ce-9007-656d984340c1",
+                "nomElement": "Plafond",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "c3b79350-f692-4058-914a-abd3277d6a03",
+                "nomElement": "Electricité",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "fe030be3-3370-4e63-9463-378646640135",
+                "nomElement": "Menuiserie extérieure",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "46d5645a-f4a8-4490-af02-03b428590687",
+                "nomElement": "Radiateur",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            },
+            {
+                "id": "183f7b0a-7e33-4a29-93da-a92ebf777307",
+                "nomElement": "Divers",
+                "dimensions": "",
+                "type": "",
+                "etat": 0,
+                "observations": "",
+                "photos": ""
+            }
+        ]
+    }
+]}

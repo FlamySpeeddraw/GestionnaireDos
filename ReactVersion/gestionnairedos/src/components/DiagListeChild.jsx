@@ -11,7 +11,7 @@ export const DiagListeChild = ({residenceInfos,handleDeleteResidence,handleModif
     return (
         <>
             <li className="li-liste-residence">
-                <Link className="link-liste-residence" to={"/diag/" + residenceInfos.id + "/edit/new"}>{residenceInfos.residence} - {residenceInfos.dossier}</Link>
+                {nbFiches > 0 ? <Link className="link-liste-residence" to={"/diag/" + residenceInfos.id + "/edit/" + residenceInfos.diags[0].id}>{residenceInfos.residence} - {residenceInfos.dossier}</Link> : <Link className="link-liste-residence" to={"/diag/" + residenceInfos.id + "/edit/new"}>{residenceInfos.residence} - {residenceInfos.dossier}</Link>}
                 <p>{nbFiches} {nbFiches > 1 ? "fiches" : "fiche"}</p>
                 <p id="modifier" onClick={() => handleModifierNom(residenceInfos.id,residenceInfos.residence,residenceInfos.dossier,residenceInfos.prestation)}>Modifier</p>
                 <button id="delete" onClick={() => handleDeleteResidence(residenceInfos.id)}>

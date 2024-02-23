@@ -1,5 +1,5 @@
 export const Accueil = () => {
   return (
-    <h1>Oui</h1>
+    <h1></h1>
   );
 };

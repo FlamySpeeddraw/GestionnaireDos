@@ -6,6 +6,7 @@ export const FormDiag = ({handleAddNomElement,handleAddPiece,pieces}) => {
     const [nomElement,setNomElement] = useState("");
     const [nomPieceSelected,setNomPieceSelected] = useState("");
     const nomPieces = [{id:"",nom:"Choisir une pièce"}].concat(pieces.map(objetPiece => ({id:objetPiece.id,nom:objetPiece.nom})));
+    console.log(nomPieces)
 
     const handleSubmitAddPiece = (event) => {
         event.preventDefault();

@@ -61,12 +61,12 @@ export const updateEdl = async (idResidence,id,numeroAppartement,typeAppartement
   }
 }
 
-export const deleteEdl = async(idResidence,id) => {
+export const deleteEdl = async (idResidence,id) => {
   try {
     const result = await getClasseurEdl(idResidence);
     const index = result.edls.findIndex((edl) => edl.id === id);
-    result.edls.remove(result.edls[index]);
-    await db.edl.update(idResidence,{edls:result.edls});
+    result.edls.splice(index,1);
+    await db.edl.update(idResidence,result);
     console.log('Data updated successfully.');
   } catch (error) {
     console.error('Error updating data:', error);
@@ -138,8 +138,8 @@ export const deleteDiag = async(idResidence,id) => {
   try {
     const result = await getClasseurDiag(idResidence);
     const index = result.diags.findIndex((diag) => diag.id === id);
-    result.diags.remove(result.diags[index]);
-    await db.diag.update(idResidence,{diags:result.diags});
+    result.diags.splice(index,1);
+    await db.diag.update(idResidence,result);
     console.log('Data updated successfully.');
   } catch (error) {
     console.error('Error updating data:', error);
